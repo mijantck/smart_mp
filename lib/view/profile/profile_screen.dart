@@ -68,7 +68,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
                                     image: NetworkImage('${AppString.IMAGE_URL}${widget.user.profileImage}'),
-
                                   ),
                                 ),
                               ),
@@ -92,14 +91,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
 
                                   SizedBox(height: 8),
-                                  _buildInfoText('Father/Husband', widget.user.fatherHusband!),
-                                  _buildInfoText('Mother', widget.user.mother!),
-                                  _buildInfoText('Date of Birth', widget.user.dateOfBirth!),
-                                  _buildInfoText('Mobile Number', widget.user.mobileNumber!),
-                                  _buildInfoText('Email', widget.user.email!),
-                                  _buildInfoText('NID', widget.user.nid!),
-                                  _buildInfoText('Address', widget.user.address!),
-                                  _buildInfoText('Gender', widget.user.gender!),
+                                  _buildInfoText('Father/Husband', widget.user.fatherHusband == null? '': widget.user.fatherHusband!),
+                                  _buildInfoText('Mother', widget.user.mother == null? '':widget.user.mother!),
+                                  _buildInfoText('Date of Birth', widget.user.dateOfBirth == null? '':widget.user.dateOfBirth!),
+                                  _buildInfoText('Mobile Number', widget.user.mobileNumber == null? '':widget.user.mobileNumber!),
+                                  _buildInfoText('Email', widget.user.email == null? '':widget.user.email!),
+                                  _buildInfoText('NID', widget.user.nid == null? '':widget.user.nid!),
+                                  _buildInfoText('Address', widget.user.address == null? '':widget.user.address!),
+                                  _buildInfoText('Gender', widget.user.gender == null? '':widget.user.gender!),
 
                                   widget.user.role == 'volunteer' ? _buildInfoText('Referred Cone', widget.user.refferCode!):Container(),
 

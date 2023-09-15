@@ -63,6 +63,23 @@ class UserController extends GetxController {
 
         update();
         return ResponseModel(true, 'API call successful.');
+      }else if (response.statusCode == 202) {
+        print('11111');
+        var jsonData = json.decode(response.body);
+        // Create and return the success response
+
+        print('dsjhfkjsd ${jsonData}');
+
+        // Map<String, dynamic> responseData = json.decode(response.body);
+        // var user = responseData['user'];
+        // var token = responseData['token'];
+        // // userModel = UserModel.fromJson(responseData);
+        // SharedPreferences prefs = await SharedPreferences.getInstance();
+        // prefs.setString('token', token);
+        // //prefs.setString('role', userModel!.user!.role!);
+
+        update();
+        return ResponseModel(false, 'API call successful.');
       } else {
         print('2222');
         return ResponseModel(false, 'API call failed: ${response.statusCode}');
@@ -106,13 +123,6 @@ class UserController extends GetxController {
       print('Error: ${response.statusCode}');
       print('Error message: ${response.body}');
       return ResponseModel(false, 'API call failed: ${response.statusCode}');
-    }
-
-    try {
-
-    } catch (e) {
-      print('Error: $e');
-      return ResponseModel(false, 'Error :$e');
     }
   }
 

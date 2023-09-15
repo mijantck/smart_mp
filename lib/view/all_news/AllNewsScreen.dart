@@ -52,7 +52,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                         return Center(child: CircularProgressIndicator());
                       } else {
                         return SizedBox(
-                          height: controller.newsList!.length * 210,
+                          height: controller.newsList!.length * 220,
                           child: ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,

@@ -49,6 +49,7 @@ class _PartyAllState extends State<PartyAll> {
                               ))
                             ],
                           ),
+
                           SizedBox(height: 10,),
 
                           Expanded(

@@ -3,10 +3,12 @@ import 'package:get/get.dart';
 import 'package:smart_mp/models/respons/committee.dart';
 
 import '../../controllers/UnitsController.dart';
+import '../../models/respons/DestinationParty.dart';
 import '../../utils/AppColors.dart';
 import '../../utils/AppImages.dart';
 import '../../utils/AppString.dart';
 import '../home_tab/widgets/item_card.dart';
+import '../login_regi/widgets/drop_dwon.dart';
 import '../party_all/party_all_screen.dart';
 import '../party_member/party_members_screen.dart';
 
@@ -50,6 +52,32 @@ class _AllPartyScreenState extends State<AllPartyScreen> {
                   ],
                 ),
                 SizedBox(height: 10,),
+                GestureDetector(
+                  onTap: () {
+                    _showDialog();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: AppColors.gray_withe
+                    ),
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
+                    child: Row(
+                      children: [
+                        SizedBox(width: 10,),
+                        Container(
+                          height: 18,
+                          width: 18,
+                          child: Image.asset(AppImages.ic_searching,width: 18,height: 18,),
+                        ),
+                        SizedBox(width: 10,),
+                        Text(AppString.Search_here+'...',style: TextStyle(color: AppColors.gray_text),)
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10,),
                 Expanded(
                   child: GridView.builder(
                     scrollDirection: Axis.vertical,
@@ -83,4 +111,70 @@ class _AllPartyScreenState extends State<AllPartyScreen> {
         )
     );
   }
+
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Committee? committee;
+        DestinationParty? destinationParty;
+
+        return GetBuilder<UtilsController>(
+          builder: (utilsController) {
+            return AlertDialog(
+              title: Text("Select Options"),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  DropDownCustom(
+                    title: AppString.Committee,
+                    options: utilsController.committeesString,
+                    selectedOption: utilsController.committeesSelecte.value,
+                    onChange: (String? value) {
+                      if (value != null && value != AppString.seltectItem) {
+                        setState(() {
+                          utilsController.committeesSelecte.value = value;
+                          committee = utilsController.committees.firstWhere((union) => union.title == value);
+                        });
+                      }
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  DropDownCustom(
+                    title: AppString.PartyDesignation,
+                    options: utilsController.destinationPartyString,
+                    selectedOption: utilsController.destinationPartySelecte.value,
+                    onChange: (String? value) {
+                      if (value != null && value != AppString.seltectItem) {
+                        setState(() {
+                          utilsController.destinationPartySelecte.value = value;
+                          destinationParty = utilsController.destinationParty.firstWhere((party) => party.name == value);
+                        });
+                      }
+                    },
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  child: Text("Cancel"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: Text("Apply"),
+                  onPressed: () {
+                    // Handle applying options here
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
 }

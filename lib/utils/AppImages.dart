@@ -21,14 +21,19 @@ class AppImages{
   static const String ic_notification = 'assets/image/ic_notification.png';
   static const String ic_menu = 'assets/image/ic_menu.png';
   static const String home_logo = 'assets/image/home_logo.png';
+  static const String ic_smart_b = 'assets/image/ic_smart_b.png';
 
   static const String demo_slider = 'assets/image/demo_slider.png';
   static const String ic_awamilig = 'assets/image/ic_awamilig.png';
+  static const String gram_gommitte = 'assets/image/gram_gommitte.png';
+  static const String mp_event = 'assets/image/mp_event.png';
+  static const String polling_agent = 'assets/image/polling_agent.png';
+  static const String election_committee = 'assets/image/election_committee.png';
   static const String ic_citizen = 'assets/image/ic_citizen.png';
-  static const String ic_volunteer = 'assets/image/ic_volunteer.png';
-  static const String ic_news = 'assets/image/ic_news.png';
+  static const String ic_volunteer = 'assets/image/generation.png';
+  static const String ic_news = 'assets/image/news.png';
   static const String ic_members = 'assets/image/ic_members.png';
-  static const String ic_service = 'assets/image/ic_service.png';
+  static const String ic_service = 'assets/image/e_sheba.png';
   static const String ic_mp_event = 'assets/image/ic_mp_event.png';
   static const String ic_mosque  = 'assets/image/ic_mosque.png';
   //upazala
@@ -53,6 +58,9 @@ class AppImages{
   static const String ic_about  = 'assets/image/ic_about.png';
   static const String ic_scanner  = 'assets/image/ic_scanner.png';
   static const String bg_home_top  = 'assets/image/bg_home_top.png';
+  static const String ic_whatsapp  = 'assets/image/ic_whatsapp.png';
+
+  static const String ic_qr_code  = 'assets/image/ic_qr_code.png';
 
 
 

@@ -4,7 +4,7 @@ class DropDownCustom extends StatelessWidget {
   final String title;
   final List<String> options;
   final String selectedOption;
-  final void Function(String? value) onChange; // Make onChange parameter nullable
+  final void Function(String? value) onChange;
 
   DropDownCustom({
     required this.title,
@@ -30,8 +30,7 @@ class DropDownCustom extends StatelessWidget {
           ),
           SizedBox(height: 4),
           Container(
-            height: 50,
-            width: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width, // Adjust the width
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               border: Border.all(color: Colors.grey),
@@ -40,6 +39,7 @@ class DropDownCustom extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
+                  isExpanded: true, // Allow the dropdown to take up all available horizontal space
                   value: selectedOption,
                   onChanged: onChange,
                   items: options.map((String option) {
@@ -57,4 +57,3 @@ class DropDownCustom extends StatelessWidget {
     );
   }
 }
-

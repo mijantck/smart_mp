@@ -60,6 +60,8 @@ class _MpEventListScreenState extends State<MpEventListScreen> {
                   SizedBox(height: 10,),
                   GetBuilder<UtilsController>(
                     builder: (controller) {
+
+
                       if (controller.mpEventsList == null) {
                         // Show a loading indicator while data is being fetched
                         return Center(child: CircularProgressIndicator());

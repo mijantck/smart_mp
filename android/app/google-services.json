@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "751391600179",
+    "project_id": "smart-mp",
+    "storage_bucket": "smart-mp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:751391600179:android:799457c3e6d99993f2bd46",
+        "android_client_info": {
+          "package_name": "com.smartmp.bagmaraleague"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "751391600179-hijofrdd8jofsb2r5u2m0oqe5vt3if6s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtPMHT20kTyZo6dFwaJ9Dhzg_-KZZ53OI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "751391600179-hijofrdd8jofsb2r5u2m0oqe5vt3if6s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

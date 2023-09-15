@@ -116,7 +116,7 @@ class _RegistationScreenState extends State<RegistationScreen> {
                          height: 150,
                          child: Image.asset(AppImages.home_logo)),
                      SizedBox(height: 10,),
-                     Text(AppString.APP_NAME,style: TextStyle(
+                     Text('Smart Bagmara'.tr,style: TextStyle(
                          color: AppColors.text_black,
                          fontSize: 20,
                          fontWeight: FontWeight.bold
@@ -169,7 +169,7 @@ class _RegistationScreenState extends State<RegistationScreen> {
                                    height: 40,
                                    child: Center(
                                      child: Text(
-                                       AppString.Register_As_Member,
+                                       AppString.Register_As_Citizen,
                                        style: TextStyle(
                                            color: selectOptionParty == 1 ? AppColors.white : AppColors.text_black
                                        ),
@@ -620,7 +620,7 @@ class _RegistationScreenState extends State<RegistationScreen> {
                              email: emailController.text,
                              mobileNumber: mobileController.text,
                              password: passwordController.text,
-                             role:'party',
+                             role:'2', //roles:['party'],
                              unitId: 1,
                              dateOfBirth: dateOfBirth
                            ) : UserRegistation(
@@ -641,7 +641,7 @@ class _RegistationScreenState extends State<RegistationScreen> {
                                email: emailController.text,
                                mobileNumber: mobileController.text,
                                password: passwordController.text,
-                               role:'citizen',
+                               role: '3', //roles:['citizen'],
                                unitId: 1,
                                dateOfBirth: dateOfBirth,
                                underRefferCode: referrerCodeController.text
@@ -659,6 +659,9 @@ class _RegistationScreenState extends State<RegistationScreen> {
                            ];
 
                            Map<String, String> body = userRegistationParty.toJson().map((key, value) => MapEntry(key, value.toString()));
+
+                           print('fsbhfdb ${body}');
+
                            userController.postMultipartData(body, multipartBody).then((value) {
                              Navigator.of(context).pop();
                              if(value.isSuccess){

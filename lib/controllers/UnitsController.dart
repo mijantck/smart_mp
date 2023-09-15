@@ -6,18 +6,25 @@ import 'package:smart_mp/models/respons/MpEventModel.dart';
 import 'dart:convert';
 
 import 'package:smart_mp/utils/AppString.dart';
+import '../models/respons/BagmaraAboutModel.dart';
 import '../models/respons/DestinationCitizan.dart';
 import '../models/respons/DestinationParty.dart';
 import '../models/respons/ExecutiveCommittee.dart';
+import '../models/respons/NotiificationModel.dart';
 import '../models/respons/SliderModel.dart';
 import '../models/respons/Union.dart';
 import '../models/respons/Unit.dart';
 import '../models/respons/Upazila.dart';
+import '../models/respons/UserModel.dart';
 import '../models/respons/committee.dart';
+import '../models/respons/responseModel.dart';
 import '../utils/ApiClient.dart';
 
 
 class UtilsController extends GetxController {
+
+
+  RxBool openAppValue = false.obs;
 
   var committees = <Committee>[].obs;
   var committeesString = <String>[].obs;
@@ -50,11 +57,19 @@ class UtilsController extends GetxController {
 
   var eSebahModel = <ESebahModel>[].obs;
   var mpEventsList = <MpEventModel>[].obs;
+  var mNotiificationModel = <NotiificationModel>[].obs;
+  var mBagmaraAboutModel = <BagmaraAboutModel>[].obs;
+
+
+  var tabPossition = 1;
+
+
 
   @override
   void onInit() {
     super.onInit();
     // Fetch slider data from API or any other source
+    openApp();
     fetchCommittees();
     fetchExecutiveCommittee();
     fetchDestinationParty();
@@ -64,6 +79,30 @@ class UtilsController extends GetxController {
     fetchUpazila();
   }
 
+
+  changePossition(int posstion){
+    this.tabPossition = posstion;
+    update();
+  }
+
+
+
+  Future<void> openApp() async {
+    try {
+      var apiClient = ApiClient();
+      var response = await apiClient.get(Uri.parse('https://smartmp1.mrsoftit.xyz/public/api/open-app'));
+
+      if (response.statusCode == 200) {
+        var jsonData = json.decode(response.body);
+        print('sdfhsdjkf $jsonData');
+        openAppValue.value = jsonData;
+
+        update();
+      }
+    } catch (e) {
+      print('Error fetching committees: $e');
+    }
+  }
 
   Future<void> fetchCommittees() async {
     try {
@@ -248,5 +287,93 @@ class UtilsController extends GetxController {
     }
   }
 
+  void fetchNotifications() async {
+    try {
+      var apiClient = ApiClient();
+      var response = await apiClient.get(Uri.parse('${AppString.BASE_URL}/api/notification'));
+      print('skgfsdjh 77 ${response.body}');
+      if (response.statusCode == 200) {
+        print('skgfsdjh 77 ${response.statusCode}');
+        var jsonData = json.decode(response.body) as List<dynamic>;
+        var esebahList = jsonData.map((item) => NotiificationModel.fromJson(item)).toList();
+        mNotiificationModel.value = esebahList;
+        update();
+      }
+    } catch (e) {
+      print('Error fetching sliders: $e');
+    }
+  }
+
+  void fetchBagmaraAbout() async {
+    try {
+      var apiClient = ApiClient();
+      var response = await apiClient.get(Uri.parse('${AppString.BASE_URL}/api/bagmara_about'));
+      print('skgfsdjh 77 ${response.body}');
+      if (response.statusCode == 200) {
+        print('skgfsdjh 77 ${response.statusCode}');
+        var jsonData = json.decode(response.body) as List<dynamic>;
+        var esebahList = jsonData.map((item) => BagmaraAboutModel.fromJson(item)).toList();
+        mBagmaraAboutModel.value = esebahList;
+        update();
+      }
+    } catch (e) {
+      print('Error fetching sliders: $e');
+    }
+  }
+
+  void postToken(String deviceToken, String deviceName) async {
+    try {
+      final apiUrl = '${AppString.BASE_URL}/api/store_token'; // Replace with your API endpoint
+
+      final Map<String, String> data = {
+        'device_token': deviceToken,
+        'device_name': deviceName,
+      };
+
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: {
+          'Content-Type': 'application/json', // Adjust the content type as needed
+        },
+        body: jsonEncode(data),
+      );
+
+      if (response.statusCode == 200) {
+        // Token saved successfully
+        print('Token saved successfully');
+      } else {
+        // Handle the error
+        print('Token save failed: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Handle any exceptions
+      print('Error saving token: $e');
+    }
+  }
+
+
+  UserModel? userModel;
+
+  Future<ResponseModel> fetchUserInfo(String reffer_code) async {
+    try {
+      var apiClient = ApiClient();
+      var response = await apiClient.get(Uri.parse('${AppString.BASE_URL}/api/user-info/$reffer_code'));
+      print('skgfsdjh 77 ${response.body}');
+      if (response.statusCode == 200) {
+        Map<String, dynamic> responseData = json.decode(response.body);
+        var user = responseData['user'];
+        userModel = UserModel.fromJson(responseData);
+
+        return ResponseModel(true, 'API call successful.');
+      } else {
+        print('Error: ${response.statusCode}');
+        print('Error message: ${response.body}');
+        return ResponseModel(false, 'API call failed: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching sliders: $e');
+      return ResponseModel(false, 'API call failed: $e');
+    }
+  }
 
 }

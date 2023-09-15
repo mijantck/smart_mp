@@ -1,125 +1,136 @@
 
+import 'package:get/get.dart';
+
 class AppString{
 
   //API End Points
-/*  static String BASE_URL = 'http://192.168.0.113:8000';
-  static String IMAGE_URL ='http://192.168.0.113:8000/storage/';*/
-
-   static String BASE_URL = 'https://smartmp1.mrsoftit.xyz/public';
-   static String IMAGE_URL ='https://smartmp1.mrsoftit.xyz/public/storage/';
+  // static String BASE_URL = 'http://192.168.0.117:8000';
+  // static String IMAGE_URL =BASE_URL+'/storage/';
 
 
 
+   static String BASE_URL = 'https://appenamulhaquemp.com/public';
+   static String IMAGE_URL =BASE_URL+'/storage/';
 
-  static String APP_NAME = 'Smart Bagmara';
-  static String Bagmara_League = 'Bagmara League';
-  static String Citizen = 'Citizen';
-  static String Volunteer = 'Volunteer';
-  static String News = 'News';
-  static String About = 'About';
-  static String Scanner = 'Scanner';
-  static String Smart_Bagmara = 'Smart Bagmara';
-  static String Polling_agent = 'Polling agent';
-  static String Election_Committee = 'Election Committee';
-  static String Ena_Campaign_Committee = 'Ena Campaign Committee';
-  static String Village_committee = 'Village committee';
-  static String MP_Event = 'MP-Event';
-  static String E_sheba = 'E-sheba';
-  static String mp_event = 'Mp Event';
-  static String PrayerTime = 'PrayerTime';
 
-  static String Upazila_All = 'Upazila';
-  static String Union_all = 'Union';
-  static String Ward_all = 'Ward';
-  static String Committee = 'Committee';
-  static String ExecutiveCommittee = 'Executive Committee';
 
-  static String PartyDesignation = 'Party Designation';
 
-  static String CitizanDesignation = 'Citizan Designation';
+  //static String APP_NAME = 'Smart Bagmara'.tr;
+  //static String Bagmara_League = 'Bagmara_League'.tr;
+  static String Citizen = 'Citizen'.tr;
+  static String Volunteer = 'Volunteer'.tr;
+  static String News = 'News'.tr;
+  static String About = 'About'.tr;
+  static String Scanner = 'Scanner'.tr;
+  static String Smart_Bagmara = 'Smart_Bagmara'.tr;
+  static String delete_my_account = 'delete_my_account'.tr;
+  static String Logout = 'Logout';
+  static String terms_and_conditions = 'terms_and_conditions'.tr;
+  static String terms_and_conditions_url = 'https://enamulhaquemp.com/terms'.tr;
+  static String Privacy_policy = 'Privacy_policy'.tr;
+  static String Privacy_policy_url = 'https://enamulhaquemp.com/policy'.tr;
+  static String Polling_agent = 'Polling_agent'.tr;
+  static String Election_Committee = 'Election_Committee'.tr;
+  static String Ena_Campaign_Committee = 'Ena_Campaign_Committee'.tr;
+  static String Village_committee = 'Village_committee'.tr;
+  static String MP_Event = 'MP_Event'.tr;
+  static String E_sheba = 'E_sheba'.tr;
+  static String mp_event = 'mp_event'.tr;
+  static String PrayerTime = 'PrayerTime'.tr;
 
-  static String secha_sebok_league = 'Secha sebok league';
-  static String mohila_league = 'Mohila league';
-  static String chhatra_league = 'chhatra league';
+  static String Upazila_All = 'Upazila_All'.tr;
+  static String Union_all = 'Union_all'.tr;
+  static String Ward_all = 'Ward_all'.tr;
+  static String Committee = 'Committee'.tr;
+  static String ExecutiveCommittee = 'ExecutiveCommittee'.tr;
 
-  static String jubo_league = 'jubo league';
-  static String krishok_league = 'krishok league';
+  static String PartyDesignation = 'PartyDesignation'.tr;
 
-  static String news_demo_title = 'হার অবধারিত জেনেও কেন মোদীর বিরুদ্ধে অনাস্থা প্রস্তাব?';
-  static String Bagmara_Awami_League = 'Bagmara Awami League';
+  static String CitizanDesignation = 'CitizanDesignation'.tr;
 
-  static String Search_here = 'Search here';
+  static String secha_sebok_league = 'secha_sebok_league'.tr;
+  static String mohila_league = 'mohila_league'.tr;
+  static String chhatra_league = 'chhatra_league'.tr;
 
-  static String call = 'Call';
-  static String Message = 'Message';
-  static String Mail = 'Mail';
+  static String jubo_league = 'jubo_league'.tr;
+  static String krishok_league = 'krishok_league'.tr;
 
-  static String welcome_back = 'Welcome Back!';
-  static String Let_syou_in = 'Let’s you in';
+  static String news_demo_title = 'news_demo_title'.tr;
+  static String Bagmara_Awami_League = 'Bagmara_Awami_League'.tr;
 
-  static String sign_in = 'Sign in';
-  static String as_party = 'as party';
+  static String Search_here = 'Search_here'.tr;
 
-  static String mobile = 'Mobile';
-  static String email = 'Email';
-  static String Enter_Your_mobile_no = 'Enter Your mobile no';
+  static String call = 'call'.tr;
+  static String Message = 'Message'.tr;
+  static String Whats_app = 'Whats_app'.tr;
 
-  static String Enter_Your_Address = 'Enter Your Address';
-  static String Enter_Your_Referrer_code = 'Enter Your Referrer Code';
+  static String welcome_back = 'welcome_back'.tr;
+  static String Let_syou_in = 'Let_syou_in'.tr;
 
-  static String Enter_Your_NID = 'Enter Your NID';
+  static String sign_in = 'sign_in'.tr;
+  static String as_party = 'as_party'.tr;
 
-  static String Enter_Your_Name = 'Enter Your Name';
-  static String Enter_Your_Father_husband_name = 'Enter Your Father/ Husband Name';
+  static String mobile = 'mobile'.tr;
+  static String email = 'email'.tr;
+  static String Enter_Your_mobile_no = 'Enter_Your_mobile_no'.tr;
 
-  static String Enter_Your_Mother_name = 'Enter Your Mother Name';
+  static String Enter_Your_Address = 'Enter_Your_Address'.tr;
+  static String Enter_Your_Referrer_code = 'Enter_Your_Referrer_code'.tr;
 
-  static String Enter_Your_email = 'Enter Your email ';
-  static String membershipCardNoEnter = 'Enter Your Membership Card No ';
+  static String Enter_Your_NID = 'Enter_Your_NID'.tr;
 
-  static String password = 'Password';
-  static String Enter_Your_Password = 'Enter Your Password';
+  static String Enter_Your_Name = 'Enter_Your_Name'.tr;
+  static String Enter_Your_Father_husband_name = 'Enter_Your_Father_husband_name'.tr;
 
-  static String con_password = 'Confirm Password';
-  static String Enter_Your_Con_Password = 'Enter Your Confirm Password';
+  static String Enter_Your_Mother_name = 'Enter_Your_Mother_name'.tr;
 
-  static String Don_t_have_an_account = 'Don’t have an account ?';
-  static String Do_you_have_an_account = 'Do you have an account ?';
+  static String Enter_Your_email = 'Enter_Your_email'.tr;
+  static String membershipCardNoEnter = 'membershipCardNoEnter'.tr;
 
-  static String sing_up = 'Sing up';
+  static String password = 'password'.tr;
+  static String Enter_Your_Password = 'Enter_Your_Password'.tr;
 
-  static String Register_As_Member = 'Register As Member';
+  static String con_password = 'con_password'.tr;
+  static String Enter_Your_Con_Password = 'Enter_Your_Con_Password'.tr;
 
-  static String  Personal_Information = 'Personal Information';
+  static String Don_t_have_an_account = 'Don_t_have_an_account'.tr;
+  static String Do_you_have_an_account = 'Do_you_have_an_account'.tr;
 
-  static String  Name = 'Name';
+  static String sing_up = 'sing_up'.tr;
 
-  static String  Account_Information = 'Account Information';
+  static String Register_As_Member = 'Register_As_Member'.tr;
+  static String Register_As_Citizen = 'Register_As_Citizen'.tr;
 
-  static String Father_name = 'Father /Husband Name';
+  static String  Personal_Information = 'Personal_Information'.tr;
 
-  static String Mother_name = 'Mother Name';
+  static String  Name = 'Name'.tr;
 
-  static String unit = 'Unit';
+  static String  Account_Information = 'Account_Information'.tr;
 
-  static String Designation = 'Designation';
-  static String Gender = 'Gender';
+  static String Father_name = 'Father_name'.tr;
 
-  static String upload_image = 'Upload Image';
-  static String date_of_Birth = 'Date Of Birth';
+  static String Mother_name = 'Mother_name'.tr;
 
-  static String nid_number = 'NID Number';
+  static String unit = 'unit'.tr;
 
-  static String address = 'Address';
-  static String Referrer_code = 'Referrer code';
-  static String ChooseFile = 'Choose File';
+  static String Designation = 'Designation'.tr;
+  static String Gender = 'Gender'.tr;
 
-  static String No_file_chosen = 'No file chosen';
-  static String seltectItem = 'Select';
-  static String Male = 'Male';
-  static String FeMale = 'Female';
-  static String Others = 'Others';
-  static String membershipCardNo = 'Membership Card No';
+  static String upload_image = 'upload_image'.tr;
+  static String date_of_Birth = 'date_of_Birth'.tr;
+
+  static String nid_number = 'nid_number'.tr;
+
+  static String address = 'address'.tr;
+  static String Referrer_code = 'Referrer_code'.tr;
+  static String ChooseFile = 'ChooseFile'.tr;
+
+  static String No_file_chosen = 'No_file_chosen'.tr;
+  static String seltectItem = 'seltectItem'.tr;
+  static String Male = 'Male'.tr;
+  static String FeMale = 'FeMale'.tr;
+  static String Others = 'Others'.tr;
+  static String membershipCardNo = 'membershipCardNo'.tr;
 
 
 }

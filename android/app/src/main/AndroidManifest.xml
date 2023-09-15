@@ -1,11 +1,39 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.smart_mp">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.smartmp.bagmaraleague"
+    >
+    <!-- The INTERNET permission is required for development. Specifically,
+       flutter needs it to communicate with the running application
+       to allow setting breakpoints, to provide hot reload, etc.
+  -->
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-sdk
-        android:minSdkVersion="16"
-        android:targetSdkVersion="30" />
-   <application
-        android:label="smart_mp"
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>
+    <!--#docregion android-queries-->
+    <!-- Provide required visibility configuration for API level 30 and above -->
+    <queries>
+        <!-- If your app checks for SMS support -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="sms" />
+        </intent>
+        <!-- If your app checks for call support -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="tel" />
+        </intent>
+        <!--#enddocregion android-queries-->
+        <!-- The "https" scheme is only required for integration tests of this package.
+             It shouldn't be needed in most actual apps, or show up in the README! -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+        <!--#docregion android-queries-->
+    </queries>
+    <!--#enddocregion android-queries-->
+
+    <application
+        android:label="Smart Bagmara"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -15,7 +43,6 @@
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
-            android:usesCleartextTraffic="true"
             android:windowSoftInputMode="adjustResize">
             <!-- Specifies an Android theme to apply to this Activity as soon as
                  the Android process has started. This theme is visible to the user
@@ -28,6 +55,8 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="FLUTTER_NOTIFICATION_CLICK" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

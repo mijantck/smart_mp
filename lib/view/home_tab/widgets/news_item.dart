@@ -25,12 +25,14 @@ class NewsItem extends StatelessWidget {
       child: Card(
         child: Container(
           width: MediaQuery.of(context).size.width,
-          height: 200,
+          height: 210,
           child: Column(
             children: [
               Container(
-                height: 150,
-                child: Image.network( '${AppString.IMAGE_URL}${newModel.imageUrl!}',fit:BoxFit.cover,),
+                height: 160,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.amber,
+                child: Image.network( '${AppString.IMAGE_URL}${newModel.imageUrl!}',fit:BoxFit.fill,),
                 //child: Image.asset(AppImages.demo_news_banner,fit:BoxFit.cover,),
               ),
 

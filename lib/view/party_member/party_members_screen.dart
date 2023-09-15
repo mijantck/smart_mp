@@ -63,27 +63,7 @@ class _PartyMembersScreenState extends State<PartyMembersScreen> {
                     ))
                   ],
                 ),
-                SizedBox(height: 10,),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: AppColors.gray_withe
-                  ),
-                  width: MediaQuery.of(context).size.width,
-                  height: 50,
-                  child: Row(
-                    children: [
-                      SizedBox(width: 10,),
-                      Container(
-                        height: 18,
-                        width: 18,
-                        child: Image.asset(AppImages.ic_searching,width: 18,height: 18,),
-                      ),
-                      SizedBox(width: 10,),
-                      Text(AppString.Search_here+'...',style: TextStyle(color: AppColors.gray_text),)
-                    ],
-                  ),
-                ),
+
                 SizedBox(height: 10,),
                 Flexible(child: GetBuilder<MemberController>(
                         builder: (controller) {

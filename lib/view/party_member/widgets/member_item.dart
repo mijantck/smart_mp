@@ -13,13 +13,13 @@ class MemberItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 190,
+      height: 150,
       margin: EdgeInsets.only(bottom: 10),
       padding: EdgeInsets.all(10),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: AppColors.gray_withe,
+        color: Colors.white,
       ),
       child: Stack(
         children: [
@@ -57,17 +57,17 @@ class MemberItem extends StatelessWidget {
                           Text('${memberModel.designationParty != null ? memberModel.designationParty!.name : ''}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
                         ],
                       ),
-                      Row(
-                        children: [
-                          Container(
-                            height: 20,
-                            width: 20,
-                            child: Image.asset(AppImages.ic_mail),
-                          ),
-                          SizedBox(width: 5,),
-                          Text('${memberModel.email}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
-                        ],
-                      ),
+                      // Row(
+                      //   children: [
+                      //     Container(
+                      //       height: 20,
+                      //       width: 20,
+                      //       child: Image.asset(AppImages.ic_mail),
+                      //     ),
+                      //     SizedBox(width: 5,),
+                      //     Text('${memberModel.email}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
+                      //   ],
+                      // ),
                       Row(
                         children: [
                           Container(
@@ -82,19 +82,32 @@ class MemberItem extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  child: Image.network(
-                    '${AppString.IMAGE_URL}${memberModel.profileImage}',
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      // If the image fails to load, display a placeholder image or error message
-                      return Image.asset(
-                        AppImages.plaseholder_image, // Replace with the path to your placeholder image
-                        fit: BoxFit.cover,
-                      );
-                    },
-                  ),
+
+                Column(
+                  children: [
+                    Container(
+                      height: 60,
+                      width: 60,
+                      child: ClipOval(
+                        child: Image.network(
+                          '${AppString.IMAGE_URL}${memberModel.profileImage}',
+                          width: 80,
+                          height: 80,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              AppImages.plaseholder_image, // Replace with the path to your placeholder image
+                              width: 80,
+                              height: 80,
+                              fit: BoxFit.cover,
+                            );
+                          },
+                        ),
+                      ),
+                    )
+                  ],
                 )
+
 
               ],
             )
@@ -109,20 +122,25 @@ class MemberItem extends StatelessWidget {
               child: Column(
               children: [
                 SizedBox(height: 10,),
-                Container(
-                width: MediaQuery.of(context).size.width,
-                height: 1,
-                color: AppColors.gray_text.withOpacity(.5),
-              ),
+
                 Container(
                   height:40,
                   child: Row(
                     children: [
                       Expanded(
-                          child: InkWell(
-                            onTap: (){
-                              _launchDialer(memberModel.mobileNumber!);
-                            },
+                        child: InkWell(
+                          onTap: () {
+                            _launchDialer(memberModel.mobileNumber!);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0), // Adjust the border radius as needed
+                              border: Border.all(
+                                color: Colors.green, // Change to your desired border color
+                                width: 1.0, // Change to your desired border width
+                              ),
+                            ),
+                            padding: EdgeInsets.all(8.0), // Adjust the padding as needed
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -131,50 +149,100 @@ class MemberItem extends StatelessWidget {
                                   width: 20,
                                   child: Image.asset(AppImages.ic_call),
                                 ),
-                                SizedBox(width: 5,),
-                                Text(AppString.call,style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
+                                SizedBox(width: 5),
+                                Text(
+                                  AppString.call,
+                                  style: TextStyle(
+                                    color: AppColors.text_black,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  maxLines: 1,
+                                )
                               ],
                             ),
                           ),
+                        ),
                       ),
+                      SizedBox(width: 5,),
                       Expanded(
                         child: InkWell(
-                          onTap: (){
-                              _launchMessagingApp(memberModel.mobileNumber!);
+                          onTap: () {
+                            _launchMessagingApp(memberModel.mobileNumber!);
                           },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                height: 20,
-                                width: 20,
-                                child: Image.asset(AppImages.ic_message),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0), // Adjust the border radius as needed
+                              border: Border.all(
+                                color: Colors.green, // Change to your desired border color
+                                width: 1.0, // Change to your desired border width
                               ),
-                              SizedBox(width: 5,),
-                              Text(AppString.Message,style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
-                            ],
+                            ),
+                            padding: EdgeInsets.all(8.0), // Adjust the padding as needed
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 20,
+                                  width: 20,
+                                  child: Image.asset(AppImages.ic_message),
+                                ),
+                                SizedBox(width: 5),
+                                Text(
+                                  AppString.Message,
+                                  style: TextStyle(
+                                    color: AppColors.text_black,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  maxLines: 1,
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
+                      SizedBox(width: 5,),
                       Expanded(
                         child: InkWell(
-                          onTap: (){
-                            _launchMailApp(memberModel.email!);
+                          onTap: () async {
+                            await launch(
+                                "https://wa.me/+88${memberModel.mobileNumber!}?text=Hello");
+                           // _launchMailApp(memberModel.email!);
                           },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                height: 20,
-                                width: 20,
-                                child: Image.asset(AppImages.ic_mail),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0), // Adjust the border radius as needed
+                              border: Border.all(
+                                color: Colors.green, // Change to your desired border color
+                                width: 1.0, // Change to your desired border width
                               ),
-                              SizedBox(width: 5,),
-                              Text(AppString.Mail,style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
-                            ],
+                            ),
+                            padding: EdgeInsets.all(8.0), // Adjust the padding as needed
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 20,
+                                  width: 20,
+                                  child: Image.asset(AppImages.ic_whatsapp),
+                                ),
+                                SizedBox(width: 5),
+                                Text(
+                                  AppString.Whats_app,
+                                  style: TextStyle(
+                                    color: AppColors.text_black,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  maxLines: 1,
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
+                      )
+
                     ],
                   ),
                 )

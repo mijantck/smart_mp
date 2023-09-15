@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 150,
                       child: Image.asset(AppImages.home_logo)),
                   SizedBox(height: 10,),
-                  Text(AppString.APP_NAME,style: TextStyle(
+                  Text('Smart Bagmara'.tr,style: TextStyle(
                       color: AppColors.text_black,
                       fontSize: 20,
                       fontWeight: FontWeight.bold
@@ -70,14 +70,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(AppString.welcome_back,style: TextStyle(color: AppColors.welcome_color,fontSize: 17,fontWeight: FontWeight.w500),)
+                        Text('welcome_back'.tr,style: TextStyle(color: AppColors.welcome_color,fontSize: 17,fontWeight: FontWeight.w500),)
                       ],
                     ),
                     SizedBox(height: 5,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(AppString.sign_in,style: TextStyle(color: AppColors.gray_text,fontSize: 15,fontWeight: FontWeight.w500),)
+                        Text('sign_in'.tr,style: TextStyle(color: AppColors.gray_text,fontSize: 15,fontWeight: FontWeight.w500),)
                       ],
                     ),
                     //Mobile number
