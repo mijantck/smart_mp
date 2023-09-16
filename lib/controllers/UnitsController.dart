@@ -98,8 +98,11 @@ class UtilsController extends GetxController {
         openAppValue.value = jsonData;
 
         update();
+      }else{
+        openAppValue.value = true;
       }
     } catch (e) {
+      openAppValue.value = true;
       print('Error fetching committees: $e');
     }
   }

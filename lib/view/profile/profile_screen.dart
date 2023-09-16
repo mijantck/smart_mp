@@ -65,10 +65,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Container(
                                 height: 200,
                                 width: double.infinity,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: NetworkImage('${AppString.IMAGE_URL}${widget.user.profileImage}'),
-                                  ),
+                                child: Image.network(
+                                  '${AppString.IMAGE_URL}${widget.user.profileImage}',
+                                  errorBuilder: (context, error, stackTrace) {
+                                    // Return a default image when the network image fails to load
+                                    return Image.asset(AppImages.plaseholder_image); // Replace 'assets/default_image.png' with your default image asset path
+                                  },
+
                                 ),
                               ),
                               Column(

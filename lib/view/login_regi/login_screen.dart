@@ -133,9 +133,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           print('dsfh ${value.message}');
                           if(value.isSuccess){
                             var userController = Get.put(UserController());
-
                             Get.to(ProfileScreen(userController.userModel!.user!));
-
+                          }else{
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(value.message),
+                                backgroundColor: Colors.red, // You can customize the color
+                              ),
+                            );
                           }
                           print('hsfjsd ${value.message}');
                         });

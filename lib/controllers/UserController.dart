@@ -15,6 +15,7 @@ import 'package:path/path.dart' as path;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_mp/utils/AppString.dart';
 import '../models/requste/UserRegistation.dart';
+import '../models/respons/ErrorResponse.dart';
 import '../models/respons/MemberModel.dart';
 import '../models/respons/UserModel.dart';
 import '../models/respons/responseModel.dart';
@@ -120,9 +121,23 @@ class UserController extends GetxController {
 
       return ResponseModel(true, 'API call successful.');
     } else {
-      print('Error: ${response.statusCode}');
       print('Error message: ${response.body}');
-      return ResponseModel(false, 'API call failed: ${response.statusCode}');
+      try {
+        Map<String, dynamic> errorResponseData = json.decode(response.body);
+        ErrorResponse errorResponse = ErrorResponse.fromJson(errorResponseData);
+        String errorMessage = errorResponse.message;
+
+        if (errorResponse.errors.containsKey('mobile_number')) {
+          errorMessage = errorResponse.errors['mobile_number'][0];
+        } else if (errorResponse.errors.containsKey('password')) {
+          errorMessage = errorResponse.errors['password'][0];
+        }
+
+        return ResponseModel(false, errorMessage);
+      } catch (e) {
+        // If parsing the error response fails, return a generic error message
+        return ResponseModel(false, 'API call failed: ${response.statusCode}');
+      }
     }
   }
 

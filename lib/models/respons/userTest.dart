@@ -1,25 +1,25 @@
 /// user : {"id":272,"name":"মোঃ আঃ ছাত্তার প্রাঃ","father_husband":"মৃত তারু প্রাঃ","mother":"মৃত ছাবেদা বেওয়া","date_of_birth":null,"mobile_number":"01750228861","email":null,"nid":"4646430811","address":"কাচারি","unit_id":null,"designation_party_id":null,"designation_citizen_id":null,"profile_image":"profile_images/jJv62TzuFJjmXKFIVVjbzkU9bxH0lKAdmilIun3u.png","role":"default_role","reffer_code":"aypqoCbw","under_reffer_code":null,"membership_card_no":null,"created_at":"2023-09-11T06:45:12.000000Z","updated_at":"2023-09-16T06:50:31.000000Z","committee_id":null,"executive_committee_id":null,"gender":"Male","union_id":8,"ward_no":"9","upazia_id":1,"voter_kendro":64,"admins_id":5,"voter_kendro_no":"58","roles":[{"id":4,"name":"Vote Center Committee","tag":"election_commission","created_at":"2023-09-04T23:44:39.000000Z","updated_at":"2023-09-04T23:44:39.000000Z","pivot":{"user_id":272,"role_id":4}}]}
 /// token : "97|BLH1yrh36s7isZfKoW08xfmWbpYe1xZvt0HdWkhu"
 
-class UserModel {
-  UserModel({
-    User? user,
-    String? token,}){
+class UserTest {
+  UserTest({
+      User? user, 
+      String? token,}){
     _user = user;
     _token = token;
-  }
+}
 
-  UserModel.fromJson(dynamic json) {
+  UserTest.fromJson(dynamic json) {
     _user = json['user'] != null ? User.fromJson(json['user']) : null;
     _token = json['token'];
   }
   User? _user;
   String? _token;
-  UserModel copyWith({  User? user,
-    String? token,
-  }) => UserModel(  user: user ?? _user,
-    token: token ?? _token,
-  );
+UserTest copyWith({  User? user,
+  String? token,
+}) => UserTest(  user: user ?? _user,
+  token: token ?? _token,
+);
   User? get user => _user;
   String? get token => _token;
 
@@ -66,35 +66,35 @@ class UserModel {
 
 class User {
   User({
-    num? id,
-    String? name,
-    String? fatherHusband,
-    String? mother,
-    dynamic dateOfBirth,
-    String? mobileNumber,
-    dynamic email,
-    String? nid,
-    String? address,
-    dynamic unitId,
-    dynamic designationPartyId,
-    dynamic designationCitizenId,
-    String? profileImage,
-    String? role,
-    String? refferCode,
-    dynamic underRefferCode,
-    dynamic membershipCardNo,
-    String? createdAt,
-    String? updatedAt,
-    dynamic committeeId,
-    dynamic executiveCommitteeId,
-    String? gender,
-    num? unionId,
-    String? wardNo,
-    num? upaziaId,
-    num? voterKendro,
-    num? adminsId,
-    String? voterKendroNo,
-    List<Roles>? roles,}){
+      num? id, 
+      String? name, 
+      String? fatherHusband, 
+      String? mother, 
+      dynamic dateOfBirth, 
+      String? mobileNumber, 
+      dynamic email, 
+      String? nid, 
+      String? address, 
+      dynamic unitId, 
+      dynamic designationPartyId, 
+      dynamic designationCitizenId, 
+      String? profileImage, 
+      String? role, 
+      String? refferCode, 
+      dynamic underRefferCode, 
+      dynamic membershipCardNo, 
+      String? createdAt, 
+      String? updatedAt, 
+      dynamic committeeId, 
+      dynamic executiveCommitteeId, 
+      String? gender, 
+      num? unionId, 
+      String? wardNo, 
+      num? upaziaId, 
+      num? voterKendro, 
+      num? adminsId, 
+      String? voterKendroNo, 
+      List<Roles>? roles,}){
     _id = id;
     _name = name;
     _fatherHusband = fatherHusband;
@@ -124,7 +124,7 @@ class User {
     _adminsId = adminsId;
     _voterKendroNo = voterKendroNo;
     _roles = roles;
-  }
+}
 
   User.fromJson(dynamic json) {
     _id = json['id'];
@@ -191,65 +191,65 @@ class User {
   num? _adminsId;
   String? _voterKendroNo;
   List<Roles>? _roles;
-  User copyWith({  num? id,
-    String? name,
-    String? fatherHusband,
-    String? mother,
-    dynamic dateOfBirth,
-    String? mobileNumber,
-    dynamic email,
-    String? nid,
-    String? address,
-    dynamic unitId,
-    dynamic designationPartyId,
-    dynamic designationCitizenId,
-    String? profileImage,
-    String? role,
-    String? refferCode,
-    dynamic underRefferCode,
-    dynamic membershipCardNo,
-    String? createdAt,
-    String? updatedAt,
-    dynamic committeeId,
-    dynamic executiveCommitteeId,
-    String? gender,
-    num? unionId,
-    String? wardNo,
-    num? upaziaId,
-    num? voterKendro,
-    num? adminsId,
-    String? voterKendroNo,
-    List<Roles>? roles,
-  }) => User(  id: id ?? _id,
-    name: name ?? _name,
-    fatherHusband: fatherHusband ?? _fatherHusband,
-    mother: mother ?? _mother,
-    dateOfBirth: dateOfBirth ?? _dateOfBirth,
-    mobileNumber: mobileNumber ?? _mobileNumber,
-    email: email ?? _email,
-    nid: nid ?? _nid,
-    address: address ?? _address,
-    unitId: unitId ?? _unitId,
-    designationPartyId: designationPartyId ?? _designationPartyId,
-    designationCitizenId: designationCitizenId ?? _designationCitizenId,
-    profileImage: profileImage ?? _profileImage,
-    role: role ?? _role,
-    refferCode: refferCode ?? _refferCode,
-    underRefferCode: underRefferCode ?? _underRefferCode,
-    membershipCardNo: membershipCardNo ?? _membershipCardNo,
-    createdAt: createdAt ?? _createdAt,
-    updatedAt: updatedAt ?? _updatedAt,
-    committeeId: committeeId ?? _committeeId,
-    executiveCommitteeId: executiveCommitteeId ?? _executiveCommitteeId,
-    gender: gender ?? _gender,
-    unionId: unionId ?? _unionId,
-    wardNo: wardNo ?? _wardNo,
-    upaziaId: upaziaId ?? _upaziaId,
-    voterKendro: voterKendro ?? _voterKendro,
-    adminsId: adminsId ?? _adminsId,
-    voterKendroNo: voterKendroNo ?? _voterKendroNo,
-    roles: roles ?? _roles,
-  );
+User copyWith({  num? id,
+  String? name,
+  String? fatherHusband,
+  String? mother,
+  dynamic dateOfBirth,
+  String? mobileNumber,
+  dynamic email,
+  String? nid,
+  String? address,
+  dynamic unitId,
+  dynamic designationPartyId,
+  dynamic designationCitizenId,
+  String? profileImage,
+  String? role,
+  String? refferCode,
+  dynamic underRefferCode,
+  dynamic membershipCardNo,
+  String? createdAt,
+  String? updatedAt,
+  dynamic committeeId,
+  dynamic executiveCommitteeId,
+  String? gender,
+  num? unionId,
+  String? wardNo,
+  num? upaziaId,
+  num? voterKendro,
+  num? adminsId,
+  String? voterKendroNo,
+  List<Roles>? roles,
+}) => User(  id: id ?? _id,
+  name: name ?? _name,
+  fatherHusband: fatherHusband ?? _fatherHusband,
+  mother: mother ?? _mother,
+  dateOfBirth: dateOfBirth ?? _dateOfBirth,
+  mobileNumber: mobileNumber ?? _mobileNumber,
+  email: email ?? _email,
+  nid: nid ?? _nid,
+  address: address ?? _address,
+  unitId: unitId ?? _unitId,
+  designationPartyId: designationPartyId ?? _designationPartyId,
+  designationCitizenId: designationCitizenId ?? _designationCitizenId,
+  profileImage: profileImage ?? _profileImage,
+  role: role ?? _role,
+  refferCode: refferCode ?? _refferCode,
+  underRefferCode: underRefferCode ?? _underRefferCode,
+  membershipCardNo: membershipCardNo ?? _membershipCardNo,
+  createdAt: createdAt ?? _createdAt,
+  updatedAt: updatedAt ?? _updatedAt,
+  committeeId: committeeId ?? _committeeId,
+  executiveCommitteeId: executiveCommitteeId ?? _executiveCommitteeId,
+  gender: gender ?? _gender,
+  unionId: unionId ?? _unionId,
+  wardNo: wardNo ?? _wardNo,
+  upaziaId: upaziaId ?? _upaziaId,
+  voterKendro: voterKendro ?? _voterKendro,
+  adminsId: adminsId ?? _adminsId,
+  voterKendroNo: voterKendroNo ?? _voterKendroNo,
+  roles: roles ?? _roles,
+);
   num? get id => _id;
   String? get name => _name;
   String? get fatherHusband => _fatherHusband;
@@ -327,19 +327,19 @@ class User {
 
 class Roles {
   Roles({
-    num? id,
-    String? name,
-    String? tag,
-    String? createdAt,
-    String? updatedAt,
-    Pivot? pivot,}){
+      num? id, 
+      String? name, 
+      String? tag, 
+      String? createdAt, 
+      String? updatedAt, 
+      Pivot? pivot,}){
     _id = id;
     _name = name;
     _tag = tag;
     _createdAt = createdAt;
     _updatedAt = updatedAt;
     _pivot = pivot;
-  }
+}
 
   Roles.fromJson(dynamic json) {
     _id = json['id'];
@@ -355,19 +355,19 @@ class Roles {
   String? _createdAt;
   String? _updatedAt;
   Pivot? _pivot;
-  Roles copyWith({  num? id,
-    String? name,
-    String? tag,
-    String? createdAt,
-    String? updatedAt,
-    Pivot? pivot,
-  }) => Roles(  id: id ?? _id,
-    name: name ?? _name,
-    tag: tag ?? _tag,
-    createdAt: createdAt ?? _createdAt,
-    updatedAt: updatedAt ?? _updatedAt,
-    pivot: pivot ?? _pivot,
-  );
+Roles copyWith({  num? id,
+  String? name,
+  String? tag,
+  String? createdAt,
+  String? updatedAt,
+  Pivot? pivot,
+}) => Roles(  id: id ?? _id,
+  name: name ?? _name,
+  tag: tag ?? _tag,
+  createdAt: createdAt ?? _createdAt,
+  updatedAt: updatedAt ?? _updatedAt,
+  pivot: pivot ?? _pivot,
+);
   num? get id => _id;
   String? get name => _name;
   String? get tag => _tag;
@@ -395,11 +395,11 @@ class Roles {
 
 class Pivot {
   Pivot({
-    num? userId,
-    num? roleId,}){
+      num? userId, 
+      num? roleId,}){
     _userId = userId;
     _roleId = roleId;
-  }
+}
 
   Pivot.fromJson(dynamic json) {
     _userId = json['user_id'];
@@ -407,11 +407,11 @@ class Pivot {
   }
   num? _userId;
   num? _roleId;
-  Pivot copyWith({  num? userId,
-    num? roleId,
-  }) => Pivot(  userId: userId ?? _userId,
-    roleId: roleId ?? _roleId,
-  );
+Pivot copyWith({  num? userId,
+  num? roleId,
+}) => Pivot(  userId: userId ?? _userId,
+  roleId: roleId ?? _roleId,
+);
   num? get userId => _userId;
   num? get roleId => _roleId;
 

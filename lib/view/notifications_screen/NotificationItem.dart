@@ -28,7 +28,7 @@ class NotificationItem extends StatelessWidget {
                 width: 60,
                 height: 60,
                 child: notification.imageUrl == null? Container(
-                    child: Image.asset(AppImages.demo_news_banner)
+                    child: Image.asset(AppImages.home_logo)
                 ): Image.network(notification.imageUrl!), // Use notification's image URL
               ),
               SizedBox(width: 10,),

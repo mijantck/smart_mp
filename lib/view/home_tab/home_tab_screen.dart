@@ -376,7 +376,7 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                               UnitItemCard(AppImages.ic_news, AppString.News, () {
                                 Get.to(AllNewsScreen());
                               }),
-                              UnitItemCard(AppImages.ic_smart_b, AppString.Smart_Bagmara, () {
+                              UnitItemCard(AppImages.home_logo, AppString.Smart_Bagmara, () {
                                 Get.to(BagmaraAboutScreen());
                               }),
                             ],
