@@ -51,7 +51,7 @@ class _EshebaScreenState extends State<EshebaScreen> {
                       ),
                       Expanded(child: Container(
                         width:MediaQuery.of(context).size.width,
-                        child: Center(child: Text(AppString.News,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18,color: AppColors.text_black),)),
+                        child: Center(child: Text(AppString.E_sheba,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18,color: AppColors.text_black),)),
                       ))
                     ],
                   ),

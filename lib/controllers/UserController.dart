@@ -141,6 +141,64 @@ class UserController extends GetxController {
     }
   }
 
+
+
+  Future<ResponseModel> getUserToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String? token = prefs.getString('token');
+
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization':'Bearer ${token}'
+    };
+    var response = await http.get(
+      Uri.parse('${AppString.BASE_URL}/api/getAppUser'),
+      headers: headers,
+    );
+
+    print('dhsjfhds ${response.body}');
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> responseData = json.decode(response.body);
+      userModel = UserModel.fromJson(responseData);
+
+      return ResponseModel(true, 'API call successful.');
+    } else {
+      print('Error message: ${response.body}');
+      try {
+        Map<String, dynamic> errorResponseData = json.decode(response.body);
+        ErrorResponse errorResponse = ErrorResponse.fromJson(errorResponseData);
+        String errorMessage = errorResponse.message;
+
+        if (errorResponse.errors.containsKey('mobile_number')) {
+          errorMessage = errorResponse.errors['mobile_number'][0];
+        } else if (errorResponse.errors.containsKey('password')) {
+          errorMessage = errorResponse.errors['password'][0];
+        }
+
+        return ResponseModel(false, errorMessage);
+      } catch (e) {
+        // If parsing the error response fails, return a generic error message
+        return ResponseModel(false, 'API call failed: ${response.statusCode}');
+      }
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   Future<Uint8List> compressImage(File imageFile) async {
     final originalBytes = await imageFile.readAsBytes();
     final compressedImage = img.decodeImage(originalBytes)!; // Use the `img` package

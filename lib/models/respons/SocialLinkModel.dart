@@ -1,13 +1,7 @@
-/// id : 3
-/// name : "sfsafsdf"
-/// image_url : "e_sheba/NQhNnVe6fkbBsSGqEtY3CcBRQIGmDXuSU8OLTNqm.png"
-/// url : "www.google.com"
-/// created_at : "2023-08-10T13:28:40.000000Z"
-/// updated_at : "2023-08-10T13:28:40.000000Z"
 
-class ESebahModel {
-  ESebahModel({
-      num? id, 
+class SocialLinkModel {
+  SocialLinkModel({
+      int? id,
       String? name, 
       String? imageUrl, 
       String? url, 
@@ -23,7 +17,7 @@ class ESebahModel {
     _updatedAt = updatedAt;
 }
 
-  ESebahModel.fromJson(dynamic json) {
+  SocialLinkModel.fromJson(dynamic json) {
     _id = json['id'];
     _name = json['name'];
     _imageUrl = json['image_url'];
@@ -32,21 +26,21 @@ class ESebahModel {
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
   }
-  num? _id;
+  int? _id;
   String? _name;
   String? _imageUrl;
   String? _url;
   String? _phone;
   String? _createdAt;
   String? _updatedAt;
-ESebahModel copyWith({  num? id,
+SocialLinkModel copyWith({  int? id,
   String? name,
   String? imageUrl,
   String? url,
   String? phone,
   String? createdAt,
   String? updatedAt,
-}) => ESebahModel(  id: id ?? _id,
+}) => SocialLinkModel(  id: id ?? _id,
   name: name ?? _name,
   imageUrl: imageUrl ?? _imageUrl,
   url: url ?? _url,
@@ -54,7 +48,7 @@ ESebahModel copyWith({  num? id,
   createdAt: createdAt ?? _createdAt,
   updatedAt: updatedAt ?? _updatedAt,
 );
-  num? get id => _id;
+  int? get id => _id;
   String? get name => _name;
   String? get imageUrl => _imageUrl;
   String? get url => _url;

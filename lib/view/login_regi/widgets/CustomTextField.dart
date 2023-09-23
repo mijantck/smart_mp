@@ -1,33 +1,50 @@
 import 'package:flutter/material.dart';
-
 import '../../../utils/AppColors.dart';
 import '../../../utils/AppString.dart';
 
-class CustomTextField extends StatelessWidget {
-  String title;
-  String title_hints;
-  TextEditingController controller;
-  CustomTextField(this.title, this.title_hints, this.controller);
+class CustomTextField extends StatefulWidget {
+  final String title;
+  final String title_hints;
+  final TextEditingController controller;
+  final bool isPassword;
+
+  CustomTextField(this.title, this.title_hints, this.controller, {this.isPassword = false});
+
+  @override
+  _CustomTextFieldState createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+   bool isPassword  = false;
+   bool isPasswordShow = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isPassword = true;
+    isPasswordShow = widget.isPassword;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 10),
-      child:
-
-      Column(
+      margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+      child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(title ,style: TextStyle(color: AppColors.text_black,fontSize: 17,fontWeight: FontWeight.w500),)
+              Text(widget.title, style: TextStyle(color: AppColors.text_black, fontSize: 17, fontWeight: FontWeight.w500)),
             ],
           ),
-          SizedBox(height: 4,),
+          SizedBox(height: 4),
           Container(
             height: 50,
             child: TextField(
-              controller: controller,
+              controller: widget.controller,
+              obscureText: widget.isPassword,
+              keyboardType: widget.isPassword? TextInputType.visiblePassword : TextInputType.text,
+              textInputAction: TextInputAction.done,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.only(left: 5),
                 border: OutlineInputBorder(
@@ -36,13 +53,22 @@ class CustomTextField extends StatelessWidget {
                     color: AppColors.home_bg, // Set the border color
                   ),
                 ),
-                hintText:title_hints, // Custom hint text
+                hintText: widget.title_hints, // Custom hint text
                 hintStyle: TextStyle(
                   color: Colors.grey, // Custom hint text color
                 ),
+
+                suffixIcon:isPasswordShow? IconButton(
+                  icon: Icon(isPassword ? Icons.visibility : Icons.visibility_off),
+                  onPressed: () {
+                    setState(() {
+                      isPassword = !isPassword;
+                    });
+                  },
+                ): null,
               ),
             ),
-          )
+          ),
         ],
       ),
     );

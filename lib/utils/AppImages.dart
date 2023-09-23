@@ -32,9 +32,11 @@ class AppImages{
   static const String ic_citizen = 'assets/image/ic_citizen.png';
   static const String ic_volunteer = 'assets/image/generation.png';
   static const String ic_news = 'assets/image/news.png';
+  static const String ic_voter_list_eneration = 'assets/image/ic_voter_list_eneration.png';
   static const String ic_members = 'assets/image/ic_members.png';
   static const String ic_service = 'assets/image/e_sheba.png';
   static const String ic_mp_event = 'assets/image/ic_mp_event.png';
+  static const String ic_social_media = 'assets/image/ic_social_media.png';
   static const String ic_mosque  = 'assets/image/ic_mosque.png';
   //upazala
   static const String ic_upazila_all  = 'assets/image/ic_upazila_all.png';
@@ -57,6 +59,7 @@ class AppImages{
   static const String bg_division  = 'assets/image/bg_division.png';
   static const String ic_about  = 'assets/image/ic_about.png';
   static const String ic_scanner  = 'assets/image/ic_scanner.png';
+  static const String ic_suporrt  = 'assets/image/ic_suporrt.png';
   static const String bg_home_top  = 'assets/image/bg_home_top.png';
   static const String ic_whatsapp  = 'assets/image/ic_whatsapp.png';
 

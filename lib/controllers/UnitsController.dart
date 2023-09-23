@@ -12,6 +12,7 @@ import '../models/respons/DestinationParty.dart';
 import '../models/respons/ExecutiveCommittee.dart';
 import '../models/respons/NotiificationModel.dart';
 import '../models/respons/SliderModel.dart';
+import '../models/respons/SocialLinkModel.dart';
 import '../models/respons/Union.dart';
 import '../models/respons/Unit.dart';
 import '../models/respons/Upazila.dart';
@@ -56,6 +57,7 @@ class UtilsController extends GetxController {
   RxString upazilaSelecte = AppString.seltectItem.obs;
 
   var eSebahModel = <ESebahModel>[].obs;
+  var socialLinkModel = <SocialLinkModel>[].obs;
   var mpEventsList = <MpEventModel>[].obs;
   var mNotiificationModel = <NotiificationModel>[].obs;
   var mBagmaraAboutModel = <BagmaraAboutModel>[].obs;
@@ -270,6 +272,91 @@ class UtilsController extends GetxController {
       }
     } catch (e) {
       print('Error fetching sliders: $e');
+    }
+  }
+
+
+  void fetchSocialLink() async {
+    try {
+      var apiClient = ApiClient();
+      var response = await apiClient.get(Uri.parse('${AppString.BASE_URL}/api/social-links'));
+      print('sdfsdsdds 333 ${response.statusCode}');
+      if (response.statusCode == 200) {
+        print('sdfsdsdds 1111');
+        var jsonData = json.decode(response.body) as List<dynamic>;
+        var socialLinkModelList = jsonData.map((item) => SocialLinkModel.fromJson(item)).toList();
+        socialLinkModel.value = socialLinkModelList;
+        update();
+      }else{
+        socialLinkModel.value = [
+          SocialLinkModel(
+            id: 0,
+            imageUrl:'https://i.ibb.co/CMr41kr/icons8-facebook-144.png',
+            name: 'Facebook',
+            phone: '',
+            url: 'https://www.facebook.com/engrenamulhaquemp',
+          ),
+          SocialLinkModel(
+            id: 0,
+            imageUrl:'https://i.ibb.co/CQ0ccKZ/icons8-instagram-144.png',
+            name: 'Instagram',
+            phone: '',
+            url: 'https://www.instagram.com/mp_enamulhaque/',
+          ),
+
+          SocialLinkModel(
+            id: 0,
+            imageUrl:'https://i.ibb.co/NTtnZJJ/icons8-youtube-144.png',
+            name: 'Youtube',
+            phone: '',
+            url: 'https://enamulhaquemp.com/',
+          ),SocialLinkModel(
+            id: 0,
+            imageUrl:'https://i.ibb.co/Jk219mM/icons8-internet-96.png',
+            name: 'Web site',
+            phone: '',
+            url: 'https://enamulhaquemp.com/',
+          ),
+        ];
+        update();
+      }
+    } catch (e) {
+      print('Error fetching sliders: $e');
+      //https://i.ibb.co/Jk219mM/icons8-internet-96.png web
+      //https://i.ibb.co/CQ0ccKZ/icons8-instagram-144.png instra
+      //https://i.ibb.co/CMr41kr/icons8-facebook-144.png face
+
+      print('sdfsdsdds 22222');
+      socialLinkModel.value = [
+        SocialLinkModel(
+          id: 0,
+          imageUrl:'https://i.ibb.co/CMr41kr/icons8-facebook-144.png',
+          name: 'Facebook',
+          phone: '',
+          url: 'https://www.facebook.com/engrenamulhaquemp',
+        ),
+        SocialLinkModel(
+          id: 0,
+          imageUrl:'https://i.ibb.co/CQ0ccKZ/icons8-instagram-144.png',
+          name: 'Instagram',
+          phone: '',
+          url: 'https://www.instagram.com/mp_enamulhaque/',
+        ),
+
+        SocialLinkModel(
+          id: 0,
+          imageUrl:'https://i.ibb.co/NTtnZJJ/icons8-youtube-144.png',
+          name: 'Youtube',
+          phone: '',
+          url: 'https://enamulhaquemp.com/',
+        ),SocialLinkModel(
+          id: 0,
+          imageUrl:'https://i.ibb.co/Jk219mM/icons8-internet-96.png',
+          name: 'Web site',
+          phone: '',
+          url: 'https://enamulhaquemp.com/',
+        ),
+      ];
     }
   }
 

@@ -7,10 +7,12 @@ import '../../models/respons/UserModel.dart';
 import '../../utils/AppColors.dart';
 import '../../utils/AppImages.dart';
 import '../home_page/home_page_screen.dart';
+import '../login_regi/UserProfileUpdateScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
   User user;
-  ProfileScreen(this.user);
+  bool isFromLogin;
+  ProfileScreen(this.user,{this.isFromLogin = false});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -20,7 +22,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<bool> _onBackPressed() async {
    print('backkkkkkk');
-   Get.offAll(HomePage());
+   if(widget.isFromLogin){
+     Get.offAll(HomePage());
+   }else{
+     Get.back();
+   }
     return true;
   }
 
@@ -32,6 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       onWillPop: _onBackPressed,
       child: SafeArea(
           child: Scaffold(
+
             body: GetBuilder<UtilsController>(
                 builder: (controller) {
                   return Container(
@@ -42,7 +49,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: [
                             InkWell(
                               onTap: (){
-                                Get.offAll(HomePage());
+                                _onBackPressed();
+                               // Get.offAll(HomePage());
                               },
                               child: Container(
                                 height: 30,
@@ -54,7 +62,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Expanded(child: Container(
                               width:MediaQuery.of(context).size.width,
                               child: Center(child: Text('Profile        ',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18,color: AppColors.text_black),)),
-                            ))
+                            )),
+                            InkWell(
+                              onTap: (){
+
+                                Get.to(UserProfileUpdateScreen(widget.user));
+                              },
+                              child: Container(
+                                height: 30,
+                                width: 30,
+                                child: Icon(Icons.edit),
+                                // child: Image.asset(AppImages.ic_back_button),
+                              ),
+                            ),
+
                           ],
                         ),
                         SizedBox(height: 10,),

@@ -22,6 +22,8 @@ class AppString{
   static String News = 'News'.tr;
   static String About = 'About'.tr;
   static String Scanner = 'Scanner'.tr;
+  static String help_center = 'help_center'.tr;
+  static String social_link = 'social_link'.tr;
   static String Smart_Bagmara = 'Smart_Bagmara'.tr;
   static String delete_my_account = 'delete_my_account'.tr;
   static String Logout = 'Logout';
@@ -97,6 +99,7 @@ class AppString{
   static String Do_you_have_an_account = 'Do_you_have_an_account'.tr;
 
   static String sing_up = 'sing_up'.tr;
+  static String update = 'Update';
 
   static String Register_As_Member = 'Register_As_Member'.tr;
   static String Register_As_Citizen = 'Register_As_Citizen'.tr;
@@ -126,11 +129,12 @@ class AppString{
   static String ChooseFile = 'ChooseFile'.tr;
 
   static String No_file_chosen = 'No_file_chosen'.tr;
-  static String seltectItem = 'seltectItem'.tr;
+  static String seltectItem = 'নির্বাচন করুন'/*'seltectItem'.tr*/;
   static String Male = 'Male'.tr;
   static String FeMale = 'FeMale'.tr;
   static String Others = 'Others'.tr;
   static String membershipCardNo = 'membershipCardNo'.tr;
+  static String bagmaraVoterTalika = 'bagmaraVoterTalika'.tr;
 
 
 }

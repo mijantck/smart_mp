@@ -83,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     //Mobile number
                     CustomTextField(AppString.mobile,AppString.Enter_Your_mobile_no,mobileController),
                     //Password
-                    CustomTextField(AppString.password,AppString.Enter_Your_Password,passwordController),
+                    CustomTextField(AppString.password,AppString.Enter_Your_Password,passwordController,isPassword: true,),
 
                     // Remember
                     Row(
@@ -131,9 +131,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         userController.loginUser(mobileController.text, passwordController.text).then((value){
                           Navigator.of(context).pop();
                           print('dsfh ${value.message}');
+
                           if(value.isSuccess){
                             var userController = Get.put(UserController());
-                            Get.to(ProfileScreen(userController.userModel!.user!));
+
+                            Get.to(ProfileScreen(userController.userModel!.user!,isFromLogin:true));
                           }else{
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
