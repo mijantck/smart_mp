@@ -34,36 +34,6 @@ class UserModel {
 
 }
 
-/// id : 272
-/// name : "মোঃ আঃ ছাত্তার প্রাঃ"
-/// father_husband : "মৃত তারু প্রাঃ"
-/// mother : "মৃত ছাবেদা বেওয়া"
-/// date_of_birth : null
-/// mobile_number : "01750228861"
-/// email : null
-/// nid : "4646430811"
-/// address : "কাচারি"
-/// unit_id : null
-/// designation_party_id : null
-/// designation_citizen_id : null
-/// profile_image : "profile_images/jJv62TzuFJjmXKFIVVjbzkU9bxH0lKAdmilIun3u.png"
-/// role : "default_role"
-/// reffer_code : "aypqoCbw"
-/// under_reffer_code : null
-/// membership_card_no : null
-/// created_at : "2023-09-11T06:45:12.000000Z"
-/// updated_at : "2023-09-16T06:50:31.000000Z"
-/// committee_id : null
-/// executive_committee_id : null
-/// gender : "Male"
-/// union_id : 8
-/// ward_no : "9"
-/// upazia_id : 1
-/// voter_kendro : 64
-/// admins_id : 5
-/// voter_kendro_no : "58"
-/// roles : [{"id":4,"name":"Vote Center Committee","tag":"election_commission","created_at":"2023-09-04T23:44:39.000000Z","updated_at":"2023-09-04T23:44:39.000000Z","pivot":{"user_id":272,"role_id":4}}]
-
 class User {
   User({
     num? id,

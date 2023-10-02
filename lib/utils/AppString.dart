@@ -4,13 +4,13 @@ import 'package:get/get.dart';
 class AppString{
 
   //API End Points
-  // static String BASE_URL = 'http://192.168.0.117:8000';
-  // static String IMAGE_URL =BASE_URL+'/storage/';
+  static String BASE_URL = 'http://192.168.0.117:8000';
+  static String IMAGE_URL =BASE_URL+'/storage/';
 
 
 
-   static String BASE_URL = 'https://appenamulhaquemp.com/public';
-   static String IMAGE_URL =BASE_URL+'/storage/';
+   // static String BASE_URL = 'https://appenamulhaquemp.com/public';
+   // static String IMAGE_URL =BASE_URL+'/storage/';
 
 
 
@@ -20,13 +20,14 @@ class AppString{
   static String Citizen = 'Citizen'.tr;
   static String Volunteer = 'Volunteer'.tr;
   static String News = 'News'.tr;
+  static String Send_OTP = 'Send_OTP'.tr;
   static String About = 'About'.tr;
   static String Scanner = 'Scanner'.tr;
   static String help_center = 'help_center'.tr;
   static String social_link = 'social_link'.tr;
   static String Smart_Bagmara = 'Smart_Bagmara'.tr;
   static String delete_my_account = 'delete_my_account'.tr;
-  static String Logout = 'Logout';
+  static String Logout = 'Logout'.tr;
   static String terms_and_conditions = 'terms_and_conditions'.tr;
   static String terms_and_conditions_url = 'https://enamulhaquemp.com/terms'.tr;
   static String Privacy_policy = 'Privacy_policy'.tr;
@@ -135,6 +136,21 @@ class AppString{
   static String Others = 'Others'.tr;
   static String membershipCardNo = 'membershipCardNo'.tr;
   static String bagmaraVoterTalika = 'bagmaraVoterTalika'.tr;
+
+  static String Enter_Your_OTP = 'Enter_Your_OTP'.tr;
+
+  static String verify = 'verify'.tr;
+  static String Change_Password = 'Change_Password'.tr;
+
+  static String userLoginType = 'userLoginType';
+  static String admin = 'admin';
+  static String general = 'general';
+  static String token = 'token';
+  static String role = 'role';
+
+  static String loginMobile = 'loginMobile';
+  static String loginPassword = 'loginPassword';
+  static String loginEmail = 'loginEmail';
 
 
 }

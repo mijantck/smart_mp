@@ -25,6 +25,8 @@ import '../utils/ApiClient.dart';
 class UtilsController extends GetxController {
 
 
+  RxBool showQrCode = true.obs;
+
   RxBool openAppValue = false.obs;
 
   var committees = <Committee>[].obs;
@@ -87,6 +89,10 @@ class UtilsController extends GetxController {
     update();
   }
 
+  updateShowQrCode(bool showQrCode){
+    this.showQrCode.value = showQrCode;
+    update();
+  }
 
 
   Future<void> openApp() async {
@@ -277,7 +283,7 @@ class UtilsController extends GetxController {
 
 
   void fetchSocialLink() async {
-    try {
+
       var apiClient = ApiClient();
       var response = await apiClient.get(Uri.parse('${AppString.BASE_URL}/api/social-links'));
       print('sdfsdsdds 333 ${response.statusCode}');
@@ -288,20 +294,21 @@ class UtilsController extends GetxController {
         socialLinkModel.value = socialLinkModelList;
         update();
       }else{
+        print('sdfsdsdds 999');
         socialLinkModel.value = [
           SocialLinkModel(
             id: 0,
             imageUrl:'https://i.ibb.co/CMr41kr/icons8-facebook-144.png',
             name: 'Facebook',
             phone: '',
-            url: 'https://www.facebook.com/engrenamulhaquemp',
+            value: 'https://www.facebook.com/engrenamulhaquemp',
           ),
           SocialLinkModel(
             id: 0,
             imageUrl:'https://i.ibb.co/CQ0ccKZ/icons8-instagram-144.png',
             name: 'Instagram',
             phone: '',
-            url: 'https://www.instagram.com/mp_enamulhaque/',
+            value: 'https://www.instagram.com/mp_enamulhaque/',
           ),
 
           SocialLinkModel(
@@ -309,38 +316,47 @@ class UtilsController extends GetxController {
             imageUrl:'https://i.ibb.co/NTtnZJJ/icons8-youtube-144.png',
             name: 'Youtube',
             phone: '',
-            url: 'https://enamulhaquemp.com/',
+            value: 'https://enamulhaquemp.com/',
           ),SocialLinkModel(
             id: 0,
             imageUrl:'https://i.ibb.co/Jk219mM/icons8-internet-96.png',
             name: 'Web site',
             phone: '',
-            url: 'https://enamulhaquemp.com/',
+            value: 'https://enamulhaquemp.com/',
           ),
         ];
         update();
       }
-    } catch (e) {
-      print('Error fetching sliders: $e');
-      //https://i.ibb.co/Jk219mM/icons8-internet-96.png web
-      //https://i.ibb.co/CQ0ccKZ/icons8-instagram-144.png instra
-      //https://i.ibb.co/CMr41kr/icons8-facebook-144.png face
 
-      print('sdfsdsdds 22222');
+  }
+
+  void fetchAppSupportLink() async {
+
+    var apiClient = ApiClient();
+    var response = await apiClient.get(Uri.parse('${AppString.BASE_URL}/api/app-support-links'));
+    print('sdfsdsdds 333 ${response.statusCode}');
+    if (response.statusCode == 200) {
+      print('sdfsdsdds 1111');
+      var jsonData = json.decode(response.body) as List<dynamic>;
+      var socialLinkModelList = jsonData.map((item) => SocialLinkModel.fromJson(item)).toList();
+      socialLinkModel.value = socialLinkModelList;
+      update();
+    }else{
+      print('sdfsdsdds 999');
       socialLinkModel.value = [
         SocialLinkModel(
           id: 0,
           imageUrl:'https://i.ibb.co/CMr41kr/icons8-facebook-144.png',
           name: 'Facebook',
           phone: '',
-          url: 'https://www.facebook.com/engrenamulhaquemp',
+          value: 'https://www.facebook.com/engrenamulhaquemp',
         ),
         SocialLinkModel(
           id: 0,
           imageUrl:'https://i.ibb.co/CQ0ccKZ/icons8-instagram-144.png',
           name: 'Instagram',
           phone: '',
-          url: 'https://www.instagram.com/mp_enamulhaque/',
+          value: 'https://www.instagram.com/mp_enamulhaque/',
         ),
 
         SocialLinkModel(
@@ -348,16 +364,18 @@ class UtilsController extends GetxController {
           imageUrl:'https://i.ibb.co/NTtnZJJ/icons8-youtube-144.png',
           name: 'Youtube',
           phone: '',
-          url: 'https://enamulhaquemp.com/',
+          value: 'https://enamulhaquemp.com/',
         ),SocialLinkModel(
           id: 0,
           imageUrl:'https://i.ibb.co/Jk219mM/icons8-internet-96.png',
           name: 'Web site',
           phone: '',
-          url: 'https://enamulhaquemp.com/',
+          value: 'https://enamulhaquemp.com/',
         ),
       ];
+      update();
     }
+
   }
 
   void fetchMpEvents() async {

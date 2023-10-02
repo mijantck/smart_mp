@@ -25,8 +25,6 @@ class _PartyAllState extends State<PartyAll> {
         child: Scaffold(
           body: GetBuilder<UtilsController>(
                   builder: (controller) {
-
-
                     return Container(
                       margin: EdgeInsets.only(left: 10,right: 10,top: 20),
                       child: Column(

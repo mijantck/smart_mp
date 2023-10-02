@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_mp/view/login_regi/registation_screen.dart';
 import 'package:smart_mp/view/login_regi/widgets/CustomTextField.dart';
+import 'package:smart_mp/view/login_regi/widgets/drop_dwon.dart';
 import 'package:smart_mp/view/profile/profile_screen.dart';
 
 import '../../controllers/UserController.dart';
@@ -9,6 +12,8 @@ import '../../utils/AppColors.dart';
 import '../../utils/AppImages.dart';
 import '../../utils/AppString.dart';
 import '../home_page/home_page_screen.dart';
+import '../profile/admin_profile_screen.dart';
+import 'ForgetPassword/SendSmsScreen.dart';
 
 class LoginScreen extends StatefulWidget {
 
@@ -24,6 +29,11 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController mobileController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  bool rememberMe = false;
+
+  String _selectedValue = 'General';
+  var isLoading = false;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -32,9 +42,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
 
 
     return Scaffold(
@@ -81,9 +88,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                     //Mobile number
-                    CustomTextField(AppString.mobile,AppString.Enter_Your_mobile_no,mobileController),
+                    CustomTextField(_selectedValue == 'General'? AppString.mobile:AppString.email ,_selectedValue == 'General'? AppString.Enter_Your_mobile_no:AppString.Enter_Your_email,mobileController),
                     //Password
                     CustomTextField(AppString.password,AppString.Enter_Your_Password,passwordController,isPassword: true,),
+                    DropDownCustom(
+                      title: 'LogIn_Type'.tr,
+                      options: <String>['Coordinator', 'General'],
+                      selectedOption: _selectedValue,
+                      onChange: (String? value) { // Handle nullable value
+                        setState(() {
+                          _selectedValue = value!;
+                          print('${value}');
+                        });
+                      },
+                    ),
 
                     // Remember
                     Row(
@@ -91,15 +109,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         Row(
                           children: [
                             Checkbox(
-                              value: false, // Update this with your remember option value
+                              value: rememberMe, // Update this with your remember option value
                               onChanged: (value) {
+                                setState(() {
+                                  rememberMe =  !rememberMe;
+                                });
                                 // Implement the logic to update the remember option here
                               },
                               checkColor: Colors.grey, // Gray check color
                               activeColor: Colors.transparent, // Transparent background
                             ),
                             Text(
-                              'Remember Me',
+                              'Remember_Me'.tr,
                               style: TextStyle(
                                 color: Colors.grey, // Gray color for the text
                               ),
@@ -109,11 +130,25 @@ class _LoginScreenState extends State<LoginScreen> {
                         Expanded(child: Container()),
                         // Forget Password Text
                         GestureDetector(
-                          onTap: () {
-                            // Implement the forget password logic here
+                          onTap: () async{
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            String? token =  prefs.getString('token');
+                            if(token == AppString.admin){
+                              Fluttertoast.showToast(
+                                msg: 'Contract with Admin',
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 12.0,
+                              );
+                              return;
+                            }
+                           Get.to(SendSmsScreen());
                           },
                           child: Text(
-                            'Forget Password?',
+                            'Forget_Password'.tr,
                             style: TextStyle(
                               color: Colors.red, // Custom red color for the text
                             ),
@@ -127,26 +162,90 @@ class _LoginScreenState extends State<LoginScreen> {
                     InkWell(
                       onTap: (){
                         var userController = Get.put(UserController());
-                        showLoadingDialog(context);
-                        userController.loginUser(mobileController.text, passwordController.text).then((value){
-                          Navigator.of(context).pop();
-                          print('dsfh ${value.message}');
 
-                          if(value.isSuccess){
-                            var userController = Get.put(UserController());
 
-                            Get.to(ProfileScreen(userController.userModel!.user!,isFromLogin:true));
-                          }else{
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(value.message),
-                                backgroundColor: Colors.red, // You can customize the color
-                              ),
-                            );
-                          }
-                          print('hsfjsd ${value.message}');
+                        if(mobileController.text == ''){
+
+                          Fluttertoast.showToast(
+                            msg: _selectedValue == 'General'? AppString.Enter_Your_mobile_no:AppString.Enter_Your_email,
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 12.0,
+                          );
+
+                          return;
+                        }
+                        if(passwordController.text == ''){
+                          Fluttertoast.showToast(
+                            msg: AppString.Enter_Your_Password,
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 12.0,
+                          );
+                          return;
+                        }
+
+                        setState(() {
+                          isLoading = true;
                         });
 
+                        if(_selectedValue == 'General') {
+                          userController.loginUser(mobileController.text, passwordController.text).then((value) {
+                            setState(() {
+                              isLoading = false;
+                            });
+                            if (value.isSuccess) {
+                              var userController = Get.put(UserController());
+                              Get.to(ProfileScreen(
+                                  userController.userModel!.user!,
+                                  isFromLogin: true));
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(value.message),
+                                  backgroundColor: Colors
+                                      .red, // You can customize the color
+                                ),
+                              );
+                            }
+
+                          });
+                        }else{
+
+                          userController.loginUserAdmin(mobileController.text, passwordController.text).then((value) {
+                            setState(() {
+                              isLoading = false;
+                            });
+
+                            if (value.isSuccess) {
+                              var userController = Get.put(UserController());
+                              print('admin llll');
+                              Get.to(AdminProfileScreen(userController.adminLoginModel!.user!, isFromLogin: true));
+
+                            } else {
+                              Fluttertoast.showToast(
+                                msg: value.message,
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 12.0,
+                              );
+                            }
+
+
+                          });
+
+
+
+                        }
 
 
                       },
@@ -159,7 +258,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: MediaQuery.of(context).size.width,
                         height: 50,
                         child: Center(
-                          child: Text(AppString.sign_in,style: TextStyle(color: AppColors.white,fontSize: 18),),
+                          child: isLoading ? CircularProgressIndicator() : Text(AppString.sign_in,style: TextStyle(color: AppColors.white,fontSize: 18),),
                         ),
                       ),
                     ),
@@ -187,7 +286,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
               ),
-            )
+            ),
+            SizedBox(height: 10,)
           ],
         ),
       ),

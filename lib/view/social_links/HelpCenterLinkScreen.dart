@@ -10,20 +10,20 @@ import '../../utils/AppString.dart';
 import '../home_tab/widgets/item_card.dart';
 import '../home_tab/widgets/social_card.dart';
 
-class SocialLinksScreens extends StatefulWidget {
-  const SocialLinksScreens({super.key});
+class HelpCenterLinkScreen extends StatefulWidget {
+  const HelpCenterLinkScreen({super.key});
 
   @override
-  State<SocialLinksScreens> createState() => _SocialLinksScreensState();
+  State<HelpCenterLinkScreen> createState() => _HelpCenterLinkScreenState();
 }
 
-class _SocialLinksScreensState extends State<SocialLinksScreens> {
+class _HelpCenterLinkScreenState extends State<HelpCenterLinkScreen> {
 
   var utilsController =  Get.put(UtilsController());
 
   @override
   void initState() {
-    utilsController.fetchSocialLink();
+    utilsController.fetchAppSupportLink();
 
     super.initState();
   }
@@ -50,7 +50,7 @@ class _SocialLinksScreensState extends State<SocialLinksScreens> {
                     ),
                     Expanded(child: Container(
                       width:MediaQuery.of(context).size.width,
-                      child: Center(child: Text(AppString.social_link,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18,color: AppColors.text_black),)),
+                      child: Center(child: Text(AppString.help_center,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18,color: AppColors.text_black),)),
                     ))
                   ],
                 ),
@@ -78,7 +78,12 @@ class _SocialLinksScreensState extends State<SocialLinksScreens> {
 
                             SocialLinkModel socialLinkModel = controller.socialLinkModel[index];
                             return SocislItemCard(socialLinkModel, () => {
-                              _launchURL(socialLinkModel.value!)
+                              if(socialLinkModel.type == 'phone'){
+                                _launchDialer(socialLinkModel.value!)
+                              }else{
+                                _launchURL(socialLinkModel.value!)
+                              }
+
                             });
                           },
                         ),
@@ -97,6 +102,19 @@ class _SocialLinksScreensState extends State<SocialLinksScreens> {
   _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
+    }
+  }
+
+  void _launchDialer(String phoneNumber) async {
+    final Uri phoneLaunchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+
+    if (await canLaunch(phoneLaunchUri.toString())) {
+      await launch(phoneLaunchUri.toString());
+    } else {
+      print('Could not launch dialer.');
     }
   }
 }

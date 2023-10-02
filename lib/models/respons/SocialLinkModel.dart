@@ -4,14 +4,15 @@ class SocialLinkModel {
       int? id,
       String? name, 
       String? imageUrl, 
-      String? url, 
+      String? value,
+      String? type,
       String? phone,
       String? createdAt,
       String? updatedAt,}){
     _id = id;
     _name = name;
     _imageUrl = imageUrl;
-    _url = url;
+    _type = type;
     _phone = phone;
     _createdAt = createdAt;
     _updatedAt = updatedAt;
@@ -21,7 +22,8 @@ class SocialLinkModel {
     _id = json['id'];
     _name = json['name'];
     _imageUrl = json['image_url'];
-    _url = json['url'];
+    _value = json['value'];
+    _type = json['type'];
     _phone = json['phone'];
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
@@ -29,21 +31,24 @@ class SocialLinkModel {
   int? _id;
   String? _name;
   String? _imageUrl;
-  String? _url;
+  String? _value;
+  String? _type;
   String? _phone;
   String? _createdAt;
   String? _updatedAt;
 SocialLinkModel copyWith({  int? id,
   String? name,
   String? imageUrl,
-  String? url,
+  String? value,
+  String? type,
   String? phone,
   String? createdAt,
   String? updatedAt,
 }) => SocialLinkModel(  id: id ?? _id,
   name: name ?? _name,
   imageUrl: imageUrl ?? _imageUrl,
-  url: url ?? _url,
+  value: value ?? _value,
+  type: type ?? _type,
   phone: phone ?? _phone,
   createdAt: createdAt ?? _createdAt,
   updatedAt: updatedAt ?? _updatedAt,
@@ -51,7 +56,8 @@ SocialLinkModel copyWith({  int? id,
   int? get id => _id;
   String? get name => _name;
   String? get imageUrl => _imageUrl;
-  String? get url => _url;
+  String? get value => _value;
+  String? get type => _type;
   String? get phone => _phone;
   String? get createdAt => _createdAt;
   String? get updatedAt => _updatedAt;
@@ -61,7 +67,8 @@ SocialLinkModel copyWith({  int? id,
     map['id'] = _id;
     map['name'] = _name;
     map['image_url'] = _imageUrl;
-    map['url'] = _url;
+    map['value'] = _value;
+    map['type'] = _type;
     map['phone'] = _phone;
     map['created_at'] = _createdAt;
     map['updated_at'] = _updatedAt;

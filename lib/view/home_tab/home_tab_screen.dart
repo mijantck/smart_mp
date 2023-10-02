@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_mp/controllers/NewsController.dart';
@@ -20,13 +21,21 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../controllers/SliderController.dart';
 import '../../controllers/UserController.dart';
+import '../Citizen/CitizenScreen.dart';
+import '../Coordinator/CoordinatorScreen.dart';
+import '../ElectionCommittee/ElectionCommitteeScreen.dart';
 import '../MpEventScreens/MpEventListScreen.dart';
+import '../PollingAgent/PollingAgentScreen.dart';
+import '../VillageCommittee/VillageCommitteeScreen.dart';
+import '../Volunteers/VolunteerScreen.dart';
+import '../VoterList/VoterListScreen.dart';
 import '../bagmara_aboutScreen/BagmaraAboutScreen.dart';
 import '../e_sebah_screen/EshebaScreen.dart';
 import '../notifications_screen/NotificationScreen.dart';
 import '../party_all/party_all_screen.dart';
 import '../profile/profile_screen.dart';
 import '../qrcodeScreen/QRViewExample.dart';
+import '../social_links/HelpCenterLinkScreen.dart';
 import '../social_links/SocialLinkScreen.dart';
 
 
@@ -42,6 +51,12 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
   var utilsController = Get.put(UtilsController());
 
 
+
+  @override
+  void initState(){
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -256,9 +271,17 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                           },
                         ),
                         TextButton(
-                          child: Text("Delete"),
-                          onPressed: () {
+                          child: Text("Logout"),
+                          onPressed: () async{
                             // Close the dialog
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            prefs.setString(AppString.token, '');
+                            prefs.setString(AppString.role, '');
+                            prefs.setString(AppString.userLoginType, '');
+                            prefs.setString(AppString.loginEmail, '');
+                            prefs.setString(AppString.loginPassword, '');
+                            prefs.setString(AppString.loginMobile, '');
+
                             Navigator.pop(context);
                             // Exit the app
                             SystemNavigator.pop(); // This will close the app
@@ -355,7 +378,7 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                               }),
 
                               UnitItemCard(AppImages.ic_voter_list_eneration, AppString.bagmaraVoterTalika, () {
-                               // Get.to(LoginScreen());
+                                Get.to(VoterListScreen());
 
                               }),
 
@@ -371,14 +394,8 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                 if(token == null){
                                   Get.to(LoginScreen());
                                 }else{
-                                  var userController = Get.put(UserController());
-                                  userController.getUserToken().then((value) {
-                                    if(userController.userModel!.user != null){
-                                      Get.to(ProfileScreen(userController.userModel!.user!));
-                                    }
-                                  });
+                                 Get.to(CitizenScreen());
                                 }
-
                               }),
 
                               UnitItemCard(AppImages.ic_volunteer, AppString.Volunteer, ()async{
@@ -387,12 +404,7 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                 if(token == null){
                                   Get.to(LoginScreen());
                                 }else{
-                                  var userController = Get.put(UserController());
-                                  userController.getUserToken().then((value) {
-                                    if(userController.userModel!.user != null){
-                                      Get.to(ProfileScreen(userController.userModel!.user!));
-                                    }
-                                  });
+                                  Get.to(VolunteerScreen());
                                 }
                               }),
 
@@ -408,12 +420,9 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                 if(token == null){
                                   Get.to(LoginScreen());
                                 }else{
-                                  var userController = Get.put(UserController());
-                                  userController.getUserToken().then((value) {
-                                    if(userController.userModel!.user != null){
-                                      Get.to(ProfileScreen(userController.userModel!.user!));
-                                    }
-                                  });
+
+                                  Get.to(ElectionCommitteeScreen());
+
                                 }
 
                               }),
@@ -423,12 +432,7 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                 if(token == null){
                                   Get.to(LoginScreen());
                                 }else{
-                                  var userController = Get.put(UserController());
-                                  userController.getUserToken().then((value) {
-                                    if(userController.userModel!.user != null){
-                                      Get.to(ProfileScreen(userController.userModel!.user!));
-                                    }
-                                  });
+                                  Get.to(PollingAgentScreen());
                                 }
                               }),
 
@@ -444,21 +448,32 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                 if(token == null){
                                   Get.to(LoginScreen());
                                 }else{
-                                  var userController = Get.put(UserController());
-                                  userController.getUserToken().then((value) {
-                                    if(userController.userModel!.user != null){
-                                      Get.to(ProfileScreen(userController.userModel!.user!));
-                                    }
-                                  });
+                                 Get.to(VillageCommitteeScreen());
                                 }
                               }),
 
-                              UnitItemCard(AppImages.mp_event, AppString.MP_Event, () {
-                                Get.to(MpEventListScreen());
-                              }),
+                               UnitItemCard(AppImages.ic_coordinator, 'Coordinator'.tr, () async {
+                                 SharedPreferences prefs = await SharedPreferences.getInstance();
+                                 String? token =  prefs.getString('token');
+                                 if(token == null){
+                                   Get.to(LoginScreen());
+                                 }else{
+                                   if(token == AppString.admin){
+                                     Get.to(CoordinatorScreen());
+                                   }else{
+                                     Fluttertoast.showToast(
+                                       msg: 'You are not Coordinator',
+                                       toastLength: Toast.LENGTH_SHORT,
+                                       gravity: ToastGravity.BOTTOM,
+                                       timeInSecForIosWeb: 1,
+                                       backgroundColor: Colors.red,
+                                       textColor: Colors.white,
+                                       fontSize: 12.0,
+                                     );
+                                   }
 
-
-                              // UnitItemCard(AppImages.ic_mp_event, AppString.mp_event, () => null),
+                                 }
+                               }),
                             ],
                           ),
                           Row(
@@ -476,26 +491,33 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                           ),
                           Row(
                             children: [
-                              UnitItemCard(AppImages.home_logo, AppString.Smart_Bagmara, () {
-                                Get.to(BagmaraAboutScreen());
+                              // UnitItemCard(AppImages.home_logo, AppString.Smart_Bagmara, () {
+                              //   Get.to(BagmaraAboutScreen());
+                              // }),
+
+                              UnitItemCard(AppImages.mp_event, AppString.MP_Event, () {
+                                Get.to(MpEventListScreen());
                               }),
 
                               UnitItemCard(AppImages.ic_suporrt, AppString.help_center, (){
-                                _launchDialer('1111111111');
+                                Get.to(HelpCenterLinkScreen());
+
+                                //_launchDialer('1111111111');
                               }),
 
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              UnitItemCard(AppImages.ic_social_media, AppString.social_link, () {
+                                Get.to(SocialLinksScreens());
+
+                              }),
                               // UnitItemCard(AppImages.ic_mp_event, AppString.mp_event, () => null),
                             ],
                           ),
 
-                          Row(
-                            children: [
-                               UnitItemCard(AppImages.ic_social_media, AppString.social_link, () {
-                                 Get.to(SocialLinksScreens());
 
-                               }),
-                            ],
-                          ),
                           // News
                           SizedBox(height: 10,),
                           Row(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_mp/controllers/UnitsController.dart';
+import 'package:smart_mp/utils/AppString.dart';
 
 import '../../utils/AppColors.dart';
 import '../../utils/AppImages.dart';
@@ -17,14 +19,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
 
-    Future.delayed(Duration(seconds: 4), () {
+    Future.delayed(Duration(seconds: 4), () async {
 
       var utilsController =Get.put(UtilsController());
-      if(utilsController.openAppValue.value == true){
+      if(utilsController.openAppValue.value == true) {
         Get.off(HomePage());
       }
-
-
     });
 
     return SafeArea(

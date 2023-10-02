@@ -64,6 +64,7 @@ class AppImages{
   static const String ic_whatsapp  = 'assets/image/ic_whatsapp.png';
 
   static const String ic_qr_code  = 'assets/image/ic_qr_code.png';
+  static const String ic_coordinator  = 'assets/image/ic_coordinator.png';
 
 
 

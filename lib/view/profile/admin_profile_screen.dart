@@ -3,22 +3,23 @@ import 'package:get/get.dart';
 import 'package:smart_mp/utils/AppString.dart';
 
 import '../../controllers/UnitsController.dart';
+import '../../models/respons/AdminLoginModel.dart';
 import '../../models/respons/UserModel.dart';
 import '../../utils/AppColors.dart';
 import '../../utils/AppImages.dart';
 import '../home_page/home_page_screen.dart';
 import '../login_regi/UserProfileUpdateScreen.dart';
 
-class ProfileScreen extends StatefulWidget {
-  User user;
+class AdminProfileScreen extends StatefulWidget {
+  AdminModel user;
   bool isFromLogin;
-  ProfileScreen(this.user,{this.isFromLogin = false});
+  AdminProfileScreen(this.user,{this.isFromLogin = false});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<AdminProfileScreen> createState() => _AdminProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _AdminProfileScreenState extends State<AdminProfileScreen> {
 
   Future<bool> _onBackPressed() async {
    print('backkkkkkk');
@@ -63,18 +64,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               width:MediaQuery.of(context).size.width,
                               child: Center(child: Text('Profile        ',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18,color: AppColors.text_black),)),
                             )),
-                            InkWell(
-                              onTap: (){
-
-                                Get.to(UserProfileUpdateScreen(widget.user));
-                              },
-                              child: Container(
-                                height: 30,
-                                width: 30,
-                                child: Icon(Icons.edit),
-                                // child: Image.asset(AppImages.ic_back_button),
-                              ),
-                            ),
+                            // InkWell(
+                            //   onTap: (){
+                            //
+                            //    // Get.to(UserProfileUpdateScreen(widget.user));
+                            //   },
+                            //   child: Container(
+                            //     height: 30,
+                            //     width: 30,
+                            //     child: Icon(Icons.edit),
+                            //     // child: Image.asset(AppImages.ic_back_button),
+                            //   ),
+                            // ),
 
                           ],
                         ),
@@ -87,7 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 height: 200,
                                 width: double.infinity,
                                 child: Image.network(
-                                  '${AppString.IMAGE_URL}${widget.user.profileImage}',
+                                  '${AppString.IMAGE_URL}${widget.user.imageUrl}',
                                   errorBuilder: (context, error, stackTrace) {
                                     // Return a default image when the network image fails to load
                                     return Image.asset(AppImages.plaseholder_image); // Replace 'assets/default_image.png' with your default image asset path
@@ -105,7 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        widget.user.name!,
+                                        widget.user.userName!,
                                         style: TextStyle(
                                           fontSize: 24,
                                           fontWeight: FontWeight.bold,
@@ -115,17 +116,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
 
                                   SizedBox(height: 8),
-                                  _buildInfoText('Father/Husband', widget.user.fatherHusband == null? '': widget.user.fatherHusband!),
-                                  _buildInfoText('Mother', widget.user.mother == null? '':widget.user.mother!),
-                                  _buildInfoText('Date of Birth', widget.user.dateOfBirth == null? '':widget.user.dateOfBirth!),
-                                  _buildInfoText('Mobile Number', widget.user.mobileNumber == null? '':widget.user.mobileNumber!),
+                                  _buildInfoText('Mobile Number', widget.user.phone == null? '':widget.user.phone!),
                                   _buildInfoText('Email', widget.user.email == null? '':widget.user.email!),
-                                  _buildInfoText('NID', widget.user.nid == null? '':widget.user.nid!),
-                                  _buildInfoText('Address', widget.user.address == null? '':widget.user.address!),
-                                  _buildInfoText('Gender', widget.user.gender == null? '':widget.user.gender!),
-
-                                  widget.user.role == 'volunteer' ? _buildInfoText('Referred Cone', widget.user.refferCode!):Container(),
-
+                                  _buildInfoText('Rolue', widget.user.userRole == null? '':widget.user.userRole!),
                                 ],
                               ),
                             ],

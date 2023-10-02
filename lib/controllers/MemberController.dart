@@ -53,15 +53,6 @@ class MemberController extends GetxController{
       print(response.body);
       return ResponseModel(false, 'API call failed: ${response.statusCode}');
     }
-
-    try {
-
-
-    } catch (e) {
-      // Exception occurred
-      print('Error: $e');
-      return ResponseModel(false, 'Error :$e');
-    }
   }
 
 

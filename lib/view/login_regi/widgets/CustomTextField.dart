@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/AppColors.dart';
 import '../../../utils/AppString.dart';
@@ -42,8 +43,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
             height: 50,
             child: TextField(
               controller: widget.controller,
-              obscureText: widget.isPassword,
-              keyboardType: widget.isPassword? TextInputType.visiblePassword : TextInputType.text,
+              obscureText: widget.isPassword ? isPassword: widget.isPassword,
+              keyboardType: widget.isPassword? isPassword ? TextInputType.text : TextInputType.visiblePassword : TextInputType.text,
               textInputAction: TextInputAction.done,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.only(left: 5),
@@ -59,7 +60,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 ),
 
                 suffixIcon:isPasswordShow? IconButton(
-                  icon: Icon(isPassword ? Icons.visibility : Icons.visibility_off),
+                  icon: Icon(isPassword ? CupertinoIcons.eye : CupertinoIcons.eye_slash,color: CupertinoColors.activeBlue,),
                   onPressed: () {
                     setState(() {
                       isPassword = !isPassword;
