@@ -1,20 +1,17 @@
 
 import 'package:get/get.dart';
+import 'package:smart_mp/models/respons/UserModel.dart';
 import '../models/respons/MemberModel.dart';
 import '../models/respons/responseModel.dart';
 import '../utils/ApiClient.dart';
 import '../utils/AppString.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
-import 'dart:typed_data';
-import 'package:flutter/foundation.dart';
-import 'package:mime/mime.dart';
-import 'package:flutter/foundation.dart' as Foundation;
+
 
 class MemberController extends GetxController{
 
-  List<MemberModel>? memberModel;
+  List<User>? memberModel;
 
   @override
   void onInit() {
@@ -24,11 +21,14 @@ class MemberController extends GetxController{
 
 
 
-  Future<ResponseModel> getMembers(String role, int executiveCommitteeId, int committeesId) async {
+  Future<ResponseModel> getMembers(String role, int executiveCommitteeId,{int committeesId = 0,int designation_party_id = 0,int ward_no = 0, int union_id = 0}) async {
     Map<String, String> queryParams = {
       'role': role,
       'executive_committee_id':'$executiveCommitteeId',
-      'committee_id':'$committeesId'
+      'committee_id':'${committeesId == 0 ?'':committeesId}',
+      'designation_party_id':'${designation_party_id == 0 ?'':designation_party_id}',
+      'union_id':'${union_id == 0 ?'':union_id}',
+      'ward_no':'${ward_no == 0 ? '':ward_no}',
     };
     var apiClient = ApiClient();
     Uri uri = Uri.parse('${AppString.BASE_URL}/api/allUsers').replace(queryParameters: queryParams);
@@ -39,7 +39,7 @@ class MemberController extends GetxController{
       memberModel = [];
       List<dynamic> jsonData = json.decode(response.body);
       jsonData.forEach((element) {
-        MemberModel memberMode = MemberModel.fromJson(element);
+        User memberMode = User.fromJson(element);
         print('sdjhfs ${memberModel}');
         memberModel?.add(memberMode);
       });
@@ -59,10 +59,10 @@ class MemberController extends GetxController{
 
 
 
-  List<MemberModel> parseUsersFromJson(List<dynamic> jsonData) {
-    List<MemberModel> users = [];
+  List<User> parseUsersFromJson(List<dynamic> jsonData) {
+    List<User> users = [];
     jsonData.forEach((userJson) {
-      MemberModel user = MemberModel.fromJson(userJson);
+      User user = User.fromJson(userJson);
       users.add(user);
     });
     return users;

@@ -4,10 +4,6 @@
 
 import 'package:get/get.dart';
 import 'package:smart_mp/models/respons/VoterListModel.dart';
-import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'package:smart_mp/models/respons/ESebahModel.dart';
-import 'package:smart_mp/models/respons/MpEventModel.dart';
 import 'dart:convert';
 import '../utils/ApiClient.dart';
 import '../utils/AppString.dart';

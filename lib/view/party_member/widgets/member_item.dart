@@ -4,10 +4,11 @@ import 'package:smart_mp/utils/AppString.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../models/respons/MemberModel.dart';
+import '../../../models/respons/UserModel.dart';
 import '../../../utils/AppImages.dart';
 
 class MemberItem extends StatelessWidget {
-  MemberModel memberModel;
+  User memberModel;
   MemberItem(this.memberModel);
 
   @override

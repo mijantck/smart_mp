@@ -11,6 +11,7 @@ import '../../utils/AppColors.dart';
 import '../../utils/AppImages.dart';
 import '../../utils/AppString.dart';
 import '../profile/profile_screen.dart';
+import '../profile/profile_screen_qr_code.dart';
 
 class QRViewExample extends StatefulWidget {
   const QRViewExample({super.key});
@@ -55,16 +56,16 @@ class _QRViewExampleState extends State<QRViewExample> {
               padding: EdgeInsets.all(5),
               child: Row(
                 children: [
-                  InkWell(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: Container(
-                      height: 30,
-                      width: 30,
-                      child: Image.asset(AppImages.ic_back_button),
-                    ),
-                  ),
+                  // InkWell(
+                  //   onTap: () {
+                  //     Get.back();
+                  //   },
+                  //   child: Container(
+                  //     height: 30,
+                  //     width: 30,
+                  //     child: Image.asset(AppImages.ic_back_button),
+                  //   ),
+                  // ),
                   Expanded(
                     child: Container(
                       width: MediaQuery.of(context).size.width,
@@ -181,7 +182,7 @@ class _QRViewExampleState extends State<QRViewExample> {
           utilsController.fetchUserInfo('${result!.code}').then((value) {
             if(value.isSuccess){
 
-              Get.to(ProfileScreen(utilsController.userModel!.user!));
+              Get.to(ProfileScreenQrCode(utilsController.userModel!.user!));
 
             }
           });

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:smart_mp/utils/AppColors.dart';
 import 'package:smart_mp/utils/AppString.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../models/respons/MemberModel.dart';
 import '../../../utils/AppImages.dart';
+import '../../models/respons/UserModel.dart';
 
 class UsersItem extends StatelessWidget {
-  MemberModel memberModel;
+  User memberModel;
   UsersItem(this.memberModel);
 
   @override
@@ -37,75 +39,59 @@ class UsersItem extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Text('Name: ',style: TextStyle(fontWeight: FontWeight.bold),),
+                          Text('Name'.tr,style: TextStyle(fontWeight: FontWeight.bold),),
                           SizedBox(width: 5,),
-                          Text('${memberModel.name}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
+                          Text(': ${memberModel.name}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
                         ],
                       ),
                       Row(
                         children: [
-                          Text('Designation: ',style: TextStyle(fontWeight: FontWeight.bold),),
+                          Text('Designation'.tr,style: TextStyle(fontWeight: FontWeight.bold),),
                           SizedBox(width: 5,),
-                          Text('${memberModel.designationParty != null ? memberModel.designationParty!.name : ''}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
+                          Text(': ${memberModel.designationParty != null ? memberModel.designationParty!.name : memberModel.others == null? '': memberModel.others}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
                         ],
                       ),
                       Row(
                         children: [
-                          Text('Mobile: ',style: TextStyle(fontWeight: FontWeight.bold),),
+                          Text('mobile'.tr,style: TextStyle(fontWeight: FontWeight.bold),),
                           SizedBox(width: 5,),
-                          Text('${memberModel.mobileNumber}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
+                          Text(': ${memberModel.mobileNumber}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
                         ],
                       ),
                       Row(
                         children: [
-                          Text('Union: ',style: TextStyle(fontWeight: FontWeight.bold),),
+                          Text('Union_all'.tr,style: TextStyle(fontWeight: FontWeight.bold),),
                           SizedBox(width: 5,),
-                          Text('${memberModel.union!.name}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
+                          Text(': ${memberModel.union!.name}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
                         ],
                       ),
                       Row(
                         children: [
-                          Text('Ward No: ',style: TextStyle(fontWeight: FontWeight.bold),),
+                          Text('Ward_all'.tr,style: TextStyle(fontWeight: FontWeight.bold),),
                           SizedBox(width: 5,),
-                          Text('${memberModel.wardNo}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
+                          Text(': ${memberModel.wardNo}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
                         ],
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('NID : ',style: TextStyle(fontWeight: FontWeight.bold),),
-                          SizedBox(width: 5,),
-                          Text('${memberModel.nid}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
+                          Text('Voting_Center_Name'.tr, style: TextStyle(fontWeight: FontWeight.bold)),
+                          Expanded(
+                            child: Container(
+
+                              child: Text(
+                                ': ${memberModel.voterKendro == null ?'' :memberModel.voterKendro!.name}',
+                                style: TextStyle(color: AppColors.text_black, fontSize: 16, fontWeight: FontWeight.w400),
+
+                              ),
+                            ),
+                          ),
                         ],
-                      ),
+                      )
                     ],
                   ),
                 ),
-
-                Column(
-                  children: [
-                    Container(
-                      height: 60,
-                      width: 60,
-                      child: ClipOval(
-                        child: Image.network(
-                          '${AppString.IMAGE_URL}${memberModel.profileImage}',
-                          width: 80,
-                          height: 80,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Image.asset(
-                              AppImages.plaseholder_image, // Replace with the path to your placeholder image
-                              width: 80,
-                              height: 80,
-                              fit: BoxFit.cover,
-                            );
-                          },
-                        ),
-                      ),
-                    )
-                  ],
-                )
-
 
               ],
             )
@@ -245,8 +231,35 @@ class UsersItem extends StatelessWidget {
                   ),
                 )
             ],
-          ))
+          )),
 
+          Positioned(
+              top: 0,
+              right: 0,
+              child: Column(
+            children: [
+              Container(
+                height: 60,
+                width: 60,
+                child: ClipOval(
+                  child: Image.network(
+                    '${AppString.IMAGE_URL}${memberModel.profileImage}',
+                    width: 80,
+                    height: 80,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.asset(
+                        AppImages.plaseholder_image, // Replace with the path to your placeholder image
+                        width: 80,
+                        height: 80,
+                        fit: BoxFit.cover,
+                      );
+                    },
+                  ),
+                ),
+              )
+            ],
+          ))
         ],
       ),
     );

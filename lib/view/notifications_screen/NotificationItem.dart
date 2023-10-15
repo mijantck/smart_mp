@@ -19,32 +19,40 @@ class NotificationItem extends StatelessWidget {
       child: Card(
         child: Container(
           height: 60,
+          width: MediaQuery.of(context).size.width,
           margin: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-
-
           child: Row(
             children: [
-              Container(
-                width: 60,
-                height: 60,
-                child: notification.imageUrl == null? Container(
-                    child: Image.asset(AppImages.home_logo)
-                ): Image.network(notification.imageUrl!), // Use notification's image URL
+              Expanded(
+                flex: 3,
+                child: Container(
+                  width: 60,
+                  height: 60,
+
+                  child: notification.imageUrl == null? Container(
+                      width: 60,
+                      height: 60,
+                      child: Image.asset(AppImages.home_logo)
+                  ): Image.network(notification.imageUrl!), // Use notification's image URL
+                ),
               ),
-              SizedBox(width: 10,),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    notification.title!,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+
+              Expanded(
+                flex: 8,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      notification.title!,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 5,),
-                  Text(notification.message!)
-                ],
+                    SizedBox(height: 5,),
+                    Text(notification.message!,maxLines: 1,)
+                  ],
+                ),
               )
 
             ],

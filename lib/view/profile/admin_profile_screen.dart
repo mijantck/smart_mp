@@ -21,13 +21,18 @@ class AdminProfileScreen extends StatefulWidget {
 
 class _AdminProfileScreenState extends State<AdminProfileScreen> {
 
+  var utilsController = Get.put(UtilsController());
+
+
   Future<bool> _onBackPressed() async {
    print('backkkkkkk');
-   if(widget.isFromLogin){
-     Get.offAll(HomePage());
-   }else{
-     Get.offAll(HomePage());
-   }
+   utilsController.tabPossition = 0;
+
+   // if(widget.isFromLogin){
+   //   Get.offAll(HomePage());
+   // }else{
+   //   Get.offAll(HomePage());
+   // }
     return true;
   }
 
@@ -48,17 +53,17 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
                       children: [
                         Row(
                           children: [
-                            InkWell(
-                              onTap: (){
-                                _onBackPressed();
-                               // Get.offAll(HomePage());
-                              },
-                              child: Container(
-                                height: 30,
-                                width: 30,
-                                child: Image.asset(AppImages.ic_back_button),
-                              ),
-                            ),
+                            // InkWell(
+                            //   onTap: (){
+                            //     _onBackPressed();
+                            //    // Get.offAll(HomePage());
+                            //   },
+                            //   child: Container(
+                            //     height: 30,
+                            //     width: 30,
+                            //     child: Image.asset(AppImages.ic_back_button),
+                            //   ),
+                            // ),
 
                             Expanded(child: Container(
                               width:MediaQuery.of(context).size.width,

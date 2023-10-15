@@ -10,11 +10,23 @@ import '../../utils/AppString.dart';
 import '../home_tab/widgets/item_card.dart';
 
 class PartyMembersScreen extends StatefulWidget {
+  String executiveCommitteeName;
   String selectePartyName;
   int executiveCommitteeId;
   int committeesId;
+  int designationPartyId;
+  int union_id;
+  int ward_no;
 
-  PartyMembersScreen(this.selectePartyName,this.executiveCommitteeId, this.committeesId);
+  PartyMembersScreen(
+      this.executiveCommitteeName,
+      this.selectePartyName,
+      this.executiveCommitteeId,
+      {this.committeesId = 0,
+        this.designationPartyId = 0,
+        this.union_id = 0,
+        this.ward_no = 0
+      });
 
   @override
   State<PartyMembersScreen> createState() => _PartyMembersScreenState();
@@ -26,9 +38,15 @@ class _PartyMembersScreenState extends State<PartyMembersScreen> {
 
   @override
   void initState() {
-
-    memberController.getMembers('party',widget.executiveCommitteeId,widget.committeesId);
-
+    memberController.memberModel = [];
+    memberController.getMembers(
+        'party',
+        widget.executiveCommitteeId,
+        committeesId: widget.committeesId,
+        designation_party_id: widget.designationPartyId,
+        union_id: widget.union_id,
+        ward_no: widget.ward_no
+    );
     super.initState();
 
   }
@@ -36,8 +54,6 @@ class _PartyMembersScreenState extends State<PartyMembersScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-
 
     return SafeArea(
         child: Scaffold(
@@ -59,12 +75,34 @@ class _PartyMembersScreenState extends State<PartyMembersScreen> {
                     ),
                     Expanded(child: Container(
                       width:MediaQuery.of(context).size.width,
-                      child: Center(child: Text(widget.selectePartyName,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18,color: AppColors.text_black),)),
+                      child: Center(child: Text('${widget.executiveCommitteeName} -> ${widget.selectePartyName}',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18,color: AppColors.text_black),)),
                     ))
                   ],
                 ),
 
                 SizedBox(height: 10,),
+
+                GetBuilder<MemberController>(
+                    builder: (memberController) {
+                      return Row(
+                        children: [
+                          Text(
+                            widget.selectePartyName,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: AppColors.text_black,
+                            ),
+                          ),
+                          Text(': ${memberController.memberModel == null ? 0: memberController.memberModel!.length}',style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: AppColors.text_black,
+                          ),)
+                        ],
+                      );
+                    }),
+                SizedBox(height: 10),
                 Flexible(child: GetBuilder<MemberController>(
                         builder: (controller) {
                           if (controller.memberModel == null) {

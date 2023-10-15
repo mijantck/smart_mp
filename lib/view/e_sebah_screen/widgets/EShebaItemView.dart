@@ -83,7 +83,7 @@ class EShebaItemView extends StatelessWidget {
                     SizedBox(height: 5),
                     Container(
                       child: Text(
-                        eSheba.url!,
+                        eSheba.url == null? "": eSheba.url!,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(),
                       ),

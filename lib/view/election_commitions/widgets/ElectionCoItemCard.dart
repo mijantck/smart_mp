@@ -3,13 +3,13 @@ import 'package:smart_mp/utils/AppColors.dart';
 import 'package:smart_mp/utils/AppImages.dart';
 import 'package:smart_mp/utils/AppString.dart';
 
-class ItemCard extends StatelessWidget {
+class ElectionCoItemCard extends StatelessWidget {
   String imageUrl;
   String title;
   double fontSize;
   Function() onTab;
 
-  ItemCard(this.imageUrl, this.title, this.onTab,{this.fontSize= 12});
+  ElectionCoItemCard(this.imageUrl, this.title, this.onTab,{this.fontSize= 12});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class ItemCard extends StatelessWidget {
               Container(
                 height: 60,
                 width: 60,
-                child: Image.network('${AppString.IMAGE_URL}$imageUrl',fit: BoxFit.cover,),
+                child: Image.asset('$imageUrl',fit: BoxFit.cover,),
                 //child: Image.asset(imageUrl,fit: BoxFit.cover,),
               ),
               SizedBox(height: 8,),

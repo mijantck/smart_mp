@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:smart_mp/models/respons/VoterListModel.dart';
 import 'package:smart_mp/utils/AppColors.dart';
 import 'package:smart_mp/utils/AppString.dart';
@@ -14,7 +15,7 @@ class VoterItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 150,
+      height: 220,
       margin: EdgeInsets.only(bottom: 10),
       padding: EdgeInsets.all(10),
       width: MediaQuery.of(context).size.width,
@@ -40,7 +41,7 @@ class VoterItem extends StatelessWidget {
                           children: [
                             Container(
                               height: 20,
-                              child: Text('Name: ',style: TextStyle(fontWeight: FontWeight.bold),),
+                              child: Text('${AppString.Name}: ',style: TextStyle(fontWeight: FontWeight.bold),),
                             ),
                             SizedBox(width: 5,),
                             Text('${voterListModelData.name}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
@@ -51,10 +52,10 @@ class VoterItem extends StatelessWidget {
                           children: [
                             Container(
                               height: 20,
-                              child: Text('NID: ',style: TextStyle(fontWeight: FontWeight.bold)),
+                              child: Text('Voting_no'.tr,style: TextStyle(fontWeight: FontWeight.bold),),
                             ),
                             SizedBox(width: 5,),
-                            Text('${voterListModelData.nid}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
+                            Text('',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
                           ],
                         ),
                         SizedBox(height: 3,),
@@ -62,45 +63,70 @@ class VoterItem extends StatelessWidget {
                           children: [
                             Container(
                               height: 20,
-                              child: Text('Mobile: ',style: TextStyle(fontWeight: FontWeight.bold)),
+                              child: Text('${AppString.Father_name}: ',style: TextStyle(fontWeight: FontWeight.bold)),
+                            ),
+                            SizedBox(width: 5,),
+                            Text('${voterListModelData.fatherHusband}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
+                          ],
+                        ),
+                        SizedBox(height: 3,),
+                        Row(
+                          children: [
+                            Container(
+                              height: 20,
+                              child: Text('${AppString.Mother_name}: ',style: TextStyle(fontWeight: FontWeight.bold)),
+                            ),
+                            SizedBox(width: 5,),
+                            Text('${voterListModelData.mother}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
+                          ],
+                        ),
+                        SizedBox(height: 3,),
+                        Row(
+                          children: [
+                            Container(
+                              height: 20,
+                              child: Text('${AppString.Designation}: ',style: TextStyle(fontWeight: FontWeight.bold)),
+                            ),
+                            SizedBox(width: 5,),
+                            Text('${voterListModelData.designationCitizen == null ? '' :voterListModelData.designationCitizen!.name}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
+                          ],
+                        ),
+                        SizedBox(height: 3,),
+                        Row(
+                          children: [
+                            Container(
+                              height: 20,
+                              child: Text('${AppString.date_of_Birth}: ',style: TextStyle(fontWeight: FontWeight.bold)),
+                            ),
+                            SizedBox(width: 5,),
+                            Text('${voterListModelData.dateOfBirth}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
+                          ],
+                        ),
+                        SizedBox(height: 3,),
+                        Row(
+                          children: [
+                            Container(
+                              height: 20,
+                              child: Text('${AppString.address}: ',style: TextStyle(fontWeight: FontWeight.bold)),
+                            ),
+                            SizedBox(width: 5,),
+                            Text('${voterListModelData.address}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
+                          ],
+                        ),
+                        SizedBox(height: 3,),
+                        Row(
+                          children: [
+                            Container(
+                              height: 20,
+                              child: Text('${AppString.mobile}: ',style: TextStyle(fontWeight: FontWeight.bold)),
                             ),
                             SizedBox(width: 5,),
                             Text('${voterListModelData.mobileNumber}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
                           ],
                         ),
-                        SizedBox(height: 3,),
-                        Row(
-                          children: [
-                            Container(
-                              height: 20,
-                              child: Text('Voter Kendo Name: ',style: TextStyle(fontWeight: FontWeight.bold)),
-                            ),
-                            SizedBox(width: 5,),
-                            Text('${voterListModelData.voterKendoName}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
-                          ],
-                        ),
-                        SizedBox(height: 3,),
-                        Row(
-                          children: [
-                            Container(
-                              height: 20,
-                              child: Text('Voter Kendo Number: ',style: TextStyle(fontWeight: FontWeight.bold)),
-                            ),
-                            SizedBox(width: 5,),
-                            Text('${voterListModelData.voterKendoNumber}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
-                          ],
-                        ),
-                        SizedBox(height: 3,),
-                        Row(
-                          children: [
-                            Container(
-                              height: 20,
-                              child: Text('Union Name: ',style: TextStyle(fontWeight: FontWeight.bold)),
-                            ),
-                            SizedBox(width: 5,),
-                            Text('${voterListModelData.union!.name}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
-                          ],
-                        ),
+
+
+
                       ],
                     ),
                   ),

@@ -39,7 +39,7 @@ class MpEventItem extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.location_on, color: AppColors.gray_text),
+                  Icon(Icons.location_on, color: Colors.blue),
                   SizedBox(width: 5),
                   Text(
                     '${mpEventModel.address}',
@@ -49,7 +49,7 @@ class MpEventItem extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 10),
-                  Icon(Icons.calendar_today, color: AppColors.gray_text,),
+                  Icon(Icons.calendar_today, color: Colors.blue,),
                   SizedBox(width: 5),
                   Text(
                     '${mpEventModel.dateStart}',

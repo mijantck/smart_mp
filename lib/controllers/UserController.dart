@@ -94,6 +94,45 @@ class UserController extends GetxController {
     }
   }
 
+  Future<ResponseModel> updateProfileImageMultipartData(List<MultipartBody> multipartBody,num id) async {
+    try {
+      var apiClient = ApiClient();
+      var request = http.MultipartRequest('POST', Uri.parse('${AppString.BASE_URL}/api/users/$id/profile-image'));
+      for (MultipartBody multipart in multipartBody) {
+        if (multipart.file != null) {
+          File imageFile = File(multipart.file.path);
+          Uint8List _list = await compressImage(imageFile); // Compress the image
+          request.files.add(http.MultipartFile.fromBytes(
+            multipart.key,
+            _list,
+            filename: multipart.fileName,
+            contentType: MediaType('image', 'jpeg'),
+          ));
+        }
+      }
+      var streamedResponse = await apiClient.send(request);
+      var response = await http.Response.fromStream(streamedResponse);
+
+      print('ssgsgs ${response.body}');
+      if (response.statusCode == 200) {
+        print('11111');
+        var jsonData = json.decode(response.body);
+        update();
+        return ResponseModel(true, 'API call successful.');
+      }else if (response.statusCode == 202) {
+
+        update();
+        return ResponseModel(false, 'API call successful.');
+      } else {
+        print('2222');
+        return ResponseModel(false, 'API call failed: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('333');
+      return ResponseModel(false, 'Error :$e');
+    }
+  }
+
 
   Future<ResponseModel> loginUser(String mobileNumber, String password) async {
     Map<String, dynamic> requestData = {
@@ -136,6 +175,43 @@ class UserController extends GetxController {
         } else if (errorResponse.errors.containsKey('password')) {
           errorMessage = errorResponse.errors['password'][0];
         }
+
+        return ResponseModel(false, errorMessage);
+      } catch (e) {
+        // If parsing the error response fails, return a generic error message
+        return ResponseModel(false, 'API call failed: ${response.statusCode}');
+      }
+    }
+  }
+
+
+
+  Future<ResponseModel> updateUser(Map<String, String> body,String userId) async {
+
+    String requestBodyJson = json.encode(body);
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+    var response = await http.post(
+      Uri.parse('${AppString.BASE_URL}/api/users/$userId'),
+      headers: headers,
+      body: requestBodyJson,
+    );
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> responseData = json.decode(response.body);
+      var token = responseData['token'];
+      userModel = UserModel.fromJson(responseData);
+      print('dshkfjsdh ${responseData}');
+
+      return ResponseModel(true, 'API call successful.');
+    } else {
+      print('Error message: ${response.body}');
+      try {
+        Map<String, dynamic> errorResponseData = json.decode(response.body);
+        ErrorResponse errorResponse = ErrorResponse.fromJson(errorResponseData);
+        String errorMessage = errorResponse.message;
 
         return ResponseModel(false, errorMessage);
       } catch (e) {
@@ -323,61 +399,93 @@ class UserController extends GetxController {
 
 
   int currentPage = 1;
+  int totalUsers = 0;
   int totalPages = 1; // Initialize to 1 initially
-
+  String next_page_url = '';
   var userListModelData = [];
-
+  bool isSearchFunction = false;
   Future<void> fetchVoterList(int page,String user_type) async {
+    isSearchFunction = false;
+
+    String urlMain = '${AppString.BASE_URL}/api/users-lists?user_type=$user_type&page=$page';
+    if(page != 1){
+      urlMain = next_page_url;
+    }
+
     var apiClient = ApiClient();
-    var response = await apiClient.get(Uri.parse('${AppString.BASE_URL}/api/users-lists?user_type=$user_type&page=$page'));
+    var response = await apiClient.get(Uri.parse(urlMain));
+    if (response.statusCode == 200) {
+      if(page == 1){
+        userListModelData = [];
+      }
+
+      print('hgjkd   ${response.body} ');
+
+      Map<String, dynamic> responseData = json.decode(response.body);
+      var userListModel = responseData['userList']['data'];
+
+      var userListModelDataFull = userListModel.map((item) => User.fromJson(item)).toList();
+      userListModelData.addAll(userListModelDataFull);
+
+      totalUsers = responseData['userList']['total'];
+      currentPage = responseData['userList']['current_page'];
+      totalPages = responseData['userList']['last_page'];
+      next_page_url = responseData['userList']['next_page_url']??'';
+
+      print('jhsdkf $totalUsers $currentPage   $totalPages');
+      update();
+    }
+  }
+  Future<void> fetchSearchingList(int page, String queryString,String user_type) async {
+
+    isSearchFunction = true;
+    var urlMain = '${AppString.BASE_URL}/api/users-lists/search?user_type=$user_type$queryString&page=$page';
+    if(page != 1){
+      urlMain = next_page_url;
+      print('dhsjf ${urlMain}');
+    }
+
+
+    var apiClient = ApiClient();
+    var response = await apiClient.get(Uri.parse(urlMain));
+
+    print('oiweroewp ${response.body}');
 
     if (response.statusCode == 200) {
-      if(page ==1){
+      if(page == 1){
         userListModelData = [];
       }
 
       Map<String, dynamic> responseData = json.decode(response.body);
       var userListModel = responseData['userList']['data'];
 
-      var userListModelDataFull = userListModel.map((item) => MemberModel.fromJson(item)).toList();
+      var userListModelDataFull = userListModel.map((item) => User.fromJson(item)).toList();
       userListModelData.addAll(userListModelDataFull);
 
+     // totalUsers = responseData['totalUsers'];
+      totalUsers = responseData['userList']['total'];
       currentPage = responseData['userList']['current_page'];
       totalPages = responseData['userList']['last_page'];
-      print('jhsdkf $currentPage   $totalPages');
-      update();
-    }
-  }
-  Future<void> fetchSearchingList(String nid,String user_type) async {
-
-    var url = '${AppString.BASE_URL}/api/users-lists/search?user_type=$user_type&nid=$nid';
-
-    var apiClient = ApiClient();
-    var response = await apiClient.get(Uri.parse(url));
-
-    print('sdfsdhj ${response.body}');
-
-    if (response.statusCode == 200) {
-      userListModelData = [];
-
-      Map<String, dynamic> responseData = json.decode(response.body);
-      var userListModel = responseData['userList']['data'];
-
-      var userListModelDataFull = userListModel.map((item) => MemberModel.fromJson(item)).toList();
-      userListModelData.addAll(userListModelDataFull);
-
-      currentPage = responseData['userList']['current_page'];
-      totalPages = responseData['userList']['last_page'];
-
+      next_page_url = responseData['userList']['next_page_url']??'';
+      print('dfsdfsd $totalUsers $currentPage   $totalPages $next_page_url');
       update();
     }
   }
   // Add a method to load the next page
   Future<void> loadNextPage(String user_type) async {
-    if (currentPage < totalPages) {
-      currentPage++;
-      await fetchVoterList(currentPage,user_type);
+
+    if(isSearchFunction){
+      if (currentPage < totalPages) {
+        currentPage++;
+        await fetchSearchingList(currentPage,'',user_type);
+      }
+    }else{
+      if (currentPage < totalPages) {
+        currentPage++;
+        await fetchVoterList(currentPage,user_type);
+      }
     }
+
   }
 
 

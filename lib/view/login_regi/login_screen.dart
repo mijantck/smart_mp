@@ -7,6 +7,7 @@ import 'package:smart_mp/view/login_regi/widgets/CustomTextField.dart';
 import 'package:smart_mp/view/login_regi/widgets/drop_dwon.dart';
 import 'package:smart_mp/view/profile/profile_screen.dart';
 
+import '../../controllers/UnitsController.dart';
 import '../../controllers/UserController.dart';
 import '../../utils/AppColors.dart';
 import '../../utils/AppImages.dart';
@@ -28,6 +29,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController mobileController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  var utilsController = Get.put(UtilsController());
 
   bool rememberMe = false;
 
@@ -201,10 +204,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               isLoading = false;
                             });
                             if (value.isSuccess) {
-                              var userController = Get.put(UserController());
-                              Get.to(ProfileScreen(
-                                  userController.userModel!.user!,
-                                  isFromLogin: true));
+                              utilsController.changePossition(0);
+                              utilsController.loginDone(true);
+                              utilsController.updateToken();
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -224,9 +226,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             });
 
                             if (value.isSuccess) {
+                              utilsController.changePossition(0);
+                              utilsController.loginDone(true);
+
                               var userController = Get.put(UserController());
                               print('admin llll');
-                              Get.to(AdminProfileScreen(userController.adminLoginModel!.user!, isFromLogin: true));
+                             // Get.off(HomePage());
+                              //Get.to(AdminProfileScreen(userController.adminLoginModel!.user!, isFromLogin: true));
 
                             } else {
                               Fluttertoast.showToast(

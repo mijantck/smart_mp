@@ -4,13 +4,13 @@ import 'package:get/get.dart';
 class AppString{
 
   //API End Points
-  static String BASE_URL = 'http://192.168.0.117:8000';
-  static String IMAGE_URL =BASE_URL+'/storage/';
+  // static String BASE_URL = 'http://192.168.0.103:8000';
+  // static String IMAGE_URL =BASE_URL+'/storage/';
 
 
 
-   // static String BASE_URL = 'https://appenamulhaquemp.com/public';
-   // static String IMAGE_URL =BASE_URL+'/storage/';
+   static String BASE_URL = 'https://appenamulhaquemp.com/public';
+   static String IMAGE_URL =BASE_URL+'/storage/';
 
 
 
@@ -131,9 +131,9 @@ class AppString{
 
   static String No_file_chosen = 'No_file_chosen'.tr;
   static String seltectItem = 'নির্বাচন করুন'/*'seltectItem'.tr*/;
-  static String Male = 'Male'.tr;
-  static String FeMale = 'FeMale'.tr;
-  static String Others = 'Others'.tr;
+  static String Male = 'Male';
+  static String FeMale = 'Female';
+  static String Others = 'Others';
   static String membershipCardNo = 'membershipCardNo'.tr;
   static String bagmaraVoterTalika = 'bagmaraVoterTalika'.tr;
 
@@ -141,6 +141,7 @@ class AppString{
 
   static String verify = 'verify'.tr;
   static String Change_Password = 'Change_Password'.tr;
+  static String Voting_Center_Committee = 'Voting_Center_Committee'.tr;
 
   static String userLoginType = 'userLoginType';
   static String admin = 'admin';

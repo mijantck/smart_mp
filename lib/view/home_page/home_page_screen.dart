@@ -29,10 +29,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0;
-
   late PersistentTabController _controller;
-
+  var utilsController = Get.put(UtilsController());
 
   // Define your initial pages here
   final List<Widget> _initialPages =  [
@@ -48,6 +46,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _controller = PersistentTabController(initialIndex: 0);
+
     _getFCMToken();
     _setupPages();
   }
@@ -187,7 +186,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        title: "QR Code".tr,
+        title: "QR Scan".tr,
         activeColorPrimary: CupertinoColors.activeBlue,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
@@ -207,10 +206,20 @@ class _HomePageState extends State<HomePage> {
       child: GetBuilder<UtilsController>(
         builder: (controller) {
 
+          if(controller.loginBol){
+            _setupPages();
+            controller.loginDone(false);
+          }
+
+
+          _controller.addListener(() {
+            print('shfgsdjh ${_controller.index}');
+            controller.changePossition(_controller.index);
+          });
+          _controller.index = controller.tabPossition;
           if (_pages.length == 0) {
             // Show a loading indicator while data is being fetched
             return Container(
-
               child: Scaffold(
                 body: Stack(
                   children: [

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_mp/models/respons/ESebahModel.dart';
 import 'package:smart_mp/models/respons/MpEventModel.dart';
+import 'package:smart_mp/models/respons/SettingsModel.dart';
 import 'dart:convert';
 
 import 'package:smart_mp/utils/AppString.dart';
@@ -65,7 +67,7 @@ class UtilsController extends GetxController {
   var mBagmaraAboutModel = <BagmaraAboutModel>[].obs;
 
 
-  var tabPossition = 1;
+  var tabPossition = 0;
 
 
 
@@ -81,6 +83,7 @@ class UtilsController extends GetxController {
     fetchUnion();
     fetchUnit();
     fetchUpazila();
+    fetchVoterKendros();
   }
 
 
@@ -91,6 +94,24 @@ class UtilsController extends GetxController {
 
   updateShowQrCode(bool showQrCode){
     this.showQrCode.value = showQrCode;
+    update();
+  }
+
+  bool loginBol = false;
+  loginDone(bool loginBol){
+    this.loginBol = loginBol;
+    update();
+  }
+
+  String? tokens;
+  updateToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('token') == ''){
+      this.tokens = null;
+    }else{
+      this.tokens = prefs.getString('token');
+    }
+    print('sjhfjs ${this.tokens}');
     update();
   }
 
@@ -114,6 +135,35 @@ class UtilsController extends GetxController {
       print('Error fetching committees: $e');
     }
   }
+
+
+  var voterKendros = <VoterKendro>[].obs;
+  var voterKendrosString = <String>[].obs;
+  RxString voterKendrosSelecte = AppString.seltectItem.obs;
+
+
+  Future<void> fetchVoterKendros() async {
+    try {
+      var apiClient = ApiClient();
+      var response = await apiClient.get(Uri.parse('${AppString.BASE_URL}/api/get-voter-kendos'));
+
+      if (response.statusCode == 200) {
+        var jsonData = json.decode(response.body) as List<dynamic>;
+        var voterKendrosList = jsonData.map((item) => VoterKendro.fromJson(item)).toList();
+        voterKendros.value = voterKendrosList;
+        voterKendrosString.add(AppString.seltectItem);
+        voterKendrosList.forEach((element) {
+          voterKendrosString.add(element.name!);
+        });
+        print('sdhfsd ${voterKendrosString.length}');
+        update();
+      }
+    } catch (e) {
+      print('Error fetching committees: $e');
+    }
+  }
+
+
 
   Future<void> fetchCommittees() async {
     try {
@@ -289,6 +339,7 @@ class UtilsController extends GetxController {
       print('sdfsdsdds 333 ${response.statusCode}');
       if (response.statusCode == 200) {
         print('sdfsdsdds 1111');
+        print('sfgf${response.body}');
         var jsonData = json.decode(response.body) as List<dynamic>;
         var socialLinkModelList = jsonData.map((item) => SocialLinkModel.fromJson(item)).toList();
         socialLinkModel.value = socialLinkModelList;
@@ -429,6 +480,30 @@ class UtilsController extends GetxController {
     }
   }
 
+  SettingsModel? settingsModel;
+
+  Future<String> fetchSettings() async {
+
+      var apiClient = ApiClient();
+      var response = await apiClient.get(Uri.parse('${AppString.BASE_URL}/api/getSettings'));
+      print('skgfsdjh 77 ${response.body}');
+      if (response.statusCode == 200) {
+        print('skgfsdjh 77 ${response.statusCode}');
+
+        var jsonData = json.decode(response.body) as List<dynamic>;
+        print('fjhsjd ${jsonData}');
+         settingsModel = SettingsModel.fromJson(jsonData[0]);
+        update();
+         return settingsModel!.appVersion!;
+
+      }else{
+        return '';
+      }
+
+
+
+  }
+
   void postToken(String deviceToken, String deviceName) async {
     try {
       final apiUrl = '${AppString.BASE_URL}/api/store_token'; // Replace with your API endpoint
@@ -463,7 +538,7 @@ class UtilsController extends GetxController {
   UserModel? userModel;
 
   Future<ResponseModel> fetchUserInfo(String reffer_code) async {
-    try {
+
       var apiClient = ApiClient();
       var response = await apiClient.get(Uri.parse('${AppString.BASE_URL}/api/user-info/$reffer_code'));
       print('skgfsdjh 77 ${response.body}');
@@ -478,10 +553,7 @@ class UtilsController extends GetxController {
         print('Error message: ${response.body}');
         return ResponseModel(false, 'API call failed: ${response.statusCode}');
       }
-    } catch (e) {
-      print('Error fetching sliders: $e');
-      return ResponseModel(false, 'API call failed: $e');
-    }
+
   }
 
 }

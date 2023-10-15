@@ -41,6 +41,7 @@ class LocaleString extends Translations {
       'news_demo_title': 'Why is there unrest against Modi despite the reduced rate?',
       'Bagmara_Awami_League': 'Bagmara Awami League',
       'Search_here': 'Search here',
+      'Search': 'Search',
       'call': 'Call',
       'Message': 'Message',
       'Whats_app': 'WhatsApp',
@@ -103,6 +104,10 @@ class LocaleString extends Translations {
       'verify': 'Verify',
       'Change_Password': 'Change Password',
       'Coordinator': 'Coordinator',
+      'Voting_Center_Committee' : 'Voting Center Committee',
+      'Voting_Center_Name' : 'Voting Center Name',
+      'Voting_area' : 'Voting Area',
+      'Voting_no' : 'Voting No: '
     },
     'bn_BD': {
       'APP_NAME': 'স্মার্ট বাগমারা',
@@ -142,6 +147,7 @@ class LocaleString extends Translations {
       'news_demo_title': 'হার অবধারিত জেনেও কেন মোদীর বিরুদ্ধে অনাস্থা প্রস্তাব?',
       'Bagmara_Awami_League': 'বাগমারা আওয়ামী লীগ',
       'Search_here': 'এখানে অনুসন্ধান করুন',
+      'Search': 'অনুসন্ধান করুন',
       'call': 'কল',
       'Message': 'বার্তা',
       'Whats_app': 'হোয়াটসঅ্যাপ',
@@ -173,7 +179,7 @@ class LocaleString extends Translations {
       'Name': 'নাম',
       'Account_Information': 'অ্যাকাউন্ট তথ্য',
       'Father_name': 'পিতা/স্বামীর নাম',
-      'Mother_name': 'মা এর নাম',
+      'Mother_name': 'মাতার নাম',
       'unit': 'ইউনিট',
       'Designation': 'পদবি',
       'Gender': 'লিঙ্গ',
@@ -206,6 +212,10 @@ class LocaleString extends Translations {
       'verify': 'যাচাই করুন',
       'Change_Password': 'পাসওয়ার্ড পরিবর্তন করুন',
       'Coordinator': 'সমন্বয়কারী',
+      'Voting_Center_Committee' : 'ভোট সেন্টার কমিটি',
+      'Voting_Center_Name' : 'ভোটার কেন্দ্রের নাম',
+      'Voting_area' : 'ভোটার এলাকা',
+      'Voting_no' : 'ভোটার নং: '
     },
   };
 }

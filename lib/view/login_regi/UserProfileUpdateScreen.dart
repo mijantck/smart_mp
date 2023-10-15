@@ -32,6 +32,13 @@ class UserProfileUpdateScreen extends StatefulWidget {
 }
 
 class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
+
+
+  var utilsController = Get.put(UtilsController());
+
+
+
+
   TextEditingController nameController = TextEditingController();
   TextEditingController fatherController = TextEditingController();
   TextEditingController motherController = TextEditingController();
@@ -103,8 +110,6 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
   void initState() {
     super.initState();
     // Initialize the text controllers with the user's current information
-
-
      nameController.text = widget.user.name! ?? '';
      fatherController.text = widget.user.fatherHusband ?? '';
      motherController.text = widget.user.mother ?? '';
@@ -115,6 +120,44 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
      passwordController.text =  '';
      conPasswordController.text = '';
      membershipCardNoController.text = widget.user.membershipCardNo ?? '';
+     selectWard = widget.user.wardNo!;
+
+
+    dateOfBirth =widget.user.dateOfBirth == null? '': widget.user.dateOfBirth!;
+    utilsController.upazilaSelecte.value = widget.user.upazila!.name!;
+    selectedUpazila = utilsController.upazila.firstWhere((union) => union.name == widget.user.upazila!.name!);
+
+    utilsController.unionSelecte.value = widget.user.union!.name!;
+    selectedUnion = utilsController.union.firstWhere((union) => union.name == widget.user.union!.name!);
+
+
+
+    if(widget.user.committee != null){
+      utilsController.committeesSelecte.value = widget.user.committee!.title!;
+      committee = utilsController.committees.firstWhere((union) => union.title == widget.user.committee!.title!);
+
+    }
+
+    if(widget.user.executiveCommittee != null){
+      utilsController.executiveCommitteeSelecte.value = widget.user.executiveCommittee!.title!;;
+      executiveCommittee = utilsController.executiveCommittee.firstWhere((union) => union.title == widget.user.executiveCommittee!.title!);
+
+    }
+
+    if(widget.user.designationParty != null){
+      utilsController.destinationPartySelecte.value = widget.user.designationParty!.name!;
+      destinationParty = utilsController.destinationParty.firstWhere((union) => union.name == widget.user.designationParty!.name!);
+    }
+
+
+    if(widget.user.designationCitizen != null){
+      utilsController.destinationCitizanSelecte.value = widget.user.designationCitizen!.name!;
+      destinationCitizan = utilsController.destinationCitizan.firstWhere((union) => union.name == widget.user.designationCitizen!.name!);
+
+    }
+
+
+
 
   }
 
@@ -122,11 +165,16 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+
+
+
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
           child:  GetBuilder<UtilsController>(
               builder: (utilsController) {
+
                 return Column(
                   children: [
                     SizedBox(
@@ -157,82 +205,6 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
                       child: Card(
                         child: Column(
                           children: [
-
-                            SizedBox(height: 15,),
-
-                            Container(
-                              margin: EdgeInsets.only(left: 5,right: 5),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: InkWell(
-                                      onTap: (){
-                                        setState(() {
-                                          selectOptionParty = 0;
-                                        });
-                                      },
-                                      child: Container(
-                                        color: selectOptionParty == 0 ? AppColors.singin_color : AppColors.white,
-                                        height: 40,
-                                        child: Center(
-                                          child: Text(
-                                            AppString.Register_As_Member,
-                                            style: TextStyle(
-                                                color: selectOptionParty == 0 ? AppColors.white : AppColors.text_black
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: InkWell(
-                                      onTap: (){
-                                        setState(() {
-                                          selectOptionParty = 1;
-                                        });
-                                      },
-                                      child: Container(
-                                        color: selectOptionParty == 1 ? AppColors.singin_color : AppColors.white,
-                                        height: 40,
-                                        child: Center(
-                                          child: Text(
-                                            AppString.Register_As_Citizen,
-                                            style: TextStyle(
-                                                color: selectOptionParty == 1 ? AppColors.white : AppColors.text_black
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-
-                            SizedBox(height: 15,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(AppString.Let_syou_in,style: TextStyle(color: AppColors.welcome_color,fontSize: 17,fontWeight: FontWeight.w500),)
-                              ],
-                            ),
-                            SizedBox(height: 5,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(selectOptionParty == 0?  AppString.as_party : AppString.Citizen,style: TextStyle(color: AppColors.gray_text,fontSize: 15,fontWeight: FontWeight.w500),)
-                              ],
-                            ),
-                            //Personal info
-                            Container(
-                              margin: EdgeInsets.only(left: 10),
-                              child: Row(
-                                children: [
-                                  Text(AppString.Personal_Information,style: TextStyle(color: AppColors.text_black,fontWeight: FontWeight.w500),),
-                                ],
-                              ),
-                            ),
                             // Name
                             CustomTextField(AppString.Name,AppString.Enter_Your_Name,nameController),
 
@@ -350,63 +322,61 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
                               },
                             ),
 
-                            Visibility(
-                                visible: selectOptionParty == 0? true : false,
-                                child: Column(
-                                  children: [
-                                    //Committee
-                                    DropDownCustom(
-                                      title: AppString.Committee,
-                                      options: utilsController.committeesString,
-                                      selectedOption: utilsController.committeesSelecte.value,
-                                      onChange: (String? value) { // Handle nullable value
-                                        if (value != null && value != AppString.seltectItem) {
-                                          setState(() {
-                                            utilsController.committeesSelecte.value = value;
-                                            committee = utilsController.committees.firstWhere((union) => union.title == value);
+                            Column(
+                              children: [
+                                //Committee
+                                DropDownCustom(
+                                  title: AppString.Committee,
+                                  options: utilsController.committeesString,
+                                  selectedOption: utilsController.committeesSelecte.value,
+                                  onChange: (String? value) { // Handle nullable value
+                                    if (value != null && value != AppString.seltectItem) {
+                                      setState(() {
+                                        utilsController.committeesSelecte.value = value;
+                                        committee = utilsController.committees.firstWhere((union) => union.title == value);
 
-                                          });
-                                        }
-                                      },
-                                    ),
+                                      });
+                                    }
+                                  },
+                                ),
 
 
-                                    //Executive Committee
-                                    DropDownCustom(
-                                      title: AppString.ExecutiveCommittee,
-                                      options: utilsController.executiveCommitteeString,
-                                      selectedOption: utilsController.executiveCommitteeSelecte.value,
-                                      onChange: (String? value) { // Handle nullable value
-                                        if (value != null && value != AppString.seltectItem) {
-                                          setState(() {
-                                            utilsController.executiveCommitteeSelecte.value = value;
-                                            executiveCommittee = utilsController.executiveCommittee.firstWhere((union) => union.title == value);
+                                //Executive Committee
+                                DropDownCustom(
+                                  title: AppString.ExecutiveCommittee,
+                                  options: utilsController.executiveCommitteeString,
+                                  selectedOption: utilsController.executiveCommitteeSelecte.value,
+                                  onChange: (String? value) { // Handle nullable value
+                                    if (value != null && value != AppString.seltectItem) {
+                                      setState(() {
+                                        utilsController.executiveCommitteeSelecte.value = value;
+                                        executiveCommittee = utilsController.executiveCommittee.firstWhere((union) => union.title == value);
 
-                                          });
-                                        }
-                                      },
-                                    ),
+                                      });
+                                    }
+                                  },
+                                ),
 
 
-                                    //Party Designation
-                                    DropDownCustom(
-                                      title: AppString.PartyDesignation,
-                                      options: utilsController.destinationPartyString,
-                                      selectedOption: utilsController.destinationPartySelecte.value,
-                                      onChange: (String? value) { // Handle nullable value
-                                        if (value != null && value != AppString.seltectItem) {
-                                          setState(() {
-                                            utilsController.destinationPartySelecte.value = value;
-                                            destinationParty = utilsController.destinationParty.firstWhere((union) => union.name == value);
+                                //Party Designation
+                                DropDownCustom(
+                                  title: AppString.PartyDesignation,
+                                  options: utilsController.destinationPartyString,
+                                  selectedOption: utilsController.destinationPartySelecte.value,
+                                  onChange: (String? value) { // Handle nullable value
+                                    if (value != null && value != AppString.seltectItem) {
+                                      setState(() {
+                                        utilsController.destinationPartySelecte.value = value;
+                                        destinationParty = utilsController.destinationParty.firstWhere((union) => union.name == value);
 
-                                          });
-                                        }
-                                      },
-                                    ),
+                                      });
+                                    }
+                                  },
+                                ),
 
-                                    CustomTextField(AppString.membershipCardNo,AppString.membershipCardNoEnter,membershipCardNoController),
-                                  ],
-                                )),
+                                CustomTextField(AppString.membershipCardNo,AppString.membershipCardNoEnter,membershipCardNoController),
+                              ],
+                            ),
 
 
 
@@ -414,27 +384,24 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
 
 
                             //Citezan Designation
-                            Visibility(
-                              visible: selectOptionParty != 0? true : false,
-                              child: Column(
-                                children: [
-                                  DropDownCustom(
-                                    title: AppString.CitizanDesignation,
-                                    options: utilsController.destinationCitizanString,
-                                    selectedOption: utilsController.destinationCitizanSelecte.value,
-                                    onChange: (String? value) { // Handle nullable value
-                                      if (value != null && value != AppString.seltectItem) {
-                                        setState(() {
-                                          utilsController.destinationCitizanSelecte.value = value;
-                                          destinationCitizan = utilsController.destinationCitizan.firstWhere((union) => union.name == value);
+                            Column(
+                              children: [
+                                DropDownCustom(
+                                  title: AppString.CitizanDesignation,
+                                  options: utilsController.destinationCitizanString,
+                                  selectedOption: utilsController.destinationCitizanSelecte.value,
+                                  onChange: (String? value) { // Handle nullable value
+                                    if (value != null && value != AppString.seltectItem) {
+                                      setState(() {
+                                        utilsController.destinationCitizanSelecte.value = value;
+                                        destinationCitizan = utilsController.destinationCitizan.firstWhere((union) => union.name == value);
 
-                                        });
-                                      }
-                                    },
-                                  ),
-                                  //CustomTextField(AppString.Referrer_code,AppString.Enter_Your_Referrer_code,referrerCodeController),
-                                ],
-                              ),
+                                      });
+                                    }
+                                  },
+                                ),
+                                //CustomTextField(AppString.Referrer_code,AppString.Enter_Your_Referrer_code,referrerCodeController),
+                              ],
                             ),
                             // Address
                             CustomTextField(AppString.address,AppString.Enter_Your_Address,addressController),
@@ -447,8 +414,6 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
                                 ],
                               ),
                             ),
-
-
 
                             Container(
                               height: 50,
@@ -474,7 +439,7 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
                                           isMedia: true,
                                         ).then((value) async {
                                           if(value == true)  {
-                                            setState(() async {
+                                            setState(()  {
                                               fileName = path.basename(_mediaFileList![0].path);
                                               File imageFile = File(_mediaFileList![0].path);
                                               _selectedImage = File(_mediaFileList![0].path);
@@ -483,7 +448,6 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
 
                                           }
                                         });
-
 
                                       },
                                       child: Row(
@@ -535,24 +499,13 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
                             //Mobile number
                             CustomTextField(AppString.email,AppString.Enter_Your_email,emailController),
 
-                            CustomTextField(AppString.mobile,AppString.Enter_Your_mobile_no,mobileController),
-                            //Password
-                            CustomTextField(AppString.password,AppString.Enter_Your_Password,passwordController),
-                            //confirm Password
-                            CustomTextField(AppString.con_password,AppString.Enter_Your_Con_Password,conPasswordController),
-
                             //Sing button
                             InkWell(
                               onTap: () async {
 
 
-                                Get.back();
-
-                                return;
 
                                 var userController = Get.put(UserController());
-
-
 
                                 if(nameController.text == ''){
                                   _showSnackBar(context,'Enter Name');
@@ -623,20 +576,11 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
                                   _showSnackBar(context,'Enter mobile');
                                   return;
                                 }
-                                if(passwordController.text  == '' ){
-                                  _showSnackBar(context,'Enter password');
-                                  return;
-                                }
-
-                                if(_mediaFileList == null ){
-                                  _showSnackBar(context,'Select Image');
-                                  return;
-                                }
-
 
                                 showLoadingDialog(context);
 
                                 UserRegistation userRegistationParty = selectOptionParty == 0 ?
+
                                 UserRegistation(
                                     name:nameController.text,
                                     fatherHusband: fatherController.text,
@@ -655,7 +599,6 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
                                     email: emailController.text,
                                     mobileNumber: mobileController.text,
                                     password: passwordController.text,
-                                    role:'2', //roles:['party'],
                                     unitId: 1,
                                     dateOfBirth: dateOfBirth
                                 ) : UserRegistation(
@@ -676,7 +619,6 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
                                     email: emailController.text,
                                     mobileNumber: mobileController.text,
                                     password: passwordController.text,
-                                    role: '3', //roles:['citizen'],
                                     unitId: 1,
                                     dateOfBirth: dateOfBirth,
                                     underRefferCode: referrerCodeController.text
@@ -686,24 +628,29 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
 
                                 //userController.postMultipartData(body, multipartBody)
 
-                                File imageFile = File(_mediaFileList![0].path);
-                                //Uint8List? imageBytes = await imageFile.readAsBytes();
+                                List<MultipartBody>? multipartBody;
 
-                                List<MultipartBody> multipartBody = [
-                                  MultipartBody(key: 'profile_image', file: _mediaFileList![0],fileName: '${DateTime.now().toString()}_${path.basename(_mediaFileList![0].path)}'),
-                                ];
+                                if(_mediaFileList != null){
+                                  File imageFile = File(_mediaFileList![0].path);
+                                  List<MultipartBody> multipartBody = [
+                                    MultipartBody(key: 'profile_image', file: _mediaFileList![0],fileName: '${DateTime.now().toString()}_${path.basename(_mediaFileList![0].path)}'),
+                                  ];
+                                }
+
 
                                 Map<String, String> body = userRegistationParty.toJson().map((key, value) => MapEntry(key, value.toString()));
 
                                 print('fsbhfdb ${body}');
 
-                                // userController.postMultipartData(body, multipartBody).then((value) {
-                                //   Navigator.of(context).pop();
-                                //   if(value.isSuccess){
-                                //     Get.offAll(HomePage());
-                                //   }
-                                //   print('hsfjsd ${value.message}');
-                                // });
+                                userController.updateUser(body, '${widget.user.id}').then((value) {
+                                  Navigator.of(context).pop();
+                                  if(value.isSuccess){
+                                    print('fhsdjkfhkdsj');
+
+                                     Get.offAll(HomePage());
+                                  }
+                                  print('hsfjsd ${value.message}');
+                                });
 
                               },
                               child: Container(

@@ -12,7 +12,10 @@ import 'VerifyOtpScreen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class SendSmsScreen extends StatefulWidget {
-  const SendSmsScreen({super.key});
+  String mobileNumber;
+
+
+  SendSmsScreen({this.mobileNumber=''});
 
   @override
   State<SendSmsScreen> createState() => _SendSmsScreenState();
@@ -22,6 +25,11 @@ class _SendSmsScreenState extends State<SendSmsScreen> {
 
   TextEditingController mobileController = TextEditingController();
 
+  @override
+  void initState() {
+    mobileController.text = widget.mobileNumber;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

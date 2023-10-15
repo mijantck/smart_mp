@@ -31,6 +31,8 @@ import '../Volunteers/VolunteerScreen.dart';
 import '../VoterList/VoterListScreen.dart';
 import '../bagmara_aboutScreen/BagmaraAboutScreen.dart';
 import '../e_sebah_screen/EshebaScreen.dart';
+import '../election_commitions/ElectionCommitionsScreen.dart';
+import '../login_regi/ForgetPassword/SendSmsScreen.dart';
 import '../notifications_screen/NotificationScreen.dart';
 import '../party_all/party_all_screen.dart';
 import '../profile/profile_screen.dart';
@@ -49,13 +51,18 @@ class HomeTabScreen extends StatefulWidget {
 class _HomeTabScreenState extends State<HomeTabScreen> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   var utilsController = Get.put(UtilsController());
-
-
+  SharedPreferences? prefs;
 
   @override
   void initState(){
-
+    _initializeAsyncData();
     super.initState();
+  }
+
+  _initializeAsyncData() async {
+    prefs = await SharedPreferences.getInstance();
+    utilsController.updateToken();
+    // Now you can use prefs here or perform any other async initialization tasks
   }
 
   @override
@@ -75,7 +82,7 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
               onTap: () {
                 // Handle drawer item tap
                 _scaffoldKey.currentState?.closeDrawer();
-                utilsController.changePossition(1);
+                utilsController.changePossition(0);
               },
             ),
 
@@ -85,6 +92,42 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                 // Handle drawer item tap
                 _scaffoldKey.currentState?.closeDrawer();
                 utilsController.changePossition(2);
+              },
+            ),
+            ListTile(
+              title: Text('Change_Password'.tr),
+              onTap: () async{
+                // Handle drawer item tap
+                _scaffoldKey.currentState?.closeDrawer();
+
+                String? userLoginType =  prefs!.getString(AppString.userLoginType);
+                if(userLoginType == null){
+                  Fluttertoast.showToast(
+                    msg: 'You Are noy login',
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 12.0,
+                  );
+                  return;
+                }
+
+                if(userLoginType == AppString.admin){
+                  Fluttertoast.showToast(
+                    msg: 'Contract with Admin',
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 12.0,
+                  );
+                  return;
+                }
+                String? mobileNumber =  prefs!.getString(AppString.loginMobile);
+                Get.to(SendSmsScreen(mobileNumber: mobileNumber!,));
               },
             ),
             Container(
@@ -113,43 +156,51 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
               onTap: () async{
                 // Handle drawer item tap
                 _scaffoldKey.currentState?.closeDrawer();
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                String? token =  prefs.getString('token');
-               if(token == null){
-                 Get.to(LoginScreen());
-               }else{
-                 var userController = Get.put(UserController());
-                 userController.getUserToken().then((value) {
-                   if(userController.userModel!.user != null){
-
-                     Get.to(ProfileScreen(userController.userModel!.user!));
-                   }
-                 });
-
-               }
+                if(utilsController.tokens == null){
+                  Get.to(LoginScreen());
+                }else{
+                  Get.to(CitizenScreen());
+                }
 
               },
             ),
             ListTile(
               title: Text(AppString.Volunteer),
-              onTap: () {
+              onTap: () async{
                 // Handle drawer item tap
                 _scaffoldKey.currentState?.closeDrawer();
-                Get.to(LoginScreen());
+                if(utilsController.tokens == null){
+                  Get.to(LoginScreen());
+                }else{
+                  Get.to(VolunteerScreen());
+                }
               },
             ),
             ListTile(
               title: Text(AppString.Polling_agent),
-              onTap: () {
+              onTap: () async{
                 // Handle drawer item tap
                 _scaffoldKey.currentState?.closeDrawer();
+                if(utilsController.tokens == null){
+                  Get.to(LoginScreen());
+                }else{
+                  Get.to(PollingAgentScreen());
+                }
               },
             ),
             ListTile(
               title: Text(AppString.Election_Committee),
-              onTap: () {
+              onTap: ()async {
                 // Handle drawer item tap
                 _scaffoldKey.currentState?.closeDrawer();
+                if(utilsController.tokens == null){
+                  Get.to(LoginScreen());
+                }else{
+
+                  //Get.to(ElectionCommitteeScreen());
+                  Get.to(ElectionCommissionsScreen());
+
+                }
               },
             ),
             ListTile(
@@ -157,7 +208,6 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
               onTap: () {
                 // Handle drawer item tap
                 _scaffoldKey.currentState?.closeDrawer();
-
                 Get.to(EshebaScreen());
               },
             ),
@@ -166,7 +216,6 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
               onTap: () {
                 // Handle drawer item tap
                 _scaffoldKey.currentState?.closeDrawer();
-
                 Get.to(MpEventListScreen());
               },
             ),
@@ -240,9 +289,9 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                           child: Text("Delete"),
                           onPressed: () {
                             // Close the dialog
-                            Navigator.pop(context);
+                            _scaffoldKey.currentState?.closeDrawer();
                             // Exit the app
-                            SystemNavigator.pop(); // This will close the app
+                            // SystemNavigator.pop(); // This will close the app
                           },
                         ),
                       ],
@@ -274,17 +323,18 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                           child: Text("Logout"),
                           onPressed: () async{
                             // Close the dialog
-                            SharedPreferences prefs = await SharedPreferences.getInstance();
-                            prefs.setString(AppString.token, '');
-                            prefs.setString(AppString.role, '');
-                            prefs.setString(AppString.userLoginType, '');
-                            prefs.setString(AppString.loginEmail, '');
-                            prefs.setString(AppString.loginPassword, '');
-                            prefs.setString(AppString.loginMobile, '');
+                            prefs!.setString(AppString.token, '');
+                            prefs!.setString(AppString.role, '');
+                            prefs!.setString(AppString.userLoginType, '');
+                            prefs!.setString(AppString.loginEmail, '');
+                            prefs!.setString(AppString.loginPassword, '');
+                            prefs!.setString(AppString.loginMobile, '');
 
+                            utilsController.updateToken();
                             Navigator.pop(context);
+                            _scaffoldKey.currentState?.closeDrawer();
                             // Exit the app
-                            SystemNavigator.pop(); // This will close the app
+                            //SystemNavigator.pop(); // This will close the app
                           },
                         ),
                       ],
@@ -346,220 +396,173 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
           ),
           Expanded(
               child: SingleChildScrollView(
-
-                child: Column(
-                  children: [
-                    Container(
-                      height: 180,
-                      child: Center(
-                        child: GetBuilder<SliderController>(
-                          builder: (controller) {
-
-                            if (controller.sliders.value.isEmpty) {
-                              print('hgjsg 111');
-                              return CircularProgressIndicator();
-                            } else {
-                              print('hgjsg 222');
-                              return AutoSliderScreen(sliders: controller.sliders.value);
-                            }
-                          },
-                        ),
-                      ),
-                    ),
-                    //Card options
-                    Container(
-                      margin: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
-                      child: Column(
-                        children: [
-                          Row(
+                child: GetBuilder<UtilsController>(
+                        builder: (utilsController) {
+                          return  Column(
                             children: [
-                              UnitItemCard(AppImages.ic_awamilig, 'Bagmara_League'.tr, () => {
-                                Get.to(PartyAll())
-                              }),
+                              Container(
+                                height: 180,
+                                child: Center(
+                                  child: GetBuilder<SliderController>(
+                                    builder: (controller) {
 
-                              UnitItemCard(AppImages.ic_voter_list_eneration, AppString.bagmaraVoterTalika, () {
-                                Get.to(VoterListScreen());
-
-                              }),
-
-                            ],
-                          ),
-                          Row(
-                            children: [
-
-                              UnitItemCard(AppImages.ic_citizen, AppString.Citizen, () async{
-
-                                SharedPreferences prefs = await SharedPreferences.getInstance();
-                                String? token =  prefs.getString('token');
-                                if(token == null){
-                                  Get.to(LoginScreen());
-                                }else{
-                                 Get.to(CitizenScreen());
-                                }
-                              }),
-
-                              UnitItemCard(AppImages.ic_volunteer, AppString.Volunteer, ()async{
-                                SharedPreferences prefs = await SharedPreferences.getInstance();
-                                String? token =  prefs.getString('token');
-                                if(token == null){
-                                  Get.to(LoginScreen());
-                                }else{
-                                  Get.to(VolunteerScreen());
-                                }
-                              }),
-
-                              //
-
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              UnitItemCard(AppImages.election_committee, AppString.Election_Committee, () async{
-                                SharedPreferences prefs = await SharedPreferences.getInstance();
-                                String? token =  prefs.getString('token');
-                                if(token == null){
-                                  Get.to(LoginScreen());
-                                }else{
-
-                                  Get.to(ElectionCommitteeScreen());
-
-                                }
-
-                              }),
-                              UnitItemCard(AppImages.polling_agent, AppString.Polling_agent, () async{
-                                SharedPreferences prefs = await SharedPreferences.getInstance();
-                                String? token =  prefs.getString('token');
-                                if(token == null){
-                                  Get.to(LoginScreen());
-                                }else{
-                                  Get.to(PollingAgentScreen());
-                                }
-                              }),
-
-
-
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              UnitItemCard(AppImages.gram_gommitte, AppString.Village_committee, ()async {
-                                SharedPreferences prefs = await SharedPreferences.getInstance();
-                                String? token =  prefs.getString('token');
-                                if(token == null){
-                                  Get.to(LoginScreen());
-                                }else{
-                                 Get.to(VillageCommitteeScreen());
-                                }
-                              }),
-
-                               UnitItemCard(AppImages.ic_coordinator, 'Coordinator'.tr, () async {
-                                 SharedPreferences prefs = await SharedPreferences.getInstance();
-                                 String? token =  prefs.getString('token');
-                                 if(token == null){
-                                   Get.to(LoginScreen());
-                                 }else{
-                                   if(token == AppString.admin){
-                                     Get.to(CoordinatorScreen());
-                                   }else{
-                                     Fluttertoast.showToast(
-                                       msg: 'You are not Coordinator',
-                                       toastLength: Toast.LENGTH_SHORT,
-                                       gravity: ToastGravity.BOTTOM,
-                                       timeInSecForIosWeb: 1,
-                                       backgroundColor: Colors.red,
-                                       textColor: Colors.white,
-                                       fontSize: 12.0,
-                                     );
-                                   }
-
-                                 }
-                               }),
-                            ],
-                          ),
-                          Row(
-                            children: [
-
-                              UnitItemCard(AppImages.ic_news, AppString.News, () {
-                                Get.to(AllNewsScreen());
-                              }),
-                              UnitItemCard(AppImages.ic_service, AppString.E_sheba, () {
-                                Get.to(EshebaScreen());
-                              }),
-
-
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              // UnitItemCard(AppImages.home_logo, AppString.Smart_Bagmara, () {
-                              //   Get.to(BagmaraAboutScreen());
-                              // }),
-
-                              UnitItemCard(AppImages.mp_event, AppString.MP_Event, () {
-                                Get.to(MpEventListScreen());
-                              }),
-
-                              UnitItemCard(AppImages.ic_suporrt, AppString.help_center, (){
-                                Get.to(HelpCenterLinkScreen());
-
-                                //_launchDialer('1111111111');
-                              }),
-
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              UnitItemCard(AppImages.ic_social_media, AppString.social_link, () {
-                                Get.to(SocialLinksScreens());
-
-                              }),
-                              // UnitItemCard(AppImages.ic_mp_event, AppString.mp_event, () => null),
-                            ],
-                          ),
-
-
-                          // News
-                          SizedBox(height: 10,),
-                          Row(
-                            children: [
-                              Text(AppString.News,style: TextStyle(color: AppColors.text_black,fontWeight: FontWeight.bold,fontSize: 18),),
-                              Expanded(child: Container()),
-                              InkWell(
-                                  onTap: (){
-                                    Get.to(AllNewsScreen());
-                                  },
-                                  child: Text('View All'.tr,style: TextStyle(color: AppColors.gray,fontWeight: FontWeight.normal,fontSize: 15),)),
-
-                            ],
-                          ),
-                          GetBuilder<NewsController>(
-                            builder: (controller) {
-                              if (controller.newsList == null) {
-                                // Show a loading indicator while data is being fetched
-                                return Center(child: CircularProgressIndicator());
-                              } else {
-                                return SizedBox(
-                                  height: 3 * 220,
-                                  child: ListView.builder(
-                                    physics: NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemCount: controller.newsList!.length > 3 ? 3 : controller.newsList!.length,
-                                    itemBuilder: (context, index) {
-                                      NewModel n = controller.newsList![index];
-
-                                      return NewsItem(n);
+                                      if (controller.sliders.value.isEmpty) {
+                                        print('hgjsg 111');
+                                        return CircularProgressIndicator();
+                                      } else {
+                                        print('hgjsg 222');
+                                        return AutoSliderScreen(sliders: controller.sliders.value);
+                                      }
                                     },
                                   ),
-                                );
-                              }
-                            },
-                          ),
-                        ],
-                      ),
-                    )
+                                ),
+                              ),
+                              //Card options
+                              Container(
+                                margin: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
+                                child: Column(
+                                  children: [
 
-                  ],
-                )
+                                    Row(
+                                      children: [
+                                        UnitItemCard(AppImages.ic_awamilig, 'Bagmara_League'.tr, () => {
+                                          Get.to(PartyAll())
+                                        }),
+
+                                        UnitItemCard(AppImages.ic_voter_list_eneration, AppString.bagmaraVoterTalika, () {
+                                          Get.to(VoterListScreen());
+
+                                        }),
+
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        UnitItemCard(AppImages.ic_service, AppString.E_sheba, () {
+                                          Get.to(EshebaScreen());
+                                        }),
+                                        UnitItemCard(AppImages.ic_news, AppString.News, () {
+                                          Get.to(AllNewsScreen());
+                                        }),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        UnitItemCard(AppImages.ic_social_media, AppString.social_link, () {
+                                          Get.to(SocialLinksScreens());
+
+                                        }),
+                                        UnitItemCard(AppImages.ic_suporrt, AppString.help_center, (){
+                                          Get.to(HelpCenterLinkScreen());
+
+                                          //_launchDialer('1111111111');
+                                        }),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        UnitItemCard(AppImages.mp_event, AppString.MP_Event, () {
+                                          Get.to(MpEventListScreen());
+                                        }),
+                                        Visibility(
+                                          visible: utilsController.tokens == null? false :true,
+                                          child: UnitItemCard(AppImages.ic_citizen, AppString.Citizen, () async{
+                                            if(utilsController.tokens == null){
+                                              Get.to(LoginScreen());
+                                            }else{
+                                              Get.to(CitizenScreen());
+                                            }
+                                          }),
+                                        ),
+                                      ],
+                                    ),
+
+                                    Visibility(
+                                        visible: utilsController.tokens == null? false :true,
+                                        child: Column(children: [
+                                          Row(
+                                            children: [
+                                              UnitItemCard(AppImages.election_committee, AppString.Election_Committee, () async{
+
+                                                if(utilsController.tokens == null){
+                                                  Get.to(LoginScreen());
+                                                }else{
+
+                                                  //Get.to(ElectionCommitteeScreen());
+                                                  Get.to(ElectionCommissionsScreen());
+
+                                                }
+
+                                              }),
+                                              UnitItemCard(AppImages.ic_volunteer, AppString.Volunteer, ()async{
+
+                                                if(utilsController.tokens == null){
+                                                  Get.to(LoginScreen());
+                                                }else{
+                                                  Get.to(VolunteerScreen());
+                                                }
+                                              }),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              UnitItemCard(AppImages.gram_gommitte, AppString.Village_committee, ()async {
+
+
+                                                if(utilsController.tokens == null){
+                                                  Get.to(LoginScreen());
+                                                }else{
+                                                  Get.to(VillageCommitteeScreen());
+                                                }
+                                              }),
+                                            ],
+                                          ),
+                                        ],)
+                                    ),
+                                    SizedBox(height: 10,),
+                                    Row(
+                                      children: [
+                                        Text(AppString.News,style: TextStyle(color: AppColors.text_black,fontWeight: FontWeight.bold,fontSize: 18),),
+                                        Expanded(child: Container()),
+                                        InkWell(
+                                            onTap: (){
+                                              Get.to(AllNewsScreen());
+                                            },
+                                            child: Text('View All'.tr,style: TextStyle(color: AppColors.gray,fontWeight: FontWeight.normal,fontSize: 15),)),
+
+                                      ],
+                                    ),
+                                    GetBuilder<NewsController>(
+                                      builder: (controller) {
+                                        if (controller.newsList == null) {
+                                          // Show a loading indicator while data is being fetched
+                                          return Center(child: CircularProgressIndicator());
+                                        } else {
+                                          return SizedBox(
+                                            height: 3 * 220,
+                                            child: ListView.builder(
+                                              physics: NeverScrollableScrollPhysics(),
+                                              shrinkWrap: true,
+                                              itemCount: controller.newsList!.length > 3 ? 3 : controller.newsList!.length,
+                                              itemBuilder: (context, index) {
+                                                NewModel n = controller.newsList![index];
+
+                                                return NewsItem(n);
+                                              },
+                                            ),
+                                          );
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              )
+
+                            ],
+                          );
+                        })
+
+
 
               )
           )

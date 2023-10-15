@@ -1,5 +1,11 @@
-/// user : {"id":272,"name":"মোঃ আঃ ছাত্তার প্রাঃ","father_husband":"মৃত তারু প্রাঃ","mother":"মৃত ছাবেদা বেওয়া","date_of_birth":null,"mobile_number":"01750228861","email":null,"nid":"4646430811","address":"কাচারি","unit_id":null,"designation_party_id":null,"designation_citizen_id":null,"profile_image":"profile_images/jJv62TzuFJjmXKFIVVjbzkU9bxH0lKAdmilIun3u.png","role":"default_role","reffer_code":"aypqoCbw","under_reffer_code":null,"membership_card_no":null,"created_at":"2023-09-11T06:45:12.000000Z","updated_at":"2023-09-16T06:50:31.000000Z","committee_id":null,"executive_committee_id":null,"gender":"Male","union_id":8,"ward_no":"9","upazia_id":1,"voter_kendro":64,"admins_id":5,"voter_kendro_no":"58","roles":[{"id":4,"name":"Vote Center Committee","tag":"election_commission","created_at":"2023-09-04T23:44:39.000000Z","updated_at":"2023-09-04T23:44:39.000000Z","pivot":{"user_id":272,"role_id":4}}]}
-/// token : "97|BLH1yrh36s7isZfKoW08xfmWbpYe1xZvt0HdWkhu"
+
+import 'package:smart_mp/models/respons/DestinationCitizan.dart';
+import 'package:smart_mp/models/respons/DestinationParty.dart';
+import 'package:smart_mp/models/respons/Union.dart';
+import 'package:smart_mp/models/respons/Upazila.dart';
+import 'package:smart_mp/models/respons/committee.dart';
+
+import 'ExecutiveCommittee.dart';
 
 class UserModel {
   UserModel({
@@ -34,37 +40,50 @@ class UserModel {
 
 }
 
+
 class User {
   User({
     num? id,
     String? name,
     String? fatherHusband,
     String? mother,
-    dynamic dateOfBirth,
+    String? dateOfBirth,
     String? mobileNumber,
-    dynamic email,
+    String? email,
     String? nid,
     String? address,
-    dynamic unitId,
-    dynamic designationPartyId,
-    dynamic designationCitizenId,
+    num? unitId,
+    num? designationPartyId,
+    num? designationCitizenId,
     String? profileImage,
     String? role,
     String? refferCode,
-    dynamic underRefferCode,
-    dynamic membershipCardNo,
+    String? underRefferCode,
+    String? membershipCardNo,
     String? createdAt,
     String? updatedAt,
-    dynamic committeeId,
-    dynamic executiveCommitteeId,
+    num? committeeId,
+    num? executiveCommitteeId,
     String? gender,
     num? unionId,
     String? wardNo,
     num? upaziaId,
-    num? voterKendro,
+    VoterKendro? voterKendro,
     num? adminsId,
-    String? voterKendroNo,
-    List<Roles>? roles,}){
+    num? voterKendroNo,
+    num? editorId,
+    num? convenersId,
+    String? others,
+    List<Roles>? roles,
+    DestinationParty? designationParty,
+    DestinationCitizan? designationCitizen,
+    Upazila? upazila,
+    Union? union,
+    Committee? committee,
+    ExecutiveCommittee? executiveCommittee,
+    Coordinator? coordinator,
+    dynamic conveners,
+    Admin? admin,}){
     _id = id;
     _name = name;
     _fatherHusband = fatherHusband;
@@ -93,7 +112,19 @@ class User {
     _voterKendro = voterKendro;
     _adminsId = adminsId;
     _voterKendroNo = voterKendroNo;
+    _editorId = editorId;
+    _convenersId = convenersId;
+    _others = others;
     _roles = roles;
+    _designationParty = designationParty;
+    _designationCitizen = designationCitizen;
+    _upazila = upazila;
+    _union = union;
+    _committee = committee;
+    _executiveCommittee = executiveCommittee;
+    _coordinator = coordinator;
+    _conveners = conveners;
+    _admin = admin;
   }
 
   User.fromJson(dynamic json) {
@@ -122,74 +153,110 @@ class User {
     _unionId = json['union_id'];
     _wardNo = json['ward_no'];
     _upaziaId = json['upazia_id'];
-    _voterKendro = json['voter_kendro'];
+    _voterKendro = json['voter_kendro'] != null ? VoterKendro.fromJson(json['voter_kendro']) : null;
     _adminsId = json['admins_id'];
     _voterKendroNo = json['voter_kendro_no'];
+    _editorId = json['editor_id'];
+    _convenersId = json['conveners_id'];
+    _others = json['others'];
     if (json['roles'] != null) {
       _roles = [];
       json['roles'].forEach((v) {
         _roles?.add(Roles.fromJson(v));
       });
     }
+    _designationParty = json['designation_party'] != null ? DestinationParty.fromJson(json['designation_party']) : null;
+    _designationCitizen = json['designation_citizen'] != null ? DestinationCitizan.fromJson(json['designation_citizen']) : null;
+    _upazila = json['upazila'] != null ? Upazila.fromJson(json['upazila']) : null;
+    _union = json['union'] != null ? Union.fromJson(json['union']) : null;
+    _committee = json['committee'] != null ? Committee.fromJson(json['committee']) : null;
+    _executiveCommittee = json['executive_committee'] != null ? ExecutiveCommittee.fromJson(json['executive_committee']) : null;
+    _coordinator = json['coordinator'] != null ? Coordinator.fromJson(json['coordinator']) : null;
+    _conveners = json['conveners'];
+    _admin = json['admin'] != null ? Admin.fromJson(json['admin']) : null;
   }
   num? _id;
   String? _name;
   String? _fatherHusband;
   String? _mother;
-  dynamic _dateOfBirth;
+  String? _dateOfBirth;
   String? _mobileNumber;
-  dynamic _email;
+  String? _email;
   String? _nid;
   String? _address;
-  dynamic _unitId;
-  dynamic _designationPartyId;
-  dynamic _designationCitizenId;
+  num? _unitId;
+  num? _designationPartyId;
+  num? _designationCitizenId;
   String? _profileImage;
   String? _role;
   String? _refferCode;
-  dynamic _underRefferCode;
-  dynamic _membershipCardNo;
+  String? _underRefferCode;
+  String? _membershipCardNo;
   String? _createdAt;
   String? _updatedAt;
-  dynamic _committeeId;
-  dynamic _executiveCommitteeId;
+  num? _committeeId;
+  num? _executiveCommitteeId;
   String? _gender;
   num? _unionId;
   String? _wardNo;
   num? _upaziaId;
-  num? _voterKendro;
+  VoterKendro? _voterKendro;
   num? _adminsId;
-  String? _voterKendroNo;
+  num? _voterKendroNo;
+  num? _editorId;
+  num? _convenersId;
+  String? _others;
   List<Roles>? _roles;
+  DestinationParty? _designationParty;
+  DestinationCitizan? _designationCitizen;
+  Upazila? _upazila;
+  Union? _union;
+  Committee? _committee;
+  ExecutiveCommittee? _executiveCommittee;
+  Coordinator? _coordinator;
+  dynamic _conveners;
+  Admin? _admin;
   User copyWith({  num? id,
     String? name,
     String? fatherHusband,
     String? mother,
-    dynamic dateOfBirth,
+    String? dateOfBirth,
     String? mobileNumber,
-    dynamic email,
+    String? email,
     String? nid,
     String? address,
-    dynamic unitId,
-    dynamic designationPartyId,
-    dynamic designationCitizenId,
+    num? unitId,
+    num? designationPartyId,
+    num? designationCitizenId,
     String? profileImage,
     String? role,
     String? refferCode,
-    dynamic underRefferCode,
-    dynamic membershipCardNo,
+    String? underRefferCode,
+    String? membershipCardNo,
     String? createdAt,
     String? updatedAt,
-    dynamic committeeId,
-    dynamic executiveCommitteeId,
+    num? committeeId,
+    num? executiveCommitteeId,
     String? gender,
     num? unionId,
     String? wardNo,
     num? upaziaId,
-    num? voterKendro,
+    VoterKendro? voterKendro,
     num? adminsId,
-    String? voterKendroNo,
+    num? voterKendroNo,
+    num? editorId,
+    num? convenersId,
+    String? others,
     List<Roles>? roles,
+    DestinationParty? designationParty,
+    DestinationCitizan? designationCitizen,
+    Upazila? upazila,
+    Union? union,
+    Committee? committee,
+    ExecutiveCommittee? executiveCommittee,
+    Coordinator? coordinator,
+    dynamic conveners,
+    Admin? admin,
   }) => User(  id: id ?? _id,
     name: name ?? _name,
     fatherHusband: fatherHusband ?? _fatherHusband,
@@ -218,37 +285,61 @@ class User {
     voterKendro: voterKendro ?? _voterKendro,
     adminsId: adminsId ?? _adminsId,
     voterKendroNo: voterKendroNo ?? _voterKendroNo,
+    editorId: editorId ?? _editorId,
+    convenersId: convenersId ?? _convenersId,
+    others: others ?? _others,
     roles: roles ?? _roles,
+    designationParty: designationParty ?? _designationParty,
+    designationCitizen: designationCitizen ?? _designationCitizen,
+    upazila: upazila ?? _upazila,
+    union: union ?? _union,
+    committee: committee ?? _committee,
+    executiveCommittee: executiveCommittee ?? _executiveCommittee,
+    coordinator: coordinator ?? _coordinator,
+    conveners: conveners ?? _conveners,
+    admin: admin ?? _admin,
   );
   num? get id => _id;
   String? get name => _name;
   String? get fatherHusband => _fatherHusband;
   String? get mother => _mother;
-  dynamic get dateOfBirth => _dateOfBirth;
+  String? get dateOfBirth => _dateOfBirth;
   String? get mobileNumber => _mobileNumber;
-  dynamic get email => _email;
+  String? get email => _email;
   String? get nid => _nid;
   String? get address => _address;
-  dynamic get unitId => _unitId;
-  dynamic get designationPartyId => _designationPartyId;
-  dynamic get designationCitizenId => _designationCitizenId;
+  num? get unitId => _unitId;
+  num? get designationPartyId => _designationPartyId;
+  num? get designationCitizenId => _designationCitizenId;
   String? get profileImage => _profileImage;
   String? get role => _role;
   String? get refferCode => _refferCode;
-  dynamic get underRefferCode => _underRefferCode;
-  dynamic get membershipCardNo => _membershipCardNo;
+  String? get underRefferCode => _underRefferCode;
+  String? get membershipCardNo => _membershipCardNo;
   String? get createdAt => _createdAt;
   String? get updatedAt => _updatedAt;
-  dynamic get committeeId => _committeeId;
-  dynamic get executiveCommitteeId => _executiveCommitteeId;
+  num? get committeeId => _committeeId;
+  num? get executiveCommitteeId => _executiveCommitteeId;
   String? get gender => _gender;
   num? get unionId => _unionId;
   String? get wardNo => _wardNo;
   num? get upaziaId => _upaziaId;
-  num? get voterKendro => _voterKendro;
+  VoterKendro? get voterKendro => _voterKendro;
   num? get adminsId => _adminsId;
-  String? get voterKendroNo => _voterKendroNo;
+  num? get voterKendroNo => _voterKendroNo;
+  num? get editorId => _editorId;
+  num? get convenersId => _convenersId;
+  String? get others => _others;
   List<Roles>? get roles => _roles;
+  DestinationParty? get designationParty => _designationParty;
+  DestinationCitizan? get designationCitizen => _designationCitizen;
+  Upazila? get upazila => _upazila;
+  Union? get union => _union;
+  Committee? get committee => _committee;
+  ExecutiveCommittee? get executiveCommittee => _executiveCommittee;
+  Coordinator? get coordinator => _coordinator;
+  dynamic get conveners => _conveners;
+  Admin? get admin => _admin;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -277,23 +368,320 @@ class User {
     map['union_id'] = _unionId;
     map['ward_no'] = _wardNo;
     map['upazia_id'] = _upaziaId;
-    map['voter_kendro'] = _voterKendro;
+    if (_voterKendro != null) {
+      map['voter_kendro'] = _voterKendro?.toJson();
+    }
     map['admins_id'] = _adminsId;
     map['voter_kendro_no'] = _voterKendroNo;
+    map['editor_id'] = _editorId;
+    map['conveners_id'] = _convenersId;
+    map['others'] = _others;
     if (_roles != null) {
       map['roles'] = _roles?.map((v) => v.toJson()).toList();
+    }
+    if (_designationParty != null) {
+      map['designation_party'] = _designationParty?.toJson();
+    }
+    if (_designationCitizen != null) {
+      map['designation_citizen'] = _designationCitizen?.toJson();
+    }
+    if (_upazila != null) {
+      map['upazila'] = _upazila?.toJson();
+    }
+    if (_union != null) {
+      map['union'] = _union?.toJson();
+    }
+    if (_committee != null) {
+      map['committee'] = _committee?.toJson();
+    }
+    if (_executiveCommittee != null) {
+      map['executive_committee'] = _executiveCommittee?.toJson();
+    }
+    if (_coordinator != null) {
+      map['coordinator'] = _coordinator?.toJson();
+    }
+    map['conveners'] = _conveners;
+    if (_admin != null) {
+      map['admin'] = _admin?.toJson();
     }
     return map;
   }
 
 }
 
-/// id : 4
-/// name : "Vote Center Committee"
-/// tag : "election_commission"
-/// created_at : "2023-09-04T23:44:39.000000Z"
-/// updated_at : "2023-09-04T23:44:39.000000Z"
-/// pivot : {"user_id":272,"role_id":4}
+
+class Admin {
+  Admin({
+    num? id,
+    String? userName,
+    String? email,
+    String? fullName,
+    String? userRole,
+    String? createdAt,
+    String? updatedAt,
+    dynamic unionsId,
+    dynamic wardNo,
+    String? phone,
+    bool? edit,
+    bool? delete,
+    dynamic imageUrl,
+    dynamic coordinatorId,
+    num? committeeId,}){
+    _id = id;
+    _userName = userName;
+    _email = email;
+    _fullName = fullName;
+    _userRole = userRole;
+    _createdAt = createdAt;
+    _updatedAt = updatedAt;
+    _unionsId = unionsId;
+    _wardNo = wardNo;
+    _phone = phone;
+    _edit = edit;
+    _delete = delete;
+    _imageUrl = imageUrl;
+    _coordinatorId = coordinatorId;
+    _committeeId = committeeId;
+  }
+
+  Admin.fromJson(dynamic json) {
+    _id = json['id'];
+    _userName = json['userName'];
+    _email = json['email'];
+    _fullName = json['full_name'];
+    _userRole = json['user_role'];
+    _createdAt = json['created_at'];
+    _updatedAt = json['updated_at'];
+    _unionsId = json['unions_id'];
+    _wardNo = json['ward_no'];
+    _phone = json['phone'];
+    _edit = json['edit'];
+    _delete = json['delete'];
+    _imageUrl = json['image_url'];
+    _coordinatorId = json['coordinator_id'];
+    _committeeId = json['committee_id'];
+  }
+  num? _id;
+  String? _userName;
+  String? _email;
+  String? _fullName;
+  String? _userRole;
+  String? _createdAt;
+  String? _updatedAt;
+  dynamic _unionsId;
+  dynamic _wardNo;
+  String? _phone;
+  bool? _edit;
+  bool? _delete;
+  dynamic _imageUrl;
+  dynamic _coordinatorId;
+  num? _committeeId;
+  Admin copyWith({  num? id,
+    String? userName,
+    String? email,
+    String? fullName,
+    String? userRole,
+    String? createdAt,
+    String? updatedAt,
+    dynamic unionsId,
+    dynamic wardNo,
+    String? phone,
+    bool? edit,
+    bool? delete,
+    dynamic imageUrl,
+    dynamic coordinatorId,
+    num? committeeId,
+  }) => Admin(  id: id ?? _id,
+    userName: userName ?? _userName,
+    email: email ?? _email,
+    fullName: fullName ?? _fullName,
+    userRole: userRole ?? _userRole,
+    createdAt: createdAt ?? _createdAt,
+    updatedAt: updatedAt ?? _updatedAt,
+    unionsId: unionsId ?? _unionsId,
+    wardNo: wardNo ?? _wardNo,
+    phone: phone ?? _phone,
+    edit: edit ?? _edit,
+    delete: delete ?? _delete,
+    imageUrl: imageUrl ?? _imageUrl,
+    coordinatorId: coordinatorId ?? _coordinatorId,
+    committeeId: committeeId ?? _committeeId,
+  );
+  num? get id => _id;
+  String? get userName => _userName;
+  String? get email => _email;
+  String? get fullName => _fullName;
+  String? get userRole => _userRole;
+  String? get createdAt => _createdAt;
+  String? get updatedAt => _updatedAt;
+  dynamic get unionsId => _unionsId;
+  dynamic get wardNo => _wardNo;
+  String? get phone => _phone;
+  bool? get edit => _edit;
+  bool? get delete => _delete;
+  dynamic get imageUrl => _imageUrl;
+  dynamic get coordinatorId => _coordinatorId;
+  num? get committeeId => _committeeId;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['id'] = _id;
+    map['userName'] = _userName;
+    map['email'] = _email;
+    map['full_name'] = _fullName;
+    map['user_role'] = _userRole;
+    map['created_at'] = _createdAt;
+    map['updated_at'] = _updatedAt;
+    map['unions_id'] = _unionsId;
+    map['ward_no'] = _wardNo;
+    map['phone'] = _phone;
+    map['edit'] = _edit;
+    map['delete'] = _delete;
+    map['image_url'] = _imageUrl;
+    map['coordinator_id'] = _coordinatorId;
+    map['committee_id'] = _committeeId;
+    return map;
+  }
+
+}
+
+
+class Coordinator {
+  Coordinator({
+    num? id,
+    String? userName,
+    String? email,
+    String? fullName,
+    String? userRole,
+    String? createdAt,
+    String? updatedAt,
+    dynamic unionsId,
+    dynamic wardNo,
+    String? phone,
+    bool? edit,
+    bool? delete,
+    dynamic imageUrl,
+    dynamic coordinatorId,
+    num? committeeId,}){
+    _id = id;
+    _userName = userName;
+    _email = email;
+    _fullName = fullName;
+    _userRole = userRole;
+    _createdAt = createdAt;
+    _updatedAt = updatedAt;
+    _unionsId = unionsId;
+    _wardNo = wardNo;
+    _phone = phone;
+    _edit = edit;
+    _delete = delete;
+    _imageUrl = imageUrl;
+    _coordinatorId = coordinatorId;
+    _committeeId = committeeId;
+  }
+
+  Coordinator.fromJson(dynamic json) {
+    _id = json['id'];
+    _userName = json['userName'];
+    _email = json['email'];
+    _fullName = json['full_name'];
+    _userRole = json['user_role'];
+    _createdAt = json['created_at'];
+    _updatedAt = json['updated_at'];
+    _unionsId = json['unions_id'];
+    _wardNo = json['ward_no'];
+    _phone = json['phone'];
+    _edit = json['edit'];
+    _delete = json['delete'];
+    _imageUrl = json['image_url'];
+    _coordinatorId = json['coordinator_id'];
+    _committeeId = json['committee_id'];
+  }
+  num? _id;
+  String? _userName;
+  String? _email;
+  String? _fullName;
+  String? _userRole;
+  String? _createdAt;
+  String? _updatedAt;
+  dynamic _unionsId;
+  dynamic _wardNo;
+  String? _phone;
+  bool? _edit;
+  bool? _delete;
+  dynamic _imageUrl;
+  dynamic _coordinatorId;
+  num? _committeeId;
+  Coordinator copyWith({  num? id,
+    String? userName,
+    String? email,
+    String? fullName,
+    String? userRole,
+    String? createdAt,
+    String? updatedAt,
+    dynamic unionsId,
+    dynamic wardNo,
+    String? phone,
+    bool? edit,
+    bool? delete,
+    dynamic imageUrl,
+    dynamic coordinatorId,
+    num? committeeId,
+  }) => Coordinator(  id: id ?? _id,
+    userName: userName ?? _userName,
+    email: email ?? _email,
+    fullName: fullName ?? _fullName,
+    userRole: userRole ?? _userRole,
+    createdAt: createdAt ?? _createdAt,
+    updatedAt: updatedAt ?? _updatedAt,
+    unionsId: unionsId ?? _unionsId,
+    wardNo: wardNo ?? _wardNo,
+    phone: phone ?? _phone,
+    edit: edit ?? _edit,
+    delete: delete ?? _delete,
+    imageUrl: imageUrl ?? _imageUrl,
+    coordinatorId: coordinatorId ?? _coordinatorId,
+    committeeId: committeeId ?? _committeeId,
+  );
+  num? get id => _id;
+  String? get userName => _userName;
+  String? get email => _email;
+  String? get fullName => _fullName;
+  String? get userRole => _userRole;
+  String? get createdAt => _createdAt;
+  String? get updatedAt => _updatedAt;
+  dynamic get unionsId => _unionsId;
+  dynamic get wardNo => _wardNo;
+  String? get phone => _phone;
+  bool? get edit => _edit;
+  bool? get delete => _delete;
+  dynamic get imageUrl => _imageUrl;
+  dynamic get coordinatorId => _coordinatorId;
+  num? get committeeId => _committeeId;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['id'] = _id;
+    map['userName'] = _userName;
+    map['email'] = _email;
+    map['full_name'] = _fullName;
+    map['user_role'] = _userRole;
+    map['created_at'] = _createdAt;
+    map['updated_at'] = _updatedAt;
+    map['unions_id'] = _unionsId;
+    map['ward_no'] = _wardNo;
+    map['phone'] = _phone;
+    map['edit'] = _edit;
+    map['delete'] = _delete;
+    map['image_url'] = _imageUrl;
+    map['coordinator_id'] = _coordinatorId;
+    map['committee_id'] = _committeeId;
+    return map;
+  }
+
+}
+
+
 
 class Roles {
   Roles({
@@ -360,8 +748,76 @@ class Roles {
 
 }
 
-/// user_id : 272
-/// role_id : 4
+class VoterKendro {
+  VoterKendro({
+    num? id,
+    String? name,
+    num? unionsId,
+    String? createdAt,
+    String? updatedAt,
+    dynamic wardNo,
+    String? voterKendroNo,}){
+    _id = id;
+    _name = name;
+    _unionsId = unionsId;
+    _createdAt = createdAt;
+    _updatedAt = updatedAt;
+    _wardNo = wardNo;
+    _voterKendroNo = voterKendroNo;
+  }
+
+  VoterKendro.fromJson(dynamic json) {
+    _id = json['id'];
+    _name = json['name'];
+    _unionsId = json['unions_id'];
+    _createdAt = json['created_at'];
+    _updatedAt = json['updated_at'];
+    _wardNo = json['ward_no'];
+    _voterKendroNo = json['voter_kendro_no'];
+  }
+  num? _id;
+  String? _name;
+  num? _unionsId;
+  String? _createdAt;
+  String? _updatedAt;
+  dynamic _wardNo;
+  String? _voterKendroNo;
+  VoterKendro copyWith({  num? id,
+    String? name,
+    num? unionsId,
+    String? createdAt,
+    String? updatedAt,
+    dynamic wardNo,
+    String? voterKendroNo,
+  }) => VoterKendro(  id: id ?? _id,
+    name: name ?? _name,
+    unionsId: unionsId ?? _unionsId,
+    createdAt: createdAt ?? _createdAt,
+    updatedAt: updatedAt ?? _updatedAt,
+    wardNo: wardNo ?? _wardNo,
+    voterKendroNo: voterKendroNo ?? _voterKendroNo,
+  );
+  num? get id => _id;
+  String? get name => _name;
+  num? get unionsId => _unionsId;
+  String? get createdAt => _createdAt;
+  String? get updatedAt => _updatedAt;
+  dynamic get wardNo => _wardNo;
+  String? get voterKendroNo => _voterKendroNo;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['id'] = _id;
+    map['name'] = _name;
+    map['unions_id'] = _unionsId;
+    map['created_at'] = _createdAt;
+    map['updated_at'] = _updatedAt;
+    map['ward_no'] = _wardNo;
+    map['voter_kendro_no'] = _voterKendroNo;
+    return map;
+  }
+
+}
 
 class Pivot {
   Pivot({

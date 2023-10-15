@@ -4,6 +4,8 @@ import 'package:smart_mp/models/respons/committee.dart';
 
 import '../../controllers/UnitsController.dart';
 import '../../models/respons/DestinationParty.dart';
+import '../../models/respons/Union.dart';
+import '../../models/respons/UserModel.dart';
 import '../../utils/AppColors.dart';
 import '../../utils/AppImages.dart';
 import '../../utils/AppString.dart';
@@ -23,6 +25,18 @@ class AllPartyScreen extends StatefulWidget {
 }
 
 class _AllPartyScreenState extends State<AllPartyScreen> {
+
+
+  List<String> ward = [AppString.seltectItem, '1', '2', '3', '4','5','6','7','8','9'];
+  String selectWard = AppString.seltectItem;
+
+  Committee? committee;
+  DestinationParty? destinationParty;
+  Union? selectedUnion;
+  bool showSearch = false;
+  bool loadingButton = false;
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -52,33 +66,141 @@ class _AllPartyScreenState extends State<AllPartyScreen> {
                   ],
                 ),
                 SizedBox(height: 10,),
-                GestureDetector(
-                  onTap: () {
-                    _showDialog();
+
+                InkWell(
+                  onTap: (){
+                    setState(() {
+                      showSearch = !showSearch;
+                    });
                   },
                   child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: AppColors.gray_withe
-                    ),
                     width: MediaQuery.of(context).size.width,
                     height: 50,
-                    child: Row(
+                    color: Colors.blue.shade50,
+                    child: Stack(
                       children: [
-                        SizedBox(width: 10,),
-                        Container(
-                          height: 18,
-                          width: 18,
-                          child: Image.asset(AppImages.ic_searching,width: 18,height: 18,),
-                        ),
-                        SizedBox(width: 10,),
-                        Text(AppString.Search_here+'...',style: TextStyle(color: AppColors.gray_text),)
+                        Positioned(
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            child: Center(child: Text('Search'.tr,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),))),
+                        Positioned(
+                            right: 10,
+                            bottom: 0,
+                            top: 0,
+                            child: Icon(showSearch? Icons.arrow_drop_up :Icons.arrow_drop_down_sharp)
+                        )
                       ],
                     ),
                   ),
                 ),
-                SizedBox(height: 10,),
-                Expanded(
+                SizedBox(height: 10),
+                showSearch ? Expanded(
+                  child: ListView(
+                    children: [
+                      GetBuilder<UtilsController>(
+                          builder: (utilsController) {
+                            return Column(
+                              children: [
+                                DropDownCustom(
+                                  title: AppString.Committee,
+                                  options: utilsController.committeesString,
+                                  selectedOption: utilsController.committeesSelecte.value,
+                                  onChange: (String? value) {
+                                    if (value != null && value != AppString.seltectItem) {
+                                      setState(() {
+                                        utilsController.committeesSelecte.value = value;
+                                        committee = utilsController.committees.firstWhere((union) => union.title == value);
+                                      });
+                                    }
+                                  },
+                                ),
+                                SizedBox(height: 20),
+                                DropDownCustom(
+                                  title: AppString.PartyDesignation,
+                                  options: utilsController.destinationPartyString,
+                                  selectedOption: utilsController.destinationPartySelecte.value,
+                                  onChange: (String? value) {
+                                    if (value != null && value != AppString.seltectItem) {
+                                      setState(() {
+                                        utilsController.destinationPartySelecte.value = value;
+                                        destinationParty = utilsController.destinationParty.firstWhere((party) => party.name == value);
+                                      });
+                                    }
+                                  },
+                                ),
+                                DropDownCustom(
+                                  title: AppString.Union_all,
+                                  options: utilsController.unionString,
+                                  selectedOption: utilsController.unionSelecte.value,
+                                  onChange: (String? value) { // Handle nullable value
+                                    if (value != null && value != AppString.seltectItem) {
+                                      setState(() {
+                                        utilsController.unionSelecte.value = value;
+                                        selectedUnion = utilsController.union.firstWhere((union) => union.name == value);
+
+                                      });
+                                    }
+                                  },
+                                ),
+                                //Ward
+                                DropDownCustom(
+                                  title: AppString.Ward_all,
+                                  options: ward,
+                                  selectedOption: selectWard,
+                                  onChange: (String? value) { // Handle nullable value
+                                    if (value != null && value != AppString.seltectItem) {
+                                      setState(() {
+                                        selectWard = value;
+                                      });
+                                    }
+                                  },
+                                ),
+
+                                loadingButton ? Center(child: CircularProgressIndicator()) :  ElevatedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      showSearch = false;
+                                      loadingButton = false;
+                                    });
+
+                                    Get.to(PartyMembersScreen(
+                                      widget.executiveCommitteeName,
+                                      committee==null?"":committee!.title!,
+                                      widget.executiveCommitteeId,
+                                      committeesId: committee==null?0:committee!.id!,
+                                      union_id: selectedUnion==null?0:selectedUnion!.id!,
+                                      designationPartyId:destinationParty ==null?0:destinationParty!.id!,
+                                      ward_no: selectWard == AppString.seltectItem?0:int.parse(selectWard),
+                                    ));
+
+
+                                    // Implement your search logic here
+                                    // String union_id='';
+                                    // if(selectedUnion != null)
+                                    //   union_id = '&union_id=${selectedUnion!.id}';
+                                    // String selectedVotkendroNo ='';
+                                    // if(selectedVotkendroName !=null)
+                                    //   selectedVotkendroNo = '&voter_kendro_no=${selectedVotkendroName!.voterKendroNo}';
+                                    // String nameGetText = '&name=${nameText.text}';
+                                    // String mobileNoGetText = '&mobile_number=${mobileNo.text}';
+                                    // String searQuery = '${selectedUnion != null? union_id:''}${selectedVotkendroName != null? selectedVotkendroNo:''}${nameText.text != ''?nameGetText:''}${mobileNo.text != ''?mobileNoGetText :''}';
+                                    // print('dsfhsdj ${searQuery}');
+                                    // loadingButton = true;
+                                    // usersListController.fetchSearchingList(1,searQuery,userType).then((value) {
+
+                                    // });
+                                  },
+                                  child: Text('Search_here'.tr),
+                                ),
+                              ],
+                            );
+                          }),
+                    ],
+                  ),
+                ): Container(),
+                showSearch ? Container(): Expanded(
                   child: GridView.builder(
                     scrollDirection: Axis.vertical,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -93,7 +215,7 @@ class _AllPartyScreenState extends State<AllPartyScreen> {
                       Committee committee = controller.committees[index];
 
                       return ItemCard(committee.imageUrl!, committee.title!, () => {
-                        Get.to(PartyMembersScreen(committee.title!,widget.executiveCommitteeId,committee.id!))
+                        Get.to(PartyMembersScreen(widget.executiveCommitteeName,committee.title!,widget.executiveCommitteeId,committeesId: committee.id!,))
 
                        // Get.to(AllPartyScreen(committee.title!))
                       });
@@ -116,8 +238,7 @@ class _AllPartyScreenState extends State<AllPartyScreen> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        Committee? committee;
-        DestinationParty? destinationParty;
+
 
         return GetBuilder<UtilsController>(
           builder: (utilsController) {

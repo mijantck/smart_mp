@@ -276,8 +276,7 @@ class _RegistationScreenState extends State<RegistationScreen> {
                          ),
                        ),
 
-
-                      //Union
+                       //Upazila_All
                        DropDownCustom(
                          title: AppString.Upazila_All,
                          options: utilsController.upazilaString,
