@@ -5,6 +5,7 @@ import 'package:smart_mp/models/respons/Union.dart';
 import 'package:smart_mp/models/respons/Upazila.dart';
 import 'package:smart_mp/models/respons/committee.dart';
 
+import 'AdminLoginModel.dart';
 import 'ExecutiveCommittee.dart';
 
 class UserModel {
@@ -81,9 +82,9 @@ class User {
     Union? union,
     Committee? committee,
     ExecutiveCommittee? executiveCommittee,
-    Coordinator? coordinator,
-    dynamic conveners,
-    Admin? admin,}){
+    AdminModel? coordinator,
+    AdminModel? conveners,
+    AdminModel? admin,}){
     _id = id;
     _name = name;
     _fatherHusband = fatherHusband;
@@ -171,9 +172,9 @@ class User {
     _union = json['union'] != null ? Union.fromJson(json['union']) : null;
     _committee = json['committee'] != null ? Committee.fromJson(json['committee']) : null;
     _executiveCommittee = json['executive_committee'] != null ? ExecutiveCommittee.fromJson(json['executive_committee']) : null;
-    _coordinator = json['coordinator'] != null ? Coordinator.fromJson(json['coordinator']) : null;
-    _conveners = json['conveners'];
-    _admin = json['admin'] != null ? Admin.fromJson(json['admin']) : null;
+    _coordinator = json['coordinator'] != null ? AdminModel.fromJson(json['coordinator']) : null;
+    _conveners = json['conveners'] != null ? AdminModel.fromJson(json['conveners']) : null;
+    _admin = json['admin'] != null ? AdminModel.fromJson(json['admin']) : null;
   }
   num? _id;
   String? _name;
@@ -213,9 +214,9 @@ class User {
   Union? _union;
   Committee? _committee;
   ExecutiveCommittee? _executiveCommittee;
-  Coordinator? _coordinator;
-  dynamic _conveners;
-  Admin? _admin;
+  AdminModel? _coordinator;
+  AdminModel? _conveners;
+  AdminModel? _admin;
   User copyWith({  num? id,
     String? name,
     String? fatherHusband,
@@ -254,9 +255,9 @@ class User {
     Union? union,
     Committee? committee,
     ExecutiveCommittee? executiveCommittee,
-    Coordinator? coordinator,
-    dynamic conveners,
-    Admin? admin,
+    AdminModel? coordinator,
+    AdminModel? conveners,
+    AdminModel? admin,
   }) => User(  id: id ?? _id,
     name: name ?? _name,
     fatherHusband: fatherHusband ?? _fatherHusband,
@@ -337,9 +338,9 @@ class User {
   Union? get union => _union;
   Committee? get committee => _committee;
   ExecutiveCommittee? get executiveCommittee => _executiveCommittee;
-  Coordinator? get coordinator => _coordinator;
-  dynamic get conveners => _conveners;
-  Admin? get admin => _admin;
+  AdminModel? get coordinator => _coordinator;
+  AdminModel? get conveners => _conveners;
+  AdminModel? get admin => _admin;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -400,7 +401,9 @@ class User {
     if (_coordinator != null) {
       map['coordinator'] = _coordinator?.toJson();
     }
-    map['conveners'] = _conveners;
+    if (_conveners != null) {
+      map['conveners'] = _conveners?.toJson();
+    }
     if (_admin != null) {
       map['admin'] = _admin?.toJson();
     }
@@ -410,276 +413,7 @@ class User {
 }
 
 
-class Admin {
-  Admin({
-    num? id,
-    String? userName,
-    String? email,
-    String? fullName,
-    String? userRole,
-    String? createdAt,
-    String? updatedAt,
-    dynamic unionsId,
-    dynamic wardNo,
-    String? phone,
-    bool? edit,
-    bool? delete,
-    dynamic imageUrl,
-    dynamic coordinatorId,
-    num? committeeId,}){
-    _id = id;
-    _userName = userName;
-    _email = email;
-    _fullName = fullName;
-    _userRole = userRole;
-    _createdAt = createdAt;
-    _updatedAt = updatedAt;
-    _unionsId = unionsId;
-    _wardNo = wardNo;
-    _phone = phone;
-    _edit = edit;
-    _delete = delete;
-    _imageUrl = imageUrl;
-    _coordinatorId = coordinatorId;
-    _committeeId = committeeId;
-  }
 
-  Admin.fromJson(dynamic json) {
-    _id = json['id'];
-    _userName = json['userName'];
-    _email = json['email'];
-    _fullName = json['full_name'];
-    _userRole = json['user_role'];
-    _createdAt = json['created_at'];
-    _updatedAt = json['updated_at'];
-    _unionsId = json['unions_id'];
-    _wardNo = json['ward_no'];
-    _phone = json['phone'];
-    _edit = json['edit'];
-    _delete = json['delete'];
-    _imageUrl = json['image_url'];
-    _coordinatorId = json['coordinator_id'];
-    _committeeId = json['committee_id'];
-  }
-  num? _id;
-  String? _userName;
-  String? _email;
-  String? _fullName;
-  String? _userRole;
-  String? _createdAt;
-  String? _updatedAt;
-  dynamic _unionsId;
-  dynamic _wardNo;
-  String? _phone;
-  bool? _edit;
-  bool? _delete;
-  dynamic _imageUrl;
-  dynamic _coordinatorId;
-  num? _committeeId;
-  Admin copyWith({  num? id,
-    String? userName,
-    String? email,
-    String? fullName,
-    String? userRole,
-    String? createdAt,
-    String? updatedAt,
-    dynamic unionsId,
-    dynamic wardNo,
-    String? phone,
-    bool? edit,
-    bool? delete,
-    dynamic imageUrl,
-    dynamic coordinatorId,
-    num? committeeId,
-  }) => Admin(  id: id ?? _id,
-    userName: userName ?? _userName,
-    email: email ?? _email,
-    fullName: fullName ?? _fullName,
-    userRole: userRole ?? _userRole,
-    createdAt: createdAt ?? _createdAt,
-    updatedAt: updatedAt ?? _updatedAt,
-    unionsId: unionsId ?? _unionsId,
-    wardNo: wardNo ?? _wardNo,
-    phone: phone ?? _phone,
-    edit: edit ?? _edit,
-    delete: delete ?? _delete,
-    imageUrl: imageUrl ?? _imageUrl,
-    coordinatorId: coordinatorId ?? _coordinatorId,
-    committeeId: committeeId ?? _committeeId,
-  );
-  num? get id => _id;
-  String? get userName => _userName;
-  String? get email => _email;
-  String? get fullName => _fullName;
-  String? get userRole => _userRole;
-  String? get createdAt => _createdAt;
-  String? get updatedAt => _updatedAt;
-  dynamic get unionsId => _unionsId;
-  dynamic get wardNo => _wardNo;
-  String? get phone => _phone;
-  bool? get edit => _edit;
-  bool? get delete => _delete;
-  dynamic get imageUrl => _imageUrl;
-  dynamic get coordinatorId => _coordinatorId;
-  num? get committeeId => _committeeId;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = _id;
-    map['userName'] = _userName;
-    map['email'] = _email;
-    map['full_name'] = _fullName;
-    map['user_role'] = _userRole;
-    map['created_at'] = _createdAt;
-    map['updated_at'] = _updatedAt;
-    map['unions_id'] = _unionsId;
-    map['ward_no'] = _wardNo;
-    map['phone'] = _phone;
-    map['edit'] = _edit;
-    map['delete'] = _delete;
-    map['image_url'] = _imageUrl;
-    map['coordinator_id'] = _coordinatorId;
-    map['committee_id'] = _committeeId;
-    return map;
-  }
-
-}
-
-
-class Coordinator {
-  Coordinator({
-    num? id,
-    String? userName,
-    String? email,
-    String? fullName,
-    String? userRole,
-    String? createdAt,
-    String? updatedAt,
-    dynamic unionsId,
-    dynamic wardNo,
-    String? phone,
-    bool? edit,
-    bool? delete,
-    dynamic imageUrl,
-    dynamic coordinatorId,
-    num? committeeId,}){
-    _id = id;
-    _userName = userName;
-    _email = email;
-    _fullName = fullName;
-    _userRole = userRole;
-    _createdAt = createdAt;
-    _updatedAt = updatedAt;
-    _unionsId = unionsId;
-    _wardNo = wardNo;
-    _phone = phone;
-    _edit = edit;
-    _delete = delete;
-    _imageUrl = imageUrl;
-    _coordinatorId = coordinatorId;
-    _committeeId = committeeId;
-  }
-
-  Coordinator.fromJson(dynamic json) {
-    _id = json['id'];
-    _userName = json['userName'];
-    _email = json['email'];
-    _fullName = json['full_name'];
-    _userRole = json['user_role'];
-    _createdAt = json['created_at'];
-    _updatedAt = json['updated_at'];
-    _unionsId = json['unions_id'];
-    _wardNo = json['ward_no'];
-    _phone = json['phone'];
-    _edit = json['edit'];
-    _delete = json['delete'];
-    _imageUrl = json['image_url'];
-    _coordinatorId = json['coordinator_id'];
-    _committeeId = json['committee_id'];
-  }
-  num? _id;
-  String? _userName;
-  String? _email;
-  String? _fullName;
-  String? _userRole;
-  String? _createdAt;
-  String? _updatedAt;
-  dynamic _unionsId;
-  dynamic _wardNo;
-  String? _phone;
-  bool? _edit;
-  bool? _delete;
-  dynamic _imageUrl;
-  dynamic _coordinatorId;
-  num? _committeeId;
-  Coordinator copyWith({  num? id,
-    String? userName,
-    String? email,
-    String? fullName,
-    String? userRole,
-    String? createdAt,
-    String? updatedAt,
-    dynamic unionsId,
-    dynamic wardNo,
-    String? phone,
-    bool? edit,
-    bool? delete,
-    dynamic imageUrl,
-    dynamic coordinatorId,
-    num? committeeId,
-  }) => Coordinator(  id: id ?? _id,
-    userName: userName ?? _userName,
-    email: email ?? _email,
-    fullName: fullName ?? _fullName,
-    userRole: userRole ?? _userRole,
-    createdAt: createdAt ?? _createdAt,
-    updatedAt: updatedAt ?? _updatedAt,
-    unionsId: unionsId ?? _unionsId,
-    wardNo: wardNo ?? _wardNo,
-    phone: phone ?? _phone,
-    edit: edit ?? _edit,
-    delete: delete ?? _delete,
-    imageUrl: imageUrl ?? _imageUrl,
-    coordinatorId: coordinatorId ?? _coordinatorId,
-    committeeId: committeeId ?? _committeeId,
-  );
-  num? get id => _id;
-  String? get userName => _userName;
-  String? get email => _email;
-  String? get fullName => _fullName;
-  String? get userRole => _userRole;
-  String? get createdAt => _createdAt;
-  String? get updatedAt => _updatedAt;
-  dynamic get unionsId => _unionsId;
-  dynamic get wardNo => _wardNo;
-  String? get phone => _phone;
-  bool? get edit => _edit;
-  bool? get delete => _delete;
-  dynamic get imageUrl => _imageUrl;
-  dynamic get coordinatorId => _coordinatorId;
-  num? get committeeId => _committeeId;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = _id;
-    map['userName'] = _userName;
-    map['email'] = _email;
-    map['full_name'] = _fullName;
-    map['user_role'] = _userRole;
-    map['created_at'] = _createdAt;
-    map['updated_at'] = _updatedAt;
-    map['unions_id'] = _unionsId;
-    map['ward_no'] = _wardNo;
-    map['phone'] = _phone;
-    map['edit'] = _edit;
-    map['delete'] = _delete;
-    map['image_url'] = _imageUrl;
-    map['coordinator_id'] = _coordinatorId;
-    map['committee_id'] = _committeeId;
-    return map;
-  }
-
-}
 
 
 

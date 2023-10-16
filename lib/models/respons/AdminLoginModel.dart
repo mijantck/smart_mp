@@ -1,5 +1,5 @@
-/// user : {"id":1,"userName":"Admin","email":"admin@gmail.com","full_name":"Admin","user_role":"super_admin","created_at":"2023-08-02T00:20:02.000000Z","updated_at":"2023-09-21T11:47:37.000000Z","unions_id":1,"ward_no":"1","phone":"01728744444","edit":true,"delete":true,"image_url":"sdfsdfds","coordinator_id":1,"committee_id":1}
-/// token : ""
+import 'package:smart_mp/models/respons/ConvenerModel.dart';
+
 
 class AdminLoginModel {
   AdminLoginModel({
@@ -34,21 +34,6 @@ AdminLoginModel copyWith({  AdminModel? user,
 
 }
 
-/// id : 1
-/// userName : "Admin"
-/// email : "admin@gmail.com"
-/// full_name : "Admin"
-/// user_role : "super_admin"
-/// created_at : "2023-08-02T00:20:02.000000Z"
-/// updated_at : "2023-09-21T11:47:37.000000Z"
-/// unions_id : 1
-/// ward_no : "1"
-/// phone : "01728744444"
-/// edit : true
-/// delete : true
-/// image_url : "sdfsdfds"
-/// coordinator_id : 1
-/// committee_id : 1
 
 class AdminModel {
   AdminModel({
@@ -59,14 +44,17 @@ class AdminModel {
       String? userRole, 
       String? createdAt, 
       String? updatedAt, 
-      num? unionsId, 
-      String? wardNo, 
+      num? unionsId,
+      num? wardNo,
       String? phone, 
       bool? edit, 
       bool? delete, 
       String? imageUrl, 
       num? coordinatorId, 
-      num? committeeId,}){
+      num? committeeId,
+      AdminModel? coordinator,
+      Committee? committee,
+  }){
     _id = id;
     _userName = userName;
     _email = email;
@@ -82,6 +70,8 @@ class AdminModel {
     _imageUrl = imageUrl;
     _coordinatorId = coordinatorId;
     _committeeId = committeeId;
+    _coordinator = coordinator;
+    _committee = committee;
 }
 
   AdminModel.fromJson(dynamic json) {
@@ -100,6 +90,8 @@ class AdminModel {
     _imageUrl = json['image_url'];
     _coordinatorId = json['coordinator_id'];
     _committeeId = json['committee_id'];
+    _coordinator = json['coordinator'] != null ? AdminModel.fromJson(json['coordinator']) : null;
+    _committee = json['committee'] != null ? Committee.fromJson(json['committee']) : null;
   }
   num? _id;
   String? _userName;
@@ -109,13 +101,15 @@ class AdminModel {
   String? _createdAt;
   String? _updatedAt;
   num? _unionsId;
-  String? _wardNo;
+  num? _wardNo;
   String? _phone;
   bool? _edit;
   bool? _delete;
   String? _imageUrl;
   num? _coordinatorId;
   num? _committeeId;
+  AdminModel? _coordinator;
+  Committee? _committee;
 AdminModel copyWith({  num? id,
   String? userName,
   String? email,
@@ -124,13 +118,15 @@ AdminModel copyWith({  num? id,
   String? createdAt,
   String? updatedAt,
   num? unionsId,
-  String? wardNo,
+  num? wardNo,
   String? phone,
   bool? edit,
   bool? delete,
   String? imageUrl,
   num? coordinatorId,
   num? committeeId,
+  AdminModel? coordinator,
+  Committee? committee,
 }) => AdminModel(  id: id ?? _id,
   userName: userName ?? _userName,
   email: email ?? _email,
@@ -146,6 +142,8 @@ AdminModel copyWith({  num? id,
   imageUrl: imageUrl ?? _imageUrl,
   coordinatorId: coordinatorId ?? _coordinatorId,
   committeeId: committeeId ?? _committeeId,
+  coordinator: coordinator ?? _coordinator,
+  committee: committee ?? _committee,
 );
   num? get id => _id;
   String? get userName => _userName;
@@ -155,13 +153,15 @@ AdminModel copyWith({  num? id,
   String? get createdAt => _createdAt;
   String? get updatedAt => _updatedAt;
   num? get unionsId => _unionsId;
-  String? get wardNo => _wardNo;
+  num? get wardNo => _wardNo;
   String? get phone => _phone;
   bool? get edit => _edit;
   bool? get delete => _delete;
   String? get imageUrl => _imageUrl;
   num? get coordinatorId => _coordinatorId;
   num? get committeeId => _committeeId;
+  AdminModel? get coordinator => _coordinator;
+  Committee? get committee => _committee;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -180,6 +180,12 @@ AdminModel copyWith({  num? id,
     map['image_url'] = _imageUrl;
     map['coordinator_id'] = _coordinatorId;
     map['committee_id'] = _committeeId;
+    if (_coordinator != null) {
+      map['coordinator'] = _coordinator?.toJson();
+    }
+    if (_committee != null) {
+      map['committee'] = _committee?.toJson();
+    }
     return map;
   }
 

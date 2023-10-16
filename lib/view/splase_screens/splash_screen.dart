@@ -67,23 +67,23 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
 
-    Future.delayed(Duration(seconds: 1), () async {
-      Get.off(HomePage());
-    });
-
-    // utilsController.fetchSettings().then((value) async {
-    //   String version = await getAppVersion();
-    //   print('Version Name: $version');
-    //   if(value != version){
-    //     _showUpdateDialog(context);
-    //   }else{
-    //     Future.delayed(Duration(seconds: 1), () async {
-    //       if(utilsController.openAppValue.value == true) {
-    //         Get.off(HomePage());
-    //       }
-    //     });
-    //   }
+    // Future.delayed(Duration(seconds: 1), () async {
+    //   Get.off(HomePage());
     // });
+
+    utilsController.fetchSettings().then((value) async {
+      String version = await getAppVersion();
+      print('Version Name: $version');
+      if(value != version){
+        _showUpdateDialog(context);
+      }else{
+        utilsController.openApp().then((value) {
+          if(utilsController.openAppValue.value == true) {
+            Get.off(HomePage());
+          }
+        });
+      }
+    });
     return SafeArea(
         child: Scaffold(
           body: Container(

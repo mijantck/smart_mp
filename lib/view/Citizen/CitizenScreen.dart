@@ -32,6 +32,7 @@ class _CitizenScreenState extends State<CitizenScreen> {
   @override
   void initState() {
     // TODO: implement initState
+    usersListController.totalUsers = 0;
     usersListController.userListModelData = [];
     usersListController.fetchVoterList(1, userType);
     super.initState();

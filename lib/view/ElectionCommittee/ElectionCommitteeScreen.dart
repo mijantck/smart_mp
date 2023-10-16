@@ -4,6 +4,7 @@ import 'package:smart_mp/controllers/UnitsController.dart';
 import 'package:smart_mp/models/respons/UserModel.dart';
 
 import '../../controllers/UserController.dart';
+import '../../models/respons/AdminLoginModel.dart';
 import '../../models/respons/Union.dart';
 import '../../utils/AppColors.dart';
 import '../../utils/AppImages.dart';
@@ -35,11 +36,43 @@ class _ElectionCommitteeScreenState extends State<ElectionCommitteeScreen> {
   VoterKendro? selectedVotkendroName;
   bool showSearch = false;
   bool loadingButton = false;
+  List<Roles>? roles;
+  AdminModel? coordinator;
+
 
   @override
   void initState() {
+    usersListController.totalUsers = 0;
     usersListController.userListModelData = [];
-    usersListController.fetchVoterList(1, userType);
+
+    if(usersListController.userModel != null){
+      User? user = usersListController.userModel!.user;
+      if(user != null){
+        if(user.roles != null)
+          roles = user.roles;
+        if(user.voterKendro != null)
+          selectedVotkendroName = user.voterKendro;
+        if(user.coordinator != null)
+          coordinator = user.coordinator;
+      }
+    }
+
+    if(usersListController.adminLoginModel != null){
+      if(usersListController.adminLoginModel!.user!.userRole == 'coordinator'){
+        usersListController.fetchVoterList(1, userType,
+            voterKendroNo: selectedVotkendroName != null? selectedVotkendroName!.voterKendroNo! : '',
+            isFromCo: true,
+            admin_id: '${usersListController.adminLoginModel!.user!.id!}'
+        );
+      }
+    }else{
+      usersListController.fetchVoterList(1, userType,
+          voterKendroNo: selectedVotkendroName != null? selectedVotkendroName!.voterKendroNo! : ''
+
+      );
+    }
+
+
     super.initState();
   }
 
@@ -113,23 +146,61 @@ class _ElectionCommitteeScreenState extends State<ElectionCommitteeScreen> {
               SizedBox(height: 10),
               GetBuilder<UserController>(
                   builder: (userController) {
-                    return Row(
+                    return Column(
                       children: [
-                        Text(
-                          AppString.Voting_Center_Committee,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: AppColors.text_black,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  AppString.Voting_Center_Committee,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    color: AppColors.text_black,
+                                  ),
+                                ),
+                                Text(': ${userController.totalUsers!}',style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: AppColors.text_black,
+                                ),)
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'Voting_Center_no'.tr,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    color: AppColors.text_black,
+                                  ),
+                                ),
+                                Text(': ${selectedVotkendroName == null? '' : selectedVotkendroName!.voterKendroNo!}',style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: AppColors.text_black,
+                                ),)
+                              ],
+                            )
+                          ],
                         ),
-                        Text(': ${userController.totalUsers!}',style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: AppColors.text_black,
-                        ),)
-                      ],
-                    );
+                        SizedBox(height: 5,),
+                        Text('Voting_Center_Name'.tr,style: TextStyle(fontWeight: FontWeight.bold),),
+                        SizedBox(height: 3,),
+                        Text('${selectedVotkendroName == null? '' : selectedVotkendroName!.name}'),
+                        coordinator == null? Container() : Column(
+                          children: [
+                            SizedBox(height: 5,),
+                            Text('Coordinator'.tr,style: TextStyle(fontWeight: FontWeight.bold),),
+                            SizedBox(height: 3,),
+                            Text('${coordinator == null? '' : coordinator!.userName}'),
+                          ],
+                        )
+
+                      ],);
                   }),
               SizedBox(height: 10),
               showSearch ? Expanded(

@@ -330,6 +330,7 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                             prefs!.setString(AppString.loginPassword, '');
                             prefs!.setString(AppString.loginMobile, '');
 
+                            utilsController.loginDone(true);
                             utilsController.updateToken();
                             Navigator.pop(context);
                             _scaffoldKey.currentState?.closeDrawer();

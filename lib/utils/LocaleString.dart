@@ -106,8 +106,10 @@ class LocaleString extends Translations {
       'Coordinator': 'Coordinator',
       'Voting_Center_Committee' : 'Voting Center Committee',
       'Voting_Center_Name' : 'Voting Center Name',
+      'Voting_Center_no' : 'Voting Center No',
       'Voting_area' : 'Voting Area',
-      'Voting_no' : 'Voting No: '
+      'Voting_no' : 'Voting No: ',
+      'convener' : 'Convener'
     },
     'bn_BD': {
       'APP_NAME': 'স্মার্ট বাগমারা',
@@ -214,8 +216,10 @@ class LocaleString extends Translations {
       'Coordinator': 'সমন্বয়কারী',
       'Voting_Center_Committee' : 'ভোট সেন্টার কমিটি',
       'Voting_Center_Name' : 'ভোটার কেন্দ্রের নাম',
+      'Voting_Center_no' : 'ভোটার কেন্দ্রের নং',
       'Voting_area' : 'ভোটার এলাকা',
-      'Voting_no' : 'ভোটার নং: '
+      'Voting_no' : 'ভোটার নং: ',
+      'convener' : 'আহবাহক'
     },
   };
 }

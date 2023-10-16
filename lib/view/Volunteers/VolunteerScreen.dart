@@ -31,6 +31,7 @@ class _VolunteerScreenState extends State<VolunteerScreen> {
   @override
   void initState() {
     // TODO: implement initState
+    usersListController.totalUsers = 0;
     usersListController.userListModelData = [];
 
     usersListController.fetchVoterList(1, userType);

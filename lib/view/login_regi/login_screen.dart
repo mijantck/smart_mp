@@ -228,12 +228,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (value.isSuccess) {
                               utilsController.changePossition(0);
                               utilsController.loginDone(true);
-
-                              var userController = Get.put(UserController());
-                              print('admin llll');
-                             // Get.off(HomePage());
-                              //Get.to(AdminProfileScreen(userController.adminLoginModel!.user!, isFromLogin: true));
-
+                              utilsController.updateToken();
                             } else {
                               Fluttertoast.showToast(
                                 msg: value.message,

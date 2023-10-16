@@ -113,6 +113,12 @@ class _AllPartyScreenState extends State<AllPartyScreen> {
                                         utilsController.committeesSelecte.value = value;
                                         committee = utilsController.committees.firstWhere((union) => union.title == value);
                                       });
+                                    }else if(value == AppString.seltectItem){
+                                      setState(() {
+                                        utilsController.committeesSelecte.value = AppString.seltectItem;
+                                        committee = null;
+                                      });
+                                      print('dsjf 1111 ${value}');
                                     }
                                   },
                                 ),
@@ -127,6 +133,12 @@ class _AllPartyScreenState extends State<AllPartyScreen> {
                                         utilsController.destinationPartySelecte.value = value;
                                         destinationParty = utilsController.destinationParty.firstWhere((party) => party.name == value);
                                       });
+                                    }else if(value == AppString.seltectItem){
+                                      setState(() {
+                                        utilsController.destinationPartySelecte.value = AppString.seltectItem;
+                                        destinationParty = null;
+                                      });
+                                      print('dsjf 1111 ${value}');
                                     }
                                   },
                                 ),
@@ -141,6 +153,12 @@ class _AllPartyScreenState extends State<AllPartyScreen> {
                                         selectedUnion = utilsController.union.firstWhere((union) => union.name == value);
 
                                       });
+                                    }else if(value == AppString.seltectItem){
+                                      setState(() {
+                                        utilsController.unionSelecte.value = AppString.seltectItem;
+                                        selectedUnion = null;
+                                      });
+                                      print('dsjf 1111 ${value}');
                                     }
                                   },
                                 ),
@@ -154,6 +172,11 @@ class _AllPartyScreenState extends State<AllPartyScreen> {
                                       setState(() {
                                         selectWard = value;
                                       });
+                                    }else if(value == AppString.seltectItem){
+                                      setState(() {
+                                        selectWard = AppString.seltectItem;
+                                      });
+                                      print('dsjf 1111 ${value}');
                                     }
                                   },
                                 ),

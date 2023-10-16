@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_mp/models/respons/AdminLoginModel.dart';
 import 'package:smart_mp/models/respons/ESebahModel.dart';
 import 'package:smart_mp/models/respons/MpEventModel.dart';
 import 'package:smart_mp/models/respons/SettingsModel.dart';
@@ -116,7 +117,7 @@ class UtilsController extends GetxController {
   }
 
 
-  Future<void> openApp() async {
+  Future<ResponseModel> openApp() async {
     try {
       var apiClient = ApiClient();
       var response = await apiClient.get(Uri.parse('https://smartmp1.mrsoftit.xyz/public/api/open-app'));
@@ -125,13 +126,15 @@ class UtilsController extends GetxController {
         var jsonData = json.decode(response.body);
         print('sdfhsdjkf $jsonData');
         openAppValue.value = jsonData;
-
         update();
+        return ResponseModel(true, 'API call successful.');
       }else{
         openAppValue.value = true;
+        return ResponseModel(true, 'API call successful.');
       }
     } catch (e) {
       openAppValue.value = true;
+      return ResponseModel(true, 'API call successful.');
       print('Error fetching committees: $e');
     }
   }
@@ -154,6 +157,58 @@ class UtilsController extends GetxController {
         voterKendrosString.add(AppString.seltectItem);
         voterKendrosList.forEach((element) {
           voterKendrosString.add(element.name!);
+        });
+        print('sdhfsd ${voterKendrosString.length}');
+        update();
+      }
+    } catch (e) {
+      print('Error fetching committees: $e');
+    }
+  }
+
+
+  Future<void> fetchVoterKendrosUnderCo(String admin_id) async {
+    try {
+
+      voterKendros.value = [];
+      voterKendrosString.value = [];
+      voterKendrosSelecte  = AppString.seltectItem.obs;
+
+      var apiClient = ApiClient();
+      var response = await apiClient.get(Uri.parse('${AppString.BASE_URL}/api/voter-kendros/$admin_id'));
+
+      if (response.statusCode == 200) {
+        var jsonData = json.decode(response.body) as List<dynamic>;
+        var voterKendrosList = jsonData.map((item) => VoterKendro.fromJson(item)).toList();
+        voterKendros.value = voterKendrosList;
+        voterKendrosString.add(AppString.seltectItem);
+        voterKendrosList.forEach((element) {
+          voterKendrosString.add(element.name!);
+        });
+        print('sdhfsd ${voterKendrosString.length}');
+        update();
+      }
+    } catch (e) {
+      print('Error fetching committees: $e');
+    }
+  }
+
+  var conveners = <AdminModel>[].obs;
+  var convenersString = <String>[].obs;
+  RxString convenersSelect = AppString.seltectItem.obs;
+
+  Future<void> fetchConvener() async {
+    try {
+      var apiClient = ApiClient();
+      var response = await apiClient.get(Uri.parse('${AppString.BASE_URL}/api/get-conveners'));
+
+      if (response.statusCode == 200) {
+        var jsonData = json.decode(response.body) as List<dynamic>;
+        var convenersList = jsonData.map((item) => AdminModel.fromJson(item)).toList();
+        conveners.value = convenersList;
+        convenersString.add(AppString.seltectItem);
+        convenersList.forEach((element) {
+          convenersString.add(element.userName!);
         });
         print('sdhfsd ${voterKendrosString.length}');
         update();

@@ -34,6 +34,7 @@ class _VillageCommitteeScreenState extends State<VillageCommitteeScreen> {
 
   @override
   void initState() {
+    usersListController.totalUsers = 0;
     usersListController.userListModelData = [];
     usersListController.fetchVoterList(1, userType);
     super.initState();

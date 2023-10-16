@@ -127,6 +127,12 @@ class _VoterListScreenState extends State<VoterListScreen> {
                                       selectedUnion = utilsController.union.firstWhere((union) => union.name == value);
 
                                     });
+                                  }else if(value == AppString.seltectItem){
+                                    setState(() {
+                                      utilsController.unionSelecte.value = AppString.seltectItem;
+                                      selectedUnion = null;
+                                    });
+                                    print('dsjf 1111 ${value}');
                                   }
                                 },
                               ),
@@ -140,6 +146,11 @@ class _VoterListScreenState extends State<VoterListScreen> {
                                     setState(() {
                                       selectWard = value;
                                     });
+                                  }else if(value == AppString.seltectItem){
+                                    setState(() {
+                                      selectWard = AppString.seltectItem;
+                                    });
+                                    print('dsjf 1111 ${value}');
                                   }
                                 },
                               ),

@@ -13,6 +13,7 @@ import 'package:mime/mime.dart';
 import 'package:flutter/foundation.dart' as Foundation;
 import 'package:path/path.dart' as path;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_mp/controllers/UnitsController.dart';
 import 'package:smart_mp/utils/AppString.dart';
 import '../models/requste/UserRegistation.dart';
 import '../models/respons/AdminLoginModel.dart';
@@ -404,10 +405,21 @@ class UserController extends GetxController {
   String next_page_url = '';
   var userListModelData = [];
   bool isSearchFunction = false;
-  Future<void> fetchVoterList(int page,String user_type) async {
+  Future<void> fetchVoterList(int page,String user_type,{String voterKendroNo = '',bool isFromCo = false,String admin_id = '0'}) async {
     isSearchFunction = false;
+    var utilsController = Get.put(UtilsController());
 
-    String urlMain = '${AppString.BASE_URL}/api/users-lists?user_type=$user_type&page=$page';
+    if(isFromCo){
+      utilsController.fetchVoterKendrosUnderCo(admin_id);
+    }else{
+      utilsController.fetchVoterKendros();
+    }
+
+    String voterKen = voterKendroNo == ''? '' : '&voter_kendro_no=$voterKendroNo';
+
+    String urlMain = '${AppString.BASE_URL}/api/users-lists?user_type=$user_type$voterKen&page=$page';
+
+    print('sjdhjf ${urlMain}');
     if(page != 1){
       urlMain = next_page_url;
     }

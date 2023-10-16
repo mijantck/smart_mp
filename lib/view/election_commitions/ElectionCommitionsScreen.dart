@@ -102,8 +102,7 @@ class _ElectionCommissionsScreenState extends State<ElectionCommissionsScreen> {
                     }
 
                   }),
-                  ElectionCoItemCard(AppImages.ic_coordinator, 'Coordinator'.tr,()async{
-
+                  ElectionCoItemCard(AppImages.ic_coordinator, 'convener'.tr,()async{
                     SharedPreferences prefs = await SharedPreferences.getInstance();
                     String? token =  prefs.getString('token');
                     if(token == null){
