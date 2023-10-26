@@ -55,7 +55,7 @@ class VoterItem extends StatelessWidget {
                               child: Text('Voting_no'.tr,style: TextStyle(fontWeight: FontWeight.bold),),
                             ),
                             SizedBox(width: 5,),
-                            Text('',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
+                            Text('${voterListModelData.voterKendoNumber}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
                           ],
                         ),
                         SizedBox(height: 3,),

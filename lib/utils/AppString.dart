@@ -25,6 +25,7 @@ class AppString{
   static String Scanner = 'Scanner'.tr;
   static String help_center = 'help_center'.tr;
   static String social_link = 'social_link'.tr;
+  static String sms_send = 'sms_send'.tr;
   static String Smart_Bagmara = 'Smart_Bagmara'.tr;
   static String delete_my_account = 'delete_my_account'.tr;
   static String Logout = 'Logout'.tr;
@@ -130,7 +131,7 @@ class AppString{
   static String ChooseFile = 'ChooseFile'.tr;
 
   static String No_file_chosen = 'No_file_chosen'.tr;
-  static String seltectItem = 'নির্বাচন করুন'/*'seltectItem'.tr*/;
+  static String seltectItem = 'নির্বাচন করুন';
   static String Male = 'Male';
   static String FeMale = 'Female';
   static String Others = 'Others';
@@ -142,6 +143,7 @@ class AppString{
   static String verify = 'verify'.tr;
   static String Change_Password = 'Change_Password'.tr;
   static String Voting_Center_Committee = 'Voting_Center_Committee'.tr;
+  static String not_permitted = 'not_permitted'.tr;
 
   static String userLoginType = 'userLoginType';
   static String admin = 'admin';
@@ -152,6 +154,13 @@ class AppString{
   static String loginMobile = 'loginMobile';
   static String loginPassword = 'loginPassword';
   static String loginEmail = 'loginEmail';
+
+  static String volunteerTag = 'volunteer';
+  static String partyTag = 'party';
+  static String citizenTag = 'citizen';
+  static String election_commissionTag = 'election_commission';
+  static String polling_agentTag = 'polling_agent';
+  static String village_communityTag = 'village_community';
 
 
 }

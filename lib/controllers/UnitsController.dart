@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -116,6 +117,32 @@ class UtilsController extends GetxController {
     update();
   }
 
+  showToast(String message,{bool isError = true}){
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: isError ? Colors.red: Colors.green,
+      textColor: Colors.white,
+      fontSize: 12.0,
+    );
+  }
+
+  logut() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(AppString.token, '');
+    prefs.setString(AppString.role, '');
+    prefs.setString(AppString.userLoginType, '');
+    prefs.setString(AppString.loginEmail, '');
+    prefs.setString(AppString.loginPassword, '');
+    prefs.setString(AppString.loginMobile, '');
+  }
+  Future<String> getMobileNumber()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(AppString.userLoginType)??'';
+  }
+
 
   Future<ResponseModel> openApp() async {
     try {
@@ -147,6 +174,10 @@ class UtilsController extends GetxController {
 
   Future<void> fetchVoterKendros() async {
     try {
+      voterKendros.value = [];
+      voterKendrosString.value = [];
+      voterKendrosSelecte  = AppString.seltectItem.obs;
+
       var apiClient = ApiClient();
       var response = await apiClient.get(Uri.parse('${AppString.BASE_URL}/api/get-voter-kendos'));
 
@@ -159,11 +190,16 @@ class UtilsController extends GetxController {
           voterKendrosString.add(element.name!);
         });
         print('sdhfsd ${voterKendrosString.length}');
+
         update();
       }
     } catch (e) {
       print('Error fetching committees: $e');
     }
+
+    voterKendrosString.forEach((element) {
+      print('fgfg $element');
+    });
   }
 
 
@@ -174,9 +210,11 @@ class UtilsController extends GetxController {
       voterKendrosString.value = [];
       voterKendrosSelecte  = AppString.seltectItem.obs;
 
-      var apiClient = ApiClient();
-      var response = await apiClient.get(Uri.parse('${AppString.BASE_URL}/api/voter-kendros/$admin_id'));
+      String url = '${AppString.BASE_URL}/api/voter-kendros/$admin_id';
 
+      var apiClient = ApiClient();
+      var response = await apiClient.get(Uri.parse(url));
+      print('jksljdks ${url}');
       if (response.statusCode == 200) {
         var jsonData = json.decode(response.body) as List<dynamic>;
         var voterKendrosList = jsonData.map((item) => VoterKendro.fromJson(item)).toList();
@@ -197,10 +235,16 @@ class UtilsController extends GetxController {
   var convenersString = <String>[].obs;
   RxString convenersSelect = AppString.seltectItem.obs;
 
-  Future<void> fetchConvener() async {
+  Future<void> fetchConvener({String coordinator_id = '0'}) async {
     try {
+
+      String coordinatiorId = coordinator_id == '0'? '':'?coordinator_id=$coordinator_id';
+
+      String url = '${AppString.BASE_URL}/api/get-conveners$coordinatiorId';
+
+      print('shfdjks ${url}');
       var apiClient = ApiClient();
-      var response = await apiClient.get(Uri.parse('${AppString.BASE_URL}/api/get-conveners'));
+      var response = await apiClient.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
         var jsonData = json.decode(response.body) as List<dynamic>;

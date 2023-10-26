@@ -33,7 +33,6 @@ class _LoginScreenState extends State<LoginScreen> {
   var utilsController = Get.put(UtilsController());
 
   bool rememberMe = false;
-
   String _selectedValue = 'General';
   var isLoading = false;
 
@@ -96,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     CustomTextField(AppString.password,AppString.Enter_Your_Password,passwordController,isPassword: true,),
                     DropDownCustom(
                       title: 'LogIn_Type'.tr,
-                      options: <String>['Coordinator', 'General'],
+                      options: <String>['Coordinator', 'General','Election Committee'],
                       selectedOption: _selectedValue,
                       onChange: (String? value) { // Handle nullable value
                         setState(() {
@@ -207,14 +206,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               utilsController.changePossition(0);
                               utilsController.loginDone(true);
                               utilsController.updateToken();
+                              utilsController.showToast(value.message,isError: false);
                             } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(value.message),
-                                  backgroundColor: Colors
-                                      .red, // You can customize the color
-                                ),
-                              );
+                              utilsController.showToast(value.message);
                             }
 
                           });
@@ -229,16 +223,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               utilsController.changePossition(0);
                               utilsController.loginDone(true);
                               utilsController.updateToken();
+                              utilsController.showToast(value.message,isError: false);
                             } else {
-                              Fluttertoast.showToast(
-                                msg: value.message,
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: Colors.red,
-                                textColor: Colors.white,
-                                fontSize: 12.0,
-                              );
+                              utilsController.showToast(value.message);
                             }
 
 

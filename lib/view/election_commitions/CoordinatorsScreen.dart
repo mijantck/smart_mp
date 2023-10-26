@@ -1,36 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_mp/controllers/UnitsController.dart';
+import 'package:smart_mp/view/election_commitions/widgets/ElectionCoItemCard.dart';
 
 import '../../controllers/UserController.dart';
 import '../../utils/AppColors.dart';
 import '../../utils/AppImages.dart';
 import '../../utils/AppString.dart';
+
+import '../Convener/ConvenerScreen.dart';
+import '../ElectionCommittee/ElectionCommitteeScreen.dart';
+import '../PollingAgent/PollingAgentScreen.dart';
+import '../login_regi/login_screen.dart';
 import '../login_regi/widgets/CustomTextField.dart';
 import '../widgets/UsersItem.dart';
 
-class CoordinatorScreen extends StatefulWidget {
-  const CoordinatorScreen({super.key});
+class CoordinatorsScreen extends StatefulWidget {
+  const CoordinatorsScreen({super.key});
 
   @override
-  State<CoordinatorScreen> createState() => _CoordinatorScreenState();
+  State<CoordinatorsScreen> createState() => _CoordinatorsScreenState();
 }
 
-class _CoordinatorScreenState extends State<CoordinatorScreen> {
+class _CoordinatorsScreenState extends State<CoordinatorsScreen> {
 
-
+  var utilsController = Get.put(UtilsController());
   TextEditingController nidController = TextEditingController();
 
   var usersListController = Get.put(UserController());
 
-  String userType = 'polling_agent';
+  String userType = 'election_commission';
   @override
   void initState() {
     // TODO: implement initState
-    usersListController.fetchVoterList(1, userType);
+    //usersListController.fetchUsersRegisterList(1, userType);
 
     super.initState();
 
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -71,25 +81,59 @@ class _CoordinatorScreenState extends State<CoordinatorScreen> {
               ),
               SizedBox(height: 10),
 
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                child: Column(
-                  children: [
-                    CustomTextField(AppString.nid_number,AppString.Enter_Your_NID,nidController),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Implement your search logic here
-                        String searchText = nidController.text;
+              Row(
+                children: [
+                  ElectionCoItemCard(AppImages.election_committee, AppString.Voting_Center_Committee,()async{
+                    
+                    if(utilsController.tokens == null){
+                      Get.to(LoginScreen());
+                    }else{
+                      if(usersListController.userModel != null){
+                        if(usersListController.userRoles.contains(AppString.election_commissionTag)){
+                          Get.to(ElectionCommitteeScreen());
+                        }else{
+                          utilsController.showToast('You are not Vote center Committee');
+                        }
+                      }else{
+                        Get.to(ElectionCommitteeScreen());
+                      }
+                     
+                    }
 
-                        // Call a method to filter and update the list based on searchText
+                  }),
+                  ElectionCoItemCard(AppImages.polling_agent, AppString.Polling_agent,()async{
 
-                        usersListController.fetchSearchingList(1,searchText,userType);
-                      },
-                      child: Text('Search_here'.tr),
-                    ),
-                  ],
-                ),
-              ),
+                    if(utilsController.tokens == null){
+                      Get.to(LoginScreen());
+                    }else{
+                      if(usersListController.userModel != null){
+                        if(usersListController.userRoles.contains(AppString.polling_agentTag)){
+                          Get.to(PollingAgentScreen());
+                        }else{
+                          utilsController.showToast('You are not Polling agent');
+                        }
+                      }else{
+                        Get.to(PollingAgentScreen());
+                      }
+
+                    }
+                  }),
+                  ElectionCoItemCard(AppImages.ic_coordinator, 'convener'.tr,()async{
+                    if(utilsController.tokens == null){
+                      Get.to(LoginScreen());
+                    }else{
+                      if(utilsController.tokens == AppString.admin){
+                        Get.to(ConvenerScreen());
+                      }else{
+                        utilsController.showToast('You are not Coordinator');
+
+                      }
+
+                    }
+
+                  }),
+                ],
+              )
               // Flexible(
               //   child: NotificationListener<ScrollNotification>(
               //     onNotification: (ScrollNotification scrollInfo) {
@@ -124,10 +168,6 @@ class _CoordinatorScreenState extends State<CoordinatorScreen> {
               //     ),
               //   ),
               // ),
-
-              Center(
-                child: Text('Under developing'),
-              )
             ],
           ),
         ),

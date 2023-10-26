@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_mp/controllers/UnitsController.dart';
@@ -9,16 +10,17 @@ import '../../utils/AppColors.dart';
 import '../../utils/AppImages.dart';
 import '../home_page/home_page_screen.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 
 class SplashScreen extends StatefulWidget {
-
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  var utilsController =Get.put(UtilsController());
-
+  var utilsController = Get.put(UtilsController());
+  bool rememberMe = false;
+  bool checked = true;
 
 
   _launchURL(String url) async {
@@ -39,9 +41,10 @@ class _SplashScreenState extends State<SplashScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                String url = 'https://play.google.com/store/apps/details?id=com.smartmp.bagmaraleague';
+                String url =
+                    'https://play.google.com/store/apps/details?id=com.smartmp.bagmaraleague';
                 _launchURL(url);
-               // Navigator.of(context).pop();
+                // Navigator.of(context).pop();
               },
               child: Text('এখনই আপডেট করুন'),
             ),
@@ -57,17 +60,69 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-
   Future<String> getAppVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String versionName = packageInfo.version;
     return versionName;
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Future<bool?> getChecked() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? checks =  prefs.getBool('checked');
+    if(checks == null){
+      setState(() {
+        checked = false;
+      });
 
-    // Future.delayed(Duration(seconds: 1), () async {
+    }else{
+      setState(() {
+        checked = checks;
+      });
+    }
+
+    return checks;
+  }
+
+  Future<void> _deleteCacheDir() async {
+    var tempDir = await getTemporaryDirectory();
+
+    if (tempDir.existsSync()) {
+      tempDir.deleteSync(recursive: true);
+    }
+  }
+
+  Future<void> _deleteAppDir() async {
+    var appDocDir = await getApplicationDocumentsDirectory();
+
+    if (appDocDir.existsSync()) {
+      appDocDir.deleteSync(recursive: true);
+    }
+  }
+  @override
+  void initState() {
+    getChecked().then((value) {
+      if (value != null && value) {
+        if(checked){
+          print('hgjdfg 777');
+          gotoHome();
+        }else{
+          setState(() {
+            checked = false;
+          });
+        }
+      }else{
+        setState(() {
+          checked = false;
+        });
+
+      }
+    });
+    super.initState();
+  }
+
+
+  gotoHome(){
+    // Future.delayed(Duration(seconds: 4), () {
     //   Get.off(HomePage());
     // });
 
@@ -84,24 +139,106 @@ class _SplashScreenState extends State<SplashScreen> {
         });
       }
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+
+
+
+
+
     return SafeArea(
         child: Scaffold(
-          body: Container(
+      body: Container(
+        child: Stack(
+          children: [
+            Positioned(
+                top: 0,
+                left: 80,
+                right: 80,
+                bottom: 0,
+                child: Image.asset(
+                  AppImages.home_logo,
+                )),
+            Positioned(
+                bottom: 30,
+                left: 40,
+                right: 40,
+                child:  checked ? Container() : Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Checkbox(
+                          value: rememberMe, // Update this with your remember option value
+                          onChanged: (value) {
+                            setState(() {
+                              rememberMe =  !rememberMe;
+                            });
+                            // Implement the logic to update the remember option here
+                          },
+                          checkColor: Colors.grey, // Gray check color
+                          activeColor: Colors.transparent, // Transparent background
+                        ),
+                        Text('I agree to the '),
+                        GestureDetector(
+                          onTap: () {
+                            launch('https://appenamulhaquemp.com/public/policy');
+                          },
+                          child: Text(
+                            'Privacy Policy',
+                            style: TextStyle(
+                              color: Colors.blue,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    InkWell(
+                      onTap: () async{
+                        if(!rememberMe){
+                          Fluttertoast.showToast(
+                            msg:'If you agree then click on checkbox',
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 12.0,
+                          );
+                        }else{
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          prefs.setBool('checked', true);
+                          setState(() {
+                            checked = true;
+                            gotoHome();
+                          });
 
-            child: Stack(
-              children: [
-                Positioned(
-                    top: 0,
-                    left: 80,
-                    right: 80,
-                    bottom: 0,
-                    child: Image.asset(AppImages.home_logo,)
-                ),
-              ],
-            ),
-          ),
-        )
-
-    );
+                        }
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(10), // Adjust the radius as needed
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Start',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ))
+          ],
+        ),
+      ),
+    ));
   }
 }

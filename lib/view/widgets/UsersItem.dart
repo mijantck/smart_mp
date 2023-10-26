@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:smart_mp/controllers/UserController.dart';
+import 'package:smart_mp/models/respons/AdminLoginModel.dart';
 import 'package:smart_mp/utils/AppColors.dart';
 import 'package:smart_mp/utils/AppString.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -7,6 +9,8 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../models/respons/MemberModel.dart';
 import '../../../utils/AppImages.dart';
 import '../../models/respons/UserModel.dart';
+import '../login_regi/ForgetPassword/SendSmsScreen.dart';
+import '../send_sms/SendSmsScreenEc.dart';
 
 class UsersItem extends StatelessWidget {
   User memberModel;
@@ -152,7 +156,21 @@ class UsersItem extends StatelessWidget {
                       Expanded(
                         child: InkWell(
                           onTap: () {
-                            _launchMessagingApp(memberModel.mobileNumber!);
+                            var userController = Get.put(UserController());
+                            if(userController.adminLoginModel != null){
+                              AdminModel adminModel = userController.adminLoginModel!.user!;
+                              if(adminModel.smssend!){
+                                Get.to(SendSmsScreenEc(memberModel.name!,memberModel.mobileNumber!));
+                                //Get.to(SendSmsScreen(mobileNumber:'01733883310'));
+                              }else{
+                                _launchMessagingApp(memberModel.mobileNumber!);
+                              }
+
+                            }else{
+                              _launchMessagingApp(memberModel.mobileNumber!);
+                            }
+
+                            //_launchMessagingApp(memberModel.mobileNumber!);
                           },
                           child: Container(
                             decoration: BoxDecoration(

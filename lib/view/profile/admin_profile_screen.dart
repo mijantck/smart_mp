@@ -123,7 +123,7 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
                                   SizedBox(height: 8),
                                   _buildInfoText('Mobile Number', widget.user.phone == null? '':widget.user.phone!),
                                   _buildInfoText('Email', widget.user.email == null? '':widget.user.email!),
-                                  _buildInfoText('Rolue', widget.user.userRole == null? '':widget.user.userRole!),
+                                  _buildInfoText('Role', widget.user.userRole == null? '':widget.user.userRole!),
                                 ],
                               ),
                             ],
@@ -154,7 +154,7 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
               child: Text('$label :', style: TextStyle(fontSize: 14,color: Colors.grey),)),
           Expanded(
               flex: 7,
-              child: Text(' $value', style: TextStyle(fontSize: 18,color: Colors.black),)),
+              child: Text(' $value', style: TextStyle(fontSize: 14,color: Colors.black),)),
         ],
       ),
     );

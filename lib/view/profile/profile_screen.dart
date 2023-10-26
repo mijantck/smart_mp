@@ -302,7 +302,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Text('$label :', style: TextStyle(fontSize: 14,color: Colors.grey),)),
           Expanded(
               flex: 7,
-              child: Text(' $value', style: TextStyle(fontSize: 18,color: Colors.black),)),
+              child: Text(' $value', style: TextStyle(fontSize: 14,color: Colors.black),)),
         ],
       ),
     );

@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_mp/controllers/UnitsController.dart';
 import 'package:smart_mp/view/election_commitions/widgets/ElectionCoItemCard.dart';
 
 import '../../controllers/UserController.dart';
 import '../../utils/AppColors.dart';
 import '../../utils/AppImages.dart';
 import '../../utils/AppString.dart';
-import '../Coordinator/CoordinatorScreen.dart';
+
+import '../Convener/ConvenerScreen.dart';
 import '../ElectionCommittee/ElectionCommitteeScreen.dart';
 import '../PollingAgent/PollingAgentScreen.dart';
 import '../login_regi/login_screen.dart';
-import '../login_regi/widgets/CustomTextField.dart';
-import '../widgets/UsersItem.dart';
 
 class ElectionCommissionsScreen extends StatefulWidget {
   const ElectionCommissionsScreen({super.key});
@@ -24,7 +24,7 @@ class ElectionCommissionsScreen extends StatefulWidget {
 
 class _ElectionCommissionsScreenState extends State<ElectionCommissionsScreen> {
 
-
+  var utilsController = Get.put(UtilsController());
   TextEditingController nidController = TextEditingController();
 
   var usersListController = Get.put(UserController());
@@ -33,7 +33,7 @@ class _ElectionCommissionsScreenState extends State<ElectionCommissionsScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    usersListController.fetchVoterList(1, userType);
+    //usersListController.fetchUsersRegisterList(1, userType);
 
     super.initState();
 
@@ -82,45 +82,54 @@ class _ElectionCommissionsScreenState extends State<ElectionCommissionsScreen> {
               Row(
                 children: [
                   ElectionCoItemCard(AppImages.election_committee, AppString.Voting_Center_Committee,()async{
-
-                    SharedPreferences prefs = await SharedPreferences.getInstance();
-                    String? token =  prefs.getString('token');
-                    if(token == null){
+                    
+                    if(utilsController.tokens == null){
                       Get.to(LoginScreen());
                     }else{
                       Get.to(ElectionCommitteeScreen());
+                      // if(usersListController.userModel != null){
+                      //   if(usersListController.userRoles.contains(AppString.election_commissionTag)){
+                      //     Get.to(ElectionCommitteeScreen());
+                      //   }else{
+                      //     utilsController.showToast('You are not Vote center Committee');
+                      //   }
+                      // }else{
+                      //   Get.to(ElectionCommitteeScreen());
+                      // }
+                     
                     }
 
                   }),
                   ElectionCoItemCard(AppImages.polling_agent, AppString.Polling_agent,()async{
-                    SharedPreferences prefs = await SharedPreferences.getInstance();
-                    String? token =  prefs.getString('token');
-                    if(token == null){
+
+                    if(utilsController.tokens == null){
                       Get.to(LoginScreen());
                     }else{
                       Get.to(PollingAgentScreen());
-                    }
+                      // if(usersListController.userModel != null){
+                      //   if(usersListController.userRoles.contains(AppString.polling_agentTag)){
+                      //     Get.to(PollingAgentScreen());
+                      //   }else{
+                      //     utilsController.showToast('You are not Polling agent');
+                      //   }
+                      // }else{
+                      //   Get.to(PollingAgentScreen());
+                      // }
 
+                    }
                   }),
                   ElectionCoItemCard(AppImages.ic_coordinator, 'convener'.tr,()async{
-                    SharedPreferences prefs = await SharedPreferences.getInstance();
-                    String? token =  prefs.getString('token');
-                    if(token == null){
+                    if(utilsController.tokens == null){
                       Get.to(LoginScreen());
                     }else{
-                      if(token == AppString.admin){
-                        Get.to(CoordinatorScreen());
-                      }else{
-                        Fluttertoast.showToast(
-                          msg: 'You are not Coordinator',
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIosWeb: 1,
-                          backgroundColor: Colors.red,
-                          textColor: Colors.white,
-                          fontSize: 12.0,
-                        );
-                      }
+                      Get.to(ConvenerScreen());
+
+                      // if(utilsController.tokens == AppString.admin){
+                      //   Get.to(ConvenerScreen());
+                      // }else{
+                      //   utilsController.showToast('You are not Coordinator');
+                      //
+                      // }
 
                     }
 

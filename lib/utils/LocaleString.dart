@@ -109,7 +109,9 @@ class LocaleString extends Translations {
       'Voting_Center_no' : 'Voting Center No',
       'Voting_area' : 'Voting Area',
       'Voting_no' : 'Voting No: ',
-      'convener' : 'Convener'
+      'convener' : 'Convener',
+      'sms_send' : 'SMS Send',
+      'not_permitted' : 'you are not permitted this option.',
     },
     'bn_BD': {
       'APP_NAME': 'স্মার্ট বাগমারা',
@@ -219,7 +221,9 @@ class LocaleString extends Translations {
       'Voting_Center_no' : 'ভোটার কেন্দ্রের নং',
       'Voting_area' : 'ভোটার এলাকা',
       'Voting_no' : 'ভোটার নং: ',
-      'convener' : 'আহবাহক'
+      'convener' : 'আহবাহক',
+      'not_permitted' : 'আপনাকে এই অপশনটি অনুমোদন দেওয়া হয়নি।',
+      'sms_send' : 'SMS Send'
     },
   };
 }

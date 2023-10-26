@@ -27,6 +27,7 @@ class _ElectionCommitteeScreenState extends State<ElectionCommitteeScreen> {
   TextEditingController mobileNo = TextEditingController();
 
   var usersListController = Get.put(UserController());
+  var utilsController = Get.put(UtilsController());
 
 
   String userType = 'election_commission';
@@ -59,16 +60,32 @@ class _ElectionCommitteeScreenState extends State<ElectionCommitteeScreen> {
 
     if(usersListController.adminLoginModel != null){
       if(usersListController.adminLoginModel!.user!.userRole == 'coordinator'){
-        usersListController.fetchVoterList(1, userType,
-            voterKendroNo: selectedVotkendroName != null? selectedVotkendroName!.voterKendroNo! : '',
-            isFromCo: true,
-            admin_id: '${usersListController.adminLoginModel!.user!.id!}'
+
+        utilsController.fetchVoterKendrosUnderCo('${usersListController.adminLoginModel!.user!.id!}').then((value) {
+          print('dsjfksd ${utilsController.voterKendros.length}');
+
+          selectedVotkendroName = utilsController.voterKendros[0];
+          utilsController.voterKendrosSelecte.value = selectedVotkendroName!.name!;
+
+          usersListController.fetchUsersRegisterList(1, userType,
+              voterKendroNo: selectedVotkendroName != null? selectedVotkendroName!.voterKendroNo! : '',
+              isFromCo: true,
+              admin_id: '${usersListController.adminLoginModel!.user!.id!}'
+          );
+        });
+
+
+
+      }else{
+        utilsController.fetchVoterKendros();
+        usersListController.fetchUsersRegisterList(1, userType,
+            voterKendroNo: selectedVotkendroName != null? selectedVotkendroName!.voterKendroNo! : ''
         );
       }
     }else{
-      usersListController.fetchVoterList(1, userType,
+      utilsController.fetchVoterKendros();
+      usersListController.fetchUsersRegisterList(1, userType,
           voterKendroNo: selectedVotkendroName != null? selectedVotkendroName!.voterKendroNo! : ''
-
       );
     }
 

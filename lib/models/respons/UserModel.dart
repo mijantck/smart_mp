@@ -501,13 +501,17 @@ class VoterKendro {
   }
 
   VoterKendro.fromJson(dynamic json) {
-    _id = json['id'];
-    _name = json['name'];
-    _unionsId = json['unions_id'];
-    _createdAt = json['created_at'];
-    _updatedAt = json['updated_at'];
-    _wardNo = json['ward_no'];
-    _voterKendroNo = json['voter_kendro_no'];
+    if (json != null && json is Map<String, dynamic>) {
+      _id = json['id'];
+      _name = json['name'];
+      _unionsId = json['unions_id'];
+      _createdAt = json['created_at'];
+      _updatedAt = json['updated_at'];
+      _wardNo = json['ward_no'];
+      _voterKendroNo = json['voter_kendro_no'];
+    } else {
+      // Handle the case where json is not as expected.
+    }
   }
   num? _id;
   String? _name;

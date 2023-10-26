@@ -38,7 +38,7 @@ class _PollingAgentScreenState extends State<PollingAgentScreen> {
   void initState() {
     usersListController.totalUsers = 0;
     usersListController.userListModelData = [];
-    usersListController.fetchVoterList(1, userType);
+    usersListController.fetchUsersRegisterList(1, userType);
 
     super.initState();
 

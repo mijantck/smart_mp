@@ -28,6 +28,8 @@ import 'package:image/image.dart' as img;
 class UserController extends GetxController {
 
   UserModel? userModel;
+
+  var userRoles = <String>[];
   AdminLoginModel? adminLoginModel;
 
 
@@ -163,6 +165,10 @@ class UserController extends GetxController {
       prefs.setString(AppString.loginMobile, mobileNumber);
       prefs.setString(AppString.loginPassword, password);
 
+      userModel!.user!.roles!.forEach((element) {
+        userRoles.add(element.tag!);
+      });
+
       return ResponseModel(true, 'API call successful.');
     } else {
       print('Error message: ${response.body}');
@@ -204,7 +210,6 @@ class UserController extends GetxController {
       Map<String, dynamic> responseData = json.decode(response.body);
       var token = responseData['token'];
       userModel = UserModel.fromJson(responseData);
-      print('dshkfjsdh ${responseData}');
 
       return ResponseModel(true, 'API call successful.');
     } else {
@@ -285,6 +290,42 @@ class UserController extends GetxController {
 
       var otp = responseData['otp'];
       return ResponseModel(true, otp);
+    } else {
+      print('Error message: ${response.body}');
+      try {
+        Map<String, dynamic> errorResponseData = json.decode(response.body);
+
+        var errorMessage = errorResponseData['errorMessage'];
+        return ResponseModel(false, errorMessage);
+      } catch (e) {
+        // If parsing the error response fails, return a generic error message
+        return ResponseModel(false, 'API call failed: ${response.statusCode}');
+      }
+    }
+  }
+
+  Future<ResponseModel> sendSmsEc(String mobileNumber,String sms) async {
+
+
+    Map<String, dynamic> requestData = {
+      'mobile_number': '01733883310',
+      'sms': sms,
+    };
+    String requestBodyJson = json.encode(requestData);
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+    var response = await http.post(
+      Uri.parse('${AppString.BASE_URL}/api/send-sms-ec'),
+      headers: headers,
+      body: requestBodyJson,
+    );
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> responseData = json.decode(response.body);
+
+      return ResponseModel(true, 'ss');
     } else {
       print('Error message: ${response.body}');
       try {
@@ -405,21 +446,19 @@ class UserController extends GetxController {
   String next_page_url = '';
   var userListModelData = [];
   bool isSearchFunction = false;
-  Future<void> fetchVoterList(int page,String user_type,{String voterKendroNo = '',bool isFromCo = false,String admin_id = '0'}) async {
+  Future<void> fetchUsersRegisterList(int page,String user_type,{String voterKendroNo = '',bool isFromCo = false,String admin_id = '0'}) async {
     isSearchFunction = false;
     var utilsController = Get.put(UtilsController());
 
-    if(isFromCo){
-      utilsController.fetchVoterKendrosUnderCo(admin_id);
-    }else{
-      utilsController.fetchVoterKendros();
-    }
+
 
     String voterKen = voterKendroNo == ''? '' : '&voter_kendro_no=$voterKendroNo';
+    String adminId = admin_id == '0'? '' : '&admins_id=$admin_id';
 
-    String urlMain = '${AppString.BASE_URL}/api/users-lists?user_type=$user_type$voterKen&page=$page';
+    String urlMain = '${AppString.BASE_URL}/api/users-lists?user_type=$user_type$voterKen$adminId&page=$page';
 
-    print('sjdhjf ${urlMain}');
+    print('shfksdh ${urlMain}');
+
     if(page != 1){
       urlMain = next_page_url;
     }
@@ -494,7 +533,7 @@ class UserController extends GetxController {
     }else{
       if (currentPage < totalPages) {
         currentPage++;
-        await fetchVoterList(currentPage,user_type);
+        await fetchUsersRegisterList(currentPage,user_type);
       }
     }
 

@@ -40,7 +40,7 @@ class MemberController extends GetxController{
       List<dynamic> jsonData = json.decode(response.body);
       jsonData.forEach((element) {
         User memberMode = User.fromJson(element);
-        print('sdjhfs ${memberModel}');
+
         memberModel?.add(memberMode);
       });
       update();
