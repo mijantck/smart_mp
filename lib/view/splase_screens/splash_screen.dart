@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,6 +12,8 @@ import '../../utils/AppImages.dart';
 import '../home_page/home_page_screen.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:path_provider/path_provider.dart';
+
+import 'DotLoadingIndicator.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -51,6 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
+                Get.off(HomePage());
               },
               child: Text('পরে মন্তব্য দিন'),
             ),
@@ -166,7 +170,25 @@ class _SplashScreenState extends State<SplashScreen> {
                 bottom: 30,
                 left: 40,
                 right: 40,
-                child:  checked ? Container() : Column(
+                child:  checked ? Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 50,
+                  child: Center(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 100,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          SpinKitThreeBounce(
+                            color: Colors.green,
+                            size: 40.0,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ) : Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

@@ -31,6 +31,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late PersistentTabController _controller;
   var utilsController = Get.put(UtilsController());
+  var userController = Get.put(UserController());
 
   // Define your initial pages here
   final List<Widget> _initialPages =  [
@@ -64,7 +65,7 @@ class _HomePageState extends State<HomePage> {
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
       if(prefs.getString(AppString.token) != null ){
-        var userController = Get.put(UserController());
+
         if(prefs.getString(AppString.userLoginType) == AppString.admin ){
           String? email = prefs.getString(AppString.loginEmail);
           String? pass = prefs.getString(AppString.loginPassword);
@@ -192,7 +193,7 @@ class _HomePageState extends State<HomePage> {
       ),
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.profile_circled),
-        title: 'Profile'.tr,
+        title: userController.userModel != null? userController.userModel!.user!.name: userController.adminLoginModel != null? userController.adminLoginModel!.user!.userName : 'Profile'.tr,
         activeColorPrimary: CupertinoColors.activeBlue,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),

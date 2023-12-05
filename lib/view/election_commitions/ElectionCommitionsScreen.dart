@@ -10,10 +10,14 @@ import '../../utils/AppColors.dart';
 import '../../utils/AppImages.dart';
 import '../../utils/AppString.dart';
 
+import '../Citizen/CitizenScreen.dart';
 import '../Convener/ConvenerScreen.dart';
 import '../ElectionCommittee/ElectionCommitteeScreen.dart';
 import '../PollingAgent/PollingAgentScreen.dart';
+import '../VillageCommittee/VillageCommitteeScreen.dart';
+import '../Volunteers/VolunteerScreen.dart';
 import '../login_regi/login_screen.dart';
+import 'CoordinatorInElecScreen.dart';
 
 class ElectionCommissionsScreen extends StatefulWidget {
   const ElectionCommissionsScreen({super.key});
@@ -84,9 +88,9 @@ class _ElectionCommissionsScreenState extends State<ElectionCommissionsScreen> {
                   ElectionCoItemCard(AppImages.election_committee, AppString.Voting_Center_Committee,()async{
                     
                     if(utilsController.tokens == null){
-                      Get.to(LoginScreen());
+                      Get.to(LoginScreen(userFrom: true));
                     }else{
-                      Get.to(ElectionCommitteeScreen());
+                      Get.to(ElectionCommitteeScreen(fromHome: false,));
                       // if(usersListController.userModel != null){
                       //   if(usersListController.userRoles.contains(AppString.election_commissionTag)){
                       //     Get.to(ElectionCommitteeScreen());
@@ -103,7 +107,7 @@ class _ElectionCommissionsScreenState extends State<ElectionCommissionsScreen> {
                   ElectionCoItemCard(AppImages.polling_agent, AppString.Polling_agent,()async{
 
                     if(utilsController.tokens == null){
-                      Get.to(LoginScreen());
+                      Get.to(LoginScreen(userFrom: true));
                     }else{
                       Get.to(PollingAgentScreen());
                       // if(usersListController.userModel != null){
@@ -118,58 +122,42 @@ class _ElectionCommissionsScreenState extends State<ElectionCommissionsScreen> {
 
                     }
                   }),
-                  ElectionCoItemCard(AppImages.ic_coordinator, 'convener'.tr,()async{
-                    if(utilsController.tokens == null){
-                      Get.to(LoginScreen());
-                    }else{
-                      Get.to(ConvenerScreen());
+                  ElectionCoItemCard(AppImages.ic_coordinator, 'Coordinator'.tr,()async{
 
-                      // if(utilsController.tokens == AppString.admin){
-                      //   Get.to(ConvenerScreen());
-                      // }else{
-                      //   utilsController.showToast('You are not Coordinator');
-                      //
-                      // }
+                    Get.to(CoordinatorInElecScreen());
 
-                    }
+                    // if(utilsController.tokens == null){
+                    //   Get.to(LoginScreen(userFrom: true));
+                    // }else{
+                    //   if(utilsController.tokens == AppString.admin){
+                    //     Get.to(ConvenerScreen());
+                    //   }else{
+                    //     utilsController.showToast('You are not Coordinator');
+                    //
+                    //   }
+                    //
+                    // }
+
+                  }),
+                ],
+              ),
+              Row(
+                children: [
+                  ElectionCoItemCard(AppImages.ic_volunteer, AppString.Volunteer,()async{
+
+                    Get.to(VolunteerScreen());
+
+                  }),
+                  ElectionCoItemCard(AppImages.gram_gommitte, AppString.Village_committee,()async{
+                    Get.to(VillageCommitteeScreen());
+
+                  }),
+                  ElectionCoItemCard(AppImages.ic_citizen, AppString.Citizen,()async{
+                    Get.to(CitizenScreen());
 
                   }),
                 ],
               )
-              // Flexible(
-              //   child: NotificationListener<ScrollNotification>(
-              //     onNotification: (ScrollNotification scrollInfo) {
-              //       if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
-              //         // Load the next page when scrolling reaches the end
-              //         usersListController.loadNextPage(userType);
-              //       }
-              //       return false;
-              //     },
-              //     child: GetBuilder<UserController>(
-              //       builder: (controller) {
-              //         if (controller.userListModelData == null) {
-              //           // Show a loading indicator while data is being fetched
-              //           return Center(child: CircularProgressIndicator());
-              //         } else {
-              //           return Column(
-              //             children: [
-              //               Expanded(
-              //                 child: controller.userListModelData.isEmpty
-              //                     ? Center(child: Text('No Items'))
-              //                     : ListView.builder(
-              //                   itemCount: controller.userListModelData.length,
-              //                   itemBuilder: (context, index) {
-              //                     return UsersItem(controller.userListModelData[index]);
-              //                   },
-              //                 ),
-              //               ),
-              //             ],
-              //           );
-              //         }
-              //       },
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),

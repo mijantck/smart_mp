@@ -19,8 +19,8 @@ import 'ForgetPassword/SendSmsScreen.dart';
 class LoginScreen extends StatefulWidget {
 
   String userTpy;
-
-  LoginScreen({this.userTpy = ''});
+  bool userFrom;
+  LoginScreen({this.userTpy = '',this.userFrom = false});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -206,7 +206,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               utilsController.changePossition(0);
                               utilsController.loginDone(true);
                               utilsController.updateToken();
-                              utilsController.showToast(value.message,isError: false);
+                              utilsController.showToast("Login successful",isError: false);
+                              if(widget.userFrom){
+                                Get.back();
+                              }
                             } else {
                               utilsController.showToast(value.message);
                             }
@@ -223,7 +226,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               utilsController.changePossition(0);
                               utilsController.loginDone(true);
                               utilsController.updateToken();
-                              utilsController.showToast(value.message,isError: false);
+                              utilsController.showToast('Login successful',isError: false);
+                              if(widget.userFrom){
+                                Get.back();
+                              }
                             } else {
                               utilsController.showToast(value.message);
                             }

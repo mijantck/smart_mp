@@ -28,7 +28,6 @@ import 'package:image/image.dart' as img;
 class UserController extends GetxController {
 
   UserModel? userModel;
-
   var userRoles = <String>[];
   AdminLoginModel? adminLoginModel;
 

@@ -86,16 +86,16 @@ class _CoordinatorsScreenState extends State<CoordinatorsScreen> {
                   ElectionCoItemCard(AppImages.election_committee, AppString.Voting_Center_Committee,()async{
                     
                     if(utilsController.tokens == null){
-                      Get.to(LoginScreen());
+                      Get.to(LoginScreen(userFrom: true,));
                     }else{
                       if(usersListController.userModel != null){
                         if(usersListController.userRoles.contains(AppString.election_commissionTag)){
-                          Get.to(ElectionCommitteeScreen());
+                          Get.to(ElectionCommitteeScreen(fromHome: false,));
                         }else{
                           utilsController.showToast('You are not Vote center Committee');
                         }
                       }else{
-                        Get.to(ElectionCommitteeScreen());
+                        Get.to(ElectionCommitteeScreen(fromHome: false,));
                       }
                      
                     }
@@ -104,23 +104,24 @@ class _CoordinatorsScreenState extends State<CoordinatorsScreen> {
                   ElectionCoItemCard(AppImages.polling_agent, AppString.Polling_agent,()async{
 
                     if(utilsController.tokens == null){
-                      Get.to(LoginScreen());
+                      Get.to(LoginScreen(userFrom: true));
                     }else{
-                      if(usersListController.userModel != null){
-                        if(usersListController.userRoles.contains(AppString.polling_agentTag)){
-                          Get.to(PollingAgentScreen());
-                        }else{
-                          utilsController.showToast('You are not Polling agent');
-                        }
-                      }else{
-                        Get.to(PollingAgentScreen());
-                      }
+                      Get.to(PollingAgentScreen());
+                      // if(usersListController.userModel != null){
+                      //   if(usersListController.userRoles.contains(AppString.polling_agentTag)){
+                      //     Get.to(PollingAgentScreen());
+                      //   }else{
+                      //     utilsController.showToast('You are not Polling agent');
+                      //   }
+                      // }else{
+                      //   Get.to(PollingAgentScreen());
+                      // }
 
                     }
                   }),
                   ElectionCoItemCard(AppImages.ic_coordinator, 'convener'.tr,()async{
                     if(utilsController.tokens == null){
-                      Get.to(LoginScreen());
+                      Get.to(LoginScreen(userFrom: true));
                     }else{
                       if(utilsController.tokens == AppString.admin){
                         Get.to(ConvenerScreen());

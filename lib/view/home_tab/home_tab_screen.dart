@@ -158,7 +158,7 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                 // Handle drawer item tap
                 _scaffoldKey.currentState?.closeDrawer();
                 if(utilsController.tokens == null){
-                  Get.to(LoginScreen());
+                  Get.to(LoginScreen(userFrom: true));
                 }else{
                   if(usersListController.userModel != null){
                     if(usersListController.userRoles.contains(AppString.citizenTag)){
@@ -180,7 +180,7 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                 // Handle drawer item tap
                 _scaffoldKey.currentState?.closeDrawer();
                 if(utilsController.tokens == null){
-                  Get.to(LoginScreen());
+                  Get.to(LoginScreen(userFrom: true));
                 }else{
                   if(usersListController.userModel != null){
                     if(usersListController.userRoles.contains(AppString.volunteerTag)){
@@ -201,7 +201,7 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                 // Handle drawer item tap
                 _scaffoldKey.currentState?.closeDrawer();
                 if(utilsController.tokens == null){
-                  Get.to(LoginScreen());
+                  Get.to(LoginScreen(userFrom: true));
                 }else{
                   if(usersListController.userModel != null){
                     if(usersListController.userRoles.contains(AppString.polling_agentTag)){
@@ -222,7 +222,7 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                 // Handle drawer item tap
                 _scaffoldKey.currentState?.closeDrawer();
                 if(utilsController.tokens == null){
-                  Get.to(LoginScreen());
+                  Get.to(LoginScreen(userFrom: true));
                 }else{
                   if(usersListController.userModel != null){
                     if(usersListController.userRoles.contains(AppString.election_commissionTag)){
@@ -334,7 +334,6 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
               },
             ),
 
-
             ListTile(
               title: Text(AppString.Logout),
               onTap: () {
@@ -357,10 +356,12 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                           onPressed: () async{
                             // Close the dialog
                             utilsController.logut();
-
                             utilsController.loginDone(true);
                             utilsController.updateToken();
                             Navigator.pop(context);
+                            usersListController.adminLoginModel = null;
+                            usersListController.userModel = null;
+
                             _scaffoldKey.currentState?.closeDrawer();
                             // Exit the app
                             //SystemNavigator.pop(); // This will close the app
@@ -371,7 +372,8 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                   },
                 );
               },
-            ),
+            )
+
 
           ],
         ),
@@ -452,17 +454,92 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                 child: Column(
                                   children: [
 
+                                    //Bagmara_League
                                     Row(
                                       children: [
                                         UnitItemCard(AppImages.ic_awamilig, 'Bagmara_League'.tr, () => {
                                           Get.to(PartyAll())
                                         }),
 
+                                        UnitItemCard(AppImages.ic_voter_list_eneration, AppString.bagmaraVoterTalika, () {
+                                          Get.to(VoterListScreen());
 
-                                        UnitItemCard(AppImages.election_committee, AppString.Voting_Center_Committee, ()async {
+                                        }),
+
+
+
+                                      ],
+                                    ),
+                                    //Election_Committee
+                                    Row(
+                                      children: [
+
+                                        UnitItemCard(AppImages.election_committee, AppString.Election_Committee, () async{
 
                                           if(utilsController.tokens == null){
-                                            Get.to(LoginScreen());
+                                            Get.to(LoginScreen(userFrom: true));
+                                          }else{
+                                            Get.to(ElectionCommissionsScreen());
+                                            if(utilsController.tokens == AppString.admin){
+                                              if(usersListController.adminLoginModel!.user!.userRole == 'election_committes' ){
+                                                Get.to(ElectionCommissionsScreen());
+                                              }else{
+                                                utilsController.showToast(AppString.not_permitted);
+                                              }
+                                            }else{
+                                              utilsController.showToast(AppString.not_permitted);
+                                            }
+                                          }
+
+                                        }),
+                                        UnitItemCard(AppImages.ic_coordinator, 'Coordinator'.tr, () async{
+
+                                          if(utilsController.tokens == null){
+                                            Get.to(LoginScreen(userFrom: true));
+                                          }else{
+                                            if(utilsController.tokens == AppString.admin){
+                                              if(usersListController.adminLoginModel!.user!.userRole == 'coordinator' ){
+                                                Get.to(CoordinatorsScreen());
+                                              }else{
+                                                utilsController.showToast(AppString.not_permitted);
+                                              }
+                                            }else{
+                                              utilsController.showToast(AppString.not_permitted);
+                                            }
+                                            //Get.to(ElectionCommitteeScreen());
+
+                                          }
+
+                                        }),
+
+
+                                      ],
+                                    ),
+                                    //Citizen
+                                    Row(
+                                      children: [
+                                        UnitItemCard(AppImages.polling_agent, AppString.Polling_agent, () async{
+
+                                          if(utilsController.tokens == null){
+                                            Get.to(LoginScreen(userFrom: true));
+                                          }else{
+                                            if(usersListController.userModel != null){
+                                              if(usersListController.userRoles.contains(AppString.polling_agentTag)){
+                                                Get.to(PollingAgentScreen());
+                                              }else{
+                                                utilsController.showToast(AppString.not_permitted);
+                                              }
+                                            }else{
+                                              utilsController.showToast(AppString.not_permitted);
+                                            }
+
+                                          }
+
+                                        }),
+
+                                        UnitItemCard(AppImages.election_committee, AppString.Voting_Center_Committee, ()async {
+                                          if(utilsController.tokens == null){
+                                            Get.to(LoginScreen(userFrom: true));
                                           }else{
                                             if(usersListController.userModel != null){
                                               if(usersListController.userRoles.contains(AppString.election_commissionTag)){
@@ -479,17 +556,14 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
 
                                         }),
 
-
-
-
                                       ],
                                     ),
-
                                     Row(
                                       children: [
+
                                         UnitItemCard(AppImages.ic_citizen, AppString.Citizen, () async{
                                           if(utilsController.tokens == null){
-                                            Get.to(LoginScreen());
+                                            Get.to(LoginScreen(userFrom: true));
                                           }else{
                                             if(usersListController.userModel != null){
                                               if(usersListController.userRoles.contains(AppString.citizenTag)){
@@ -502,10 +576,11 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                             }
                                           }
                                         }),
+
                                         UnitItemCard(AppImages.ic_volunteer, AppString.Volunteer, ()async{
 
                                           if(utilsController.tokens == null){
-                                            Get.to(LoginScreen());
+                                            Get.to(LoginScreen(userFrom: true));
                                           }else{
                                             if(usersListController.userModel != null){
                                               if(usersListController.userRoles.contains(AppString.volunteerTag)){
@@ -518,103 +593,39 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                             }
                                           }
                                         }),
+
+
                                       ],
                                     ),
-
-                                    Row(
-                                      children: [
-                                        UnitItemCard(AppImages.ic_voter_list_eneration, AppString.bagmaraVoterTalika, () {
-                                          Get.to(VoterListScreen());
-
-                                        }),
-
-                                        UnitItemCard(AppImages.polling_agent, AppString.Polling_agent, () async{
-
-                                          if(utilsController.tokens == null){
-                                            Get.to(LoginScreen());
-                                          }else{
-                                            if(usersListController.userModel != null){
-                                              if(usersListController.userRoles.contains(AppString.polling_agentTag)){
-                                                Get.to(PollingAgentScreen());
-                                              }else{
-                                                utilsController.showToast(AppString.not_permitted);
-                                              }
-                                            }else{
-                                              utilsController.showToast(AppString.not_permitted);
-                                            }
-
-                                          }
-
-                                        }),
-                                      ],
-                                    ),
-
+                                    //Village_committee
                                     Row(
                                       children: [
                                         UnitItemCard(AppImages.gram_gommitte, AppString.Village_committee, ()async {
 
 
                                           if(utilsController.tokens == null){
-                                            Get.to(LoginScreen());
+                                            Get.to(LoginScreen(userFrom: true));
                                           }else{
                                             if(usersListController.userModel != null){
                                               if(usersListController.userRoles.contains(AppString.village_communityTag)){
-                                                Get.to(VolunteerScreen());
+                                                Get.to(VillageCommitteeScreen());
                                               }else{
                                                 utilsController.showToast('You are not ${AppString.Village_committee}');
                                               }
                                             }else{
-                                              Get.to(VolunteerScreen());
+                                              Get.to(VillageCommitteeScreen());
                                             }
                                           }
                                         }),
+
                                         UnitItemCard(AppImages.mp_event, AppString.MP_Event, () {
                                           Get.to(MpEventListScreen());
                                         }),
                                       ],
                                     ),
-                                    Row(
-                                      children: [
-                                        UnitItemCard(AppImages.election_committee, AppString.Election_Committee, () async{
+                                    //Voting_Center_Committee
 
-                                          if(utilsController.tokens == null){
-                                            Get.to(LoginScreen());
-                                          }else{
-                                            //Get.to(ElectionCommitteeScreen());
-                                            if(utilsController.tokens == AppString.admin){
-                                              if(usersListController.adminLoginModel!.user!.userRole == 'election_committes' ){
-                                                Get.to(ElectionCommissionsScreen());
-                                              }else{
-                                                utilsController.showToast(AppString.not_permitted);
-                                              }
-                                            }else{
-                                              utilsController.showToast(AppString.not_permitted);
-                                            }
-                                          }
-
-                                        }),
-
-                                        UnitItemCard(AppImages.ic_coordinator, 'Coordinator'.tr, () async{
-
-                                          if(utilsController.tokens == null){
-                                            Get.to(LoginScreen());
-                                          }else{
-                                            if(utilsController.tokens == AppString.admin){
-                                              if(usersListController.adminLoginModel!.user!.userRole == 'coordinator' ){
-                                                Get.to(CoordinatorsScreen());
-                                              }else{
-                                                utilsController.showToast(AppString.not_permitted);
-                                              }
-                                            }else{
-                                              utilsController.showToast(AppString.not_permitted);
-                                            }
-                                            //Get.to(ElectionCommitteeScreen());
-
-                                          }
-
-                                        }),
-                                      ],
-                                    ),
+                                    //News
                                     Row(
                                       children: [
                                         UnitItemCard(AppImages.ic_news, AppString.News, () {
@@ -626,6 +637,7 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
 
                                       ],
                                     ),
+                                    //social_link
                                     Row(
                                       children: [
                                         UnitItemCard(AppImages.ic_social_media, AppString.social_link, () {
@@ -639,8 +651,6 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                         }),
                                       ],
                                     ),
-
-
 
                                     SizedBox(height: 10,),
                                     Row(

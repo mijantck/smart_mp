@@ -185,7 +185,7 @@ class LocaleString extends Translations {
       'Father_name': 'পিতা/স্বামীর নাম',
       'Mother_name': 'মাতার নাম',
       'unit': 'ইউনিট',
-      'Designation': 'পদবি',
+      'Designation': 'পেশা',
       'Gender': 'লিঙ্গ',
       'upload_image': 'ছবি আপলোড করুন',
       'date_of_Birth': 'জন্ম তারিখ',

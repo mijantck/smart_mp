@@ -14,7 +14,10 @@ import '../login_regi/widgets/drop_dwon.dart';
 import '../widgets/UsersItem.dart';
 
 class ElectionCommitteeScreen extends StatefulWidget {
-  const ElectionCommitteeScreen({super.key});
+  bool fromHome;
+
+
+  ElectionCommitteeScreen({this.fromHome = true});
 
   @override
   State<ElectionCommitteeScreen> createState() => _ElectionCommitteeScreenState();
@@ -131,35 +134,40 @@ class _ElectionCommitteeScreenState extends State<ElectionCommitteeScreen> {
                   )
                 ],
               ),
-              SizedBox(height: 10),
-              InkWell(
-                onTap: (){
-                  setState(() {
-                    showSearch = !showSearch;
-                  });
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 50,
-                  color: Colors.blue.shade50,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          child: Center(child: Text('Search'.tr,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),))),
-                      Positioned(
-                          right: 10,
-                          bottom: 0,
-                          top: 0,
-                          child: Icon(showSearch? Icons.arrow_drop_up :Icons.arrow_drop_down_sharp)
-                      )
-                    ],
+              widget.fromHome ? Container() : Column(
+                children: [
+                  SizedBox(height: 10),
+                  InkWell(
+                    onTap: (){
+                      setState(() {
+                        showSearch = !showSearch;
+                      });
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 50,
+                      color: Colors.blue.shade50,
+                      child: Stack(
+                        children: [
+                          Positioned(
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              child: Center(child: Text('Search'.tr,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),))),
+                          Positioned(
+                              right: 10,
+                              bottom: 0,
+                              top: 0,
+                              child: Icon(showSearch? Icons.arrow_drop_up :Icons.arrow_drop_down_sharp)
+                          )
+                        ],
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
+
               SizedBox(height: 10),
               GetBuilder<UserController>(
                   builder: (userController) {

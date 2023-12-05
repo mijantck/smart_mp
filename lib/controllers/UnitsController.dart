@@ -197,9 +197,7 @@ class UtilsController extends GetxController {
       print('Error fetching committees: $e');
     }
 
-    voterKendrosString.forEach((element) {
-      print('fgfg $element');
-    });
+
   }
 
 
@@ -263,6 +261,35 @@ class UtilsController extends GetxController {
   }
 
 
+  var coordinators = <AdminModel>[].obs;
+  var coordinatorsString = <String>[].obs;
+  RxString coordinatorsSelect = AppString.seltectItem.obs;
+
+  Future<void> fetchCoordinator() async {
+    try {
+
+
+      String url = '${AppString.BASE_URL}/api/get-coordinator';
+
+      print('shfdjks ${url}');
+      var apiClient = ApiClient();
+      var response = await apiClient.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        var jsonData = json.decode(response.body) as List<dynamic>;
+        var convenersList = jsonData.map((item) => AdminModel.fromJson(item)).toList();
+        coordinators.value = convenersList;
+        coordinatorsString.add(AppString.seltectItem);
+        convenersList.forEach((element) {
+          coordinatorsString.add(element.userName!);
+        });
+        print('sdhfsd ${voterKendrosString.length}');
+        update();
+      }
+    } catch (e) {
+      print('Error fetching committees: $e');
+    }
+  }
 
   Future<void> fetchCommittees() async {
     try {

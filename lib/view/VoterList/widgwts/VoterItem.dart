@@ -15,7 +15,7 @@ class VoterItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 220,
+      height: 135,
       margin: EdgeInsets.only(bottom: 10),
       padding: EdgeInsets.all(10),
       width: MediaQuery.of(context).size.width,
@@ -81,28 +81,28 @@ class VoterItem extends StatelessWidget {
                           ],
                         ),
                         SizedBox(height: 3,),
-                        Row(
-                          children: [
-                            Container(
-                              height: 20,
-                              child: Text('${AppString.Designation}: ',style: TextStyle(fontWeight: FontWeight.bold)),
-                            ),
-                            SizedBox(width: 5,),
-                            Text('${voterListModelData.designationCitizen == null ? '' :voterListModelData.designationCitizen!.name}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
-                          ],
-                        ),
-                        SizedBox(height: 3,),
-                        Row(
-                          children: [
-                            Container(
-                              height: 20,
-                              child: Text('${AppString.date_of_Birth}: ',style: TextStyle(fontWeight: FontWeight.bold)),
-                            ),
-                            SizedBox(width: 5,),
-                            Text('${voterListModelData.dateOfBirth}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
-                          ],
-                        ),
-                        SizedBox(height: 3,),
+                        // Row(
+                        //   children: [
+                        //     Container(
+                        //       height: 20,
+                        //       child: Text('${AppString.Designation}: ',style: TextStyle(fontWeight: FontWeight.bold)),
+                        //     ),
+                        //     SizedBox(width: 5,),
+                        //     Text('${voterListModelData.designationCitizen == null ? '' :voterListModelData.designationCitizen!.name}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
+                        //   ],
+                        // ),
+                        // SizedBox(height: 3,),
+                        // Row(
+                        //   children: [
+                        //     Container(
+                        //       height: 20,
+                        //       child: Text('${AppString.date_of_Birth}: ',style: TextStyle(fontWeight: FontWeight.bold)),
+                        //     ),
+                        //     SizedBox(width: 5,),
+                        //     Text('${voterListModelData.dateOfBirth}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
+                        //   ],
+                        // ),
+                        // SizedBox(height: 3,),
                         Row(
                           children: [
                             Container(
@@ -110,11 +110,11 @@ class VoterItem extends StatelessWidget {
                               child: Text('${AppString.address}: ',style: TextStyle(fontWeight: FontWeight.bold)),
                             ),
                             SizedBox(width: 5,),
-                            Text('${voterListModelData.address}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
+                            Text('${voterListModelData.address??""}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
                           ],
                         ),
                         SizedBox(height: 3,),
-                        Row(
+                        /*Row(
                           children: [
                             Container(
                               height: 20,
@@ -123,7 +123,7 @@ class VoterItem extends StatelessWidget {
                             SizedBox(width: 5,),
                             Text('${voterListModelData.mobileNumber}',style: TextStyle(color: AppColors.text_black,fontSize: 16,fontWeight: FontWeight.w400),maxLines: 1,)
                           ],
-                        ),
+                        ),*/
 
 
 

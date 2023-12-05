@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smart_mp/controllers/UnitsController.dart';
 import 'package:smart_mp/view/Convener/widgwts/ConvenerItem.dart';
+import 'package:smart_mp/view/election_commitions/widgets/CoordinatorItem.dart';
 
 import '../../controllers/UserController.dart';
 import '../../utils/AppColors.dart';
@@ -10,14 +11,14 @@ import '../../utils/AppString.dart';
 import '../login_regi/widgets/CustomTextField.dart';
 import '../widgets/UsersItem.dart';
 
-class ConvenerScreen extends StatefulWidget {
-  const ConvenerScreen({super.key});
+class CoordinatorInElecScreen extends StatefulWidget {
+  const CoordinatorInElecScreen({super.key});
 
   @override
-  State<ConvenerScreen> createState() => _ConvenerScreenState();
+  State<CoordinatorInElecScreen> createState() => _CoordinatorInElecScreenState();
 }
 
-class _ConvenerScreenState extends State<ConvenerScreen> {
+class _CoordinatorInElecScreenState extends State<CoordinatorInElecScreen> {
 
 
   TextEditingController nidController = TextEditingController();
@@ -28,14 +29,15 @@ class _ConvenerScreenState extends State<ConvenerScreen> {
   String userType = 'polling_agent';
   @override
   void initState() {
-    if(usersListController.adminLoginModel != null){
-      if(usersListController.adminLoginModel!.user!.userRole == 'coordinator') {
-        utilsController.fetchConvener(coordinator_id:'${ usersListController.adminLoginModel!.user!.id}');
-      }
-    }else{
-      utilsController.fetchConvener();
-    }
+    // if(usersListController.adminLoginModel != null){
+    //   if(usersListController.adminLoginModel!.user!.userRole == 'coordinator') {
+    //     utilsController.fetchConvener(coordinator_id:'${ usersListController.adminLoginModel!.user!.id}');
+    //   }
+    // }else{
+    //   utilsController.fetchConvener();
+    // }
     //utilsController.fetchConvener();
+    utilsController.fetchCoordinator();
 
     super.initState();
 
@@ -66,7 +68,7 @@ class _ConvenerScreenState extends State<ConvenerScreen> {
                       width: MediaQuery.of(context).size.width,
                       child: Center(
                         child: Text(
-                          'convener'.tr,
+                          /*'convener'.tr*/'Coordinator'.tr,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
@@ -90,19 +92,19 @@ class _ConvenerScreenState extends State<ConvenerScreen> {
                   },
                   child: GetBuilder<UtilsController>(
                     builder: (controller) {
-                      if (controller.conveners == null) {
+                      if (controller.coordinators == null) {
                         // Show a loading indicator while data is being fetched
                         return Center(child: CircularProgressIndicator());
                       } else {
                         return Column(
                           children: [
                             Expanded(
-                              child: controller.conveners.isEmpty
+                              child: controller.coordinators.isEmpty
                                   ? Center(child: Text('No Items'))
                                   : ListView.builder(
-                                itemCount: controller.conveners.length,
+                                itemCount: controller.coordinators.length,
                                 itemBuilder: (context, index) {
-                                  return ConvenerItem(controller.conveners[index]);
+                                  return CoordinatorItem(controller.coordinators[index]);
                                 },
                               ),
                             ),
